@@ -44,7 +44,7 @@ class PrestaShopWebservice
 	
 	/** @var array compatible versions of PrestaShop Webservice */
 	const psCompatibleVersionsMin = '1.4.0.17';
-	const psCompatibleVersionsMax = '1.4.1.1';
+	const psCompatibleVersionsMax = '1.4.2.3';
 	
 	/**
 	 * PrestaShopWebservice constructor. Throw an exception when CURL is not installed/activated
@@ -110,11 +110,24 @@ class PrestaShopWebservice
 		);
 		
 		$session = curl_init($url);
-		curl_setopt_array($session, $defaultParams + $curl_params);
+
+		$curl_options = array();
+		foreach ($defaultParams as $defkey => $defval)
+		{
+			if (isset($curl_params[$defkey]))
+				$curl_options[$defkey] = $curl_params[$defkey];
+			else
+				$curl_options[$defkey] = $defaultParams[$defkey];
+		}
+		foreach ($curl_params as $defkey => $defval)
+			if (!isset($curl_options[$defkey]))
+				$curl_options[$defkey] = $curl_params[$defkey];
+
+		curl_setopt_array($session, $curl_options);
 		$response = curl_exec($session);
 
 		$index = strpos($response, "\r\n\r\n");
-		if ($index === false)
+		if ($index === false && $curl_params[CURLOPT_CUSTOMREQUEST] != 'HEAD')
 			throw new PrestaShopWebserviceException('Bad HTTP response');
 		
 		$header = substr($response, 0, $index);
@@ -142,8 +155,9 @@ class PrestaShopWebservice
 		
 		if ($this->debug)
 		{
-			echo '<div style="display:table;background:#CCC;font-size:8pt;padding:7px"><h6 style="font-size:9pt;margin:0">REQUEST</h6><pre>'.htmlentities(curl_getinfo($session, CURLINFO_HEADER_OUT)).'</pre></div>';
-			echo '<div style="display:table;background:#CCC;font-size:8pt;padding:7px"><h6 style="font-size:9pt;margin:0">RETURN</h6><pre>'.htmlentities($header).'</pre></div>';
+			$this->printDebug('HTTP REQUEST HEADER', curl_getinfo($session, CURLINFO_HEADER_OUT));
+			$this->printDebug('HTTP RESPONSE HEADER', $header);
+			
 		}
 		$status_code = curl_getinfo($session, CURLINFO_HTTP_CODE);
 		if ($status_code === 0)
@@ -152,13 +166,16 @@ class PrestaShopWebservice
 		if ($this->debug)
 		{
 			if ($curl_params[CURLOPT_CUSTOMREQUEST] == 'PUT' || $curl_params[CURLOPT_CUSTOMREQUEST] == 'POST')
-				echo '<div style="display:table;background:#CCC;font-size:8pt;padding:7px"><h6 style="font-size:9pt;margin:0">XML SENT</h6><pre>'.htmlentities($curl_params[CURLOPT_POSTFIELDS]).'</pre></div>';
-			if ($curl_params[CURLOPT_CUSTOMREQUEST] != 'DELETE')
-				echo '<div style="display:table;background:#CCC;font-size:8pt;padding:7px"><h6 style="font-size:9pt;margin:0">HTTP RETURN</h6><pre style="max-height:500px;overflow:auto;">'.htmlentities($body).'</pre></div>';
+				$this->printDebug('XML SENT', $curl_params[CURLOPT_POSTFIELDS]);
+			if ($curl_params[CURLOPT_CUSTOMREQUEST] != 'DELETE' && $curl_params[CURLOPT_CUSTOMREQUEST] != 'HEAD')
+				$this->printDebug('RETURN HTTP BODY', $body);
 		}
-		return array('status_code' => $status_code, 'response' => $body);
+		return array('status_code' => $status_code, 'response' => $body, 'header' => $header);
 	}
-	
+	public function printDebug($title, $content)
+	{
+		echo '<div style="display:table;background:#CCC;font-size:8pt;padding:7px"><h6 style="font-size:9pt;margin:0">'.$title.'</h6><pre>'.htmlentities($content).'</pre></div>';
+	}
 	/**
 	 * Load XML from string. Can throw exception
 	 * @param string $response String from a CURL response
@@ -200,6 +217,7 @@ class PrestaShopWebservice
 		}
 		else
 			throw new PrestaShopWebserviceException('Bad parameters given');
+		// die($xml);
 		$request = self::executeRequest($url, array(CURLOPT_CUSTOMREQUEST => 'POST', CURLOPT_POSTFIELDS => 'xml='.$xml));
 		self::checkStatusCode($request['status_code']);
 		return self::parseXML($request['response']);
@@ -260,7 +278,38 @@ class PrestaShopWebservice
 		self::checkStatusCode($request['status_code']);// check the response validity
 		return self::parseXML($request['response']);
 	}
-	
+
+	/**
+ 	 * Head method (HEAD) a resource
+	 *
+	 * @param array $options Array representing resource for head request.
+	 * @return SimpleXMLElement status_code, response
+	 */
+	public function head($options)
+	{
+		if (isset($options['url']))
+			$url = $options['url'];
+		elseif (isset($options['resource']))
+		{
+			$url = $this->url.'/api/'.$options['resource'];
+			$url_params = array();
+			if (isset($options['id']))
+				$url .= '/'.$options['id'];
+				
+			$params = array('filter', 'display', 'sort', 'limit');
+			foreach ($params as $p)
+				foreach ($options as $k => $o)
+					if (strpos($k, $p) !== false)
+						$url_params[$k] = $options[$k];
+			if (count($url_params) > 0)
+				$url .= '?'.http_build_query($url_params);
+		}
+		else
+			throw new PrestaShopWebserviceException('Bad parameters given');
+		$request = self::executeRequest($url, array(CURLOPT_CUSTOMREQUEST => 'HEAD', CURLOPT_NOBODY => true));
+		self::checkStatusCode($request['status_code']);// check the response validity
+		return $request['header'];
+	}
 	/**
 	 * Edit (PUT) a resource
 	 * <p>Unique parameter must take : <br><br>
