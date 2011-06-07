@@ -1,7 +1,7 @@
 .idea/
 .manager/
 workspace.xml
-Scala.iml
+Prestasac.iml
 bin/
 lib/
 docs/

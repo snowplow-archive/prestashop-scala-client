@@ -28,7 +28,7 @@ import scala.xml._
 class PrestaShopWebService(
   shopURL:		String,
   authenticationKey: 	String,
-  debug:   		Boolean = True)
+  debug:   		Boolean = true)
 {
   
   // Compatible versions of the PrestaShop Web Service
@@ -38,18 +38,35 @@ class PrestaShopWebService(
   /**
    * Take the status code and throw an exception if the server didn't return 200 or 201 code
    */
-  def checkStatusCode(statusCode: String) {
+  def checkStatusCode(statusCode: Int): Int = {
+
+    val error = "This call to PrestaShop Web Services failed and returned an HTTP status of %d. That means: %s.";
+
+    statusCode match {
+      case 200 => statusCode; case 201 => statusCode
+      case 204 => throw new RuntimeException(error.format(statusCode, "No content"))
+      case 400 => throw new RuntimeException(error.format(statusCode, "Bad request"))
+      case 401 => throw new RuntimeException(error.format(statusCode, "Unauthorized"))
+      case 404 => throw new RuntimeException(error.format(statusCode, "Not Found"))
+      case 405 => throw new RuntimeException(error.format(statusCode, "Method Not Allowed"))
+      case 500 => throw new RuntimeException(error.format(statusCode, "Internal Server Error"))
+      case _   => throw new RuntimeException("This call to PrestaShop Web Services returned an unexpected HTTP status of: %d.".format(statusCode))
+    }
+  }
+
+  /**
+   * Delete (DELETE) a resource
+   * This version takes a resource type and an array of IDs to delete
+   *
+  def delete(resource: String, ids: Int()) { // TODO: how to write an array, I can't remember
     // TODO
   }
 
   /**
    * Delete (DELETE) a resource
-   * options can contain either:
-   * - A url which explicitly sets resource type and resource ID
-   * - A resource type and ID
-   * - A resource type and an array of IDs 
+   * This version takes a URL which explicitly sets resource type and resource ID
    */
   def delete(url: String) {
     // TODO
-  } 
+  }    */
 }
