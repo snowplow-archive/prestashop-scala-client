@@ -1,12 +1,12 @@
 prestasac - a Scala library for accessing the PrestaShop Web Service.
 
-prestasac (PrestaShop Scala API Client) allows you to access the PrestaShop Web Service from Scala. Learn more about the PrestaShop Web Service from the [Official Documentation](https://xxx) and the [CRUD Tutorial](chrome://downloads/home/alex/Downloads/CRUD%20Tutorial%20EN.pdf).
+prestasac (PrestaShop Scala API Client) allows you to access the PrestaShop Web Service from Scala. Learn more about the PrestaShop Web Service from the [Official Documentation](http://wiki.prestashop.com/display/enEN/Using+the+REST+webservice) ([PDF version](http://wiki.prestashop.com/download/attachments/720902/CRUD+Tutorial+EN.pdf?version=1&modificationDate=1301486324000)).
 
-prestasac is a direct port of the official PrestaShop PHP API Client, PSWebServiceLibrary.php. We keep the latest version of this library in the /php folder for reference. As with PSWebServiceLibrary.php, prestasac is a thin wrapper around the PrestaShop Web Service: it takes care of making the call to your PrestaShop instance's Web Service, supports the Web Service's HTTP-based CRUD operations (handling any errors) and then returns the XML ready for you to work with in Scala.
+prestasac is a direct port of the official PrestaShop PHP API Client, PSWebServiceLibrary.php. We keep the latest version of this library in the /php folder for reference. Similar PSWebServiceLibrary.php, prestasac is a thin wrapper around the PrestaShop Web Service: it takes care of making the call to your PrestaShop instance's Web Service, supports the Web Service's HTTP-based CRUD operations (handling any errors) and then returns the XML ready for you to work with in Scala.
 
 #Credits
 
-Thanks to Prestashop SA for their work on PrestaShop and on the reference PHP library, PSWebServiceLibrary.php
+Thanks to Prestashop SA for their great work on PrestaShop and on the PHP reference library, PSWebServiceLibrary.php
 
 #Installation
 
@@ -29,7 +29,7 @@ Create a PrestaShopWebService (changing your PrestaShop credentials):
 #API Documentation
 
 Documentation for the PrestaShop Web Service can be found on the PrestaShop wiki:
-[Using the REST Web Service](http://wiki.prestashop.com/display/enEN/Using+the+REST+webservice)
+[Using the REST webservice](http://wiki.prestashop.com/display/enEN/Using+the+REST+webservice)
 
 #Forking 
 
