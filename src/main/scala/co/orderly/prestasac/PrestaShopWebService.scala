@@ -26,9 +26,9 @@ import scala.xml._
  * Instantiate the PrestaShopWebService to start executing operations against the PrestaShop Web Service
  */
 class PrestaShopWebService(
-  shopURL:		String,
-  authenticationKey: 	String,
-  debug:   		Boolean = true)
+  val shopURL:		        String,
+  val authenticationKey: 	String,
+  val debug:   		        Boolean = true)
 {
   
   // Compatible versions of the PrestaShop Web Service
@@ -37,36 +37,53 @@ class PrestaShopWebService(
 
   /**
    * Take the status code and throw an exception if the server didn't return 200 or 201 code
+   * @param statusCode Status code of an HTTP return
    */
-  def checkStatusCode(statusCode: Int): Int = {
+  protected def checkStatusCode(statusCode: Int): Int = {
 
     val error = "This call to PrestaShop Web Services failed and returned an HTTP status of %d. That means: %s.";
 
     statusCode match {
       case 200 => statusCode; case 201 => statusCode
-      case 204 => throw new RuntimeException(error.format(statusCode, "No content"))
-      case 400 => throw new RuntimeException(error.format(statusCode, "Bad request"))
-      case 401 => throw new RuntimeException(error.format(statusCode, "Unauthorized"))
-      case 404 => throw new RuntimeException(error.format(statusCode, "Not Found"))
-      case 405 => throw new RuntimeException(error.format(statusCode, "Method Not Allowed"))
-      case 500 => throw new RuntimeException(error.format(statusCode, "Internal Server Error"))
-      case _   => throw new RuntimeException("This call to PrestaShop Web Services returned an unexpected HTTP status of: %d.".format(statusCode))
+      case 204 => throw new PrestaShopWebServiceException(error.format(statusCode, "No content"))
+      case 400 => throw new PrestaShopWebServiceException(error.format(statusCode, "Bad request"))
+      case 401 => throw new PrestaShopWebServiceException(error.format(statusCode, "Unauthorized"))
+      case 404 => throw new PrestaShopWebServiceException(error.format(statusCode, "Not Found"))
+      case 405 => throw new PrestaShopWebServiceException(error.format(statusCode, "Method Not Allowed"))
+      case 500 => throw new PrestaShopWebServiceException(error.format(statusCode, "Internal Server Error"))
+      case _   => throw new PrestaShopWebServiceException("This call to PrestaShop Web Services returned an unexpected HTTP status of: %d.".format(statusCode))
     }
+  }
+
+  /**
+   * Handles an HTTP request to PrestaShop Web Service. Uses HttpClient. Can throw a PrestaShopWebServiceException
+	 * @param url Resource to request
+	 * @param args Parameters to configure the HTTP request
+	 * @return A tuple containing the response code and the XML
+   */
+  protected def executeRequest(url: String, args: Map[String, String]): Tuple2[Int, Elem] = {
+
   }
 
   /**
    * Delete (DELETE) a resource
    * This version takes a resource type and an array of IDs to delete
    *
-  def delete(resource: String, ids: Int()) { // TODO: how to write an array, I can't remember
+  def delete(resource: String, ids: Array[Int]) {
     // TODO
   }
 
   /**
    * Delete (DELETE) a resource
-   * This version takes a URL which explicitly sets resource type and resource ID
+   * @param url A URL which explicitly sets resource type and resource ID
    */
   def delete(url: String) {
     // TODO
   }    */
+}
+
+/**
+ * Custom runtime exception for this library
+ */
+class PrestaShopWebServiceException(message: String) extends RuntimeException(message) {
 }
