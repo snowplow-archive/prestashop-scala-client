@@ -26,9 +26,9 @@ import scala.xml._
  * Instantiate the PrestaShopWebService to start executing operations against the PrestaShop Web Service
  */
 class PrestaShopWebService(
-  val apiURL:	            String,
-  val authenticationKey: 	String,
-  val debug:   		        Boolean = true) {
+  val apiURL:             String,
+  val authenticationKey:  String,
+  val debug:              Boolean = true) {
   
   // Compatible versions of the PrestaShop Web Service
   val MIN_PRESTASHOP_VERSION = "1.4.0.17"
