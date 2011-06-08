@@ -26,7 +26,7 @@ import scala.xml._
  * Instantiate the PrestaShopWebService to start executing operations against the PrestaShop Web Service
  */
 class PrestaShopWebService(
-  val apiURL:		          String,
+  val apiURL:	            String,
   val authenticationKey: 	String,
   val debug:   		        Boolean = true) {
   
@@ -41,7 +41,7 @@ class PrestaShopWebService(
    * Take the status code and throw an exception if the server didn't return 200 or 201 code
    * @param statusCode Status code of an HTTP return
    */
-  protected def checkStatusCode(statusCode: Int): Int = {
+  protected def check(statusCode: Int): Int = {
 
     val error = "This call to PrestaShop Web Services failed and returned an HTTP status of %d. That means: %s.";
 
@@ -59,9 +59,9 @@ class PrestaShopWebService(
 
   /**
    * Handles an HTTP request to PrestaShop Web Service. Uses HttpClient. Can throw a PrestaShopWebServiceException
-	 * @param url Resource to request
-	 * @param args Parameters to configure the HTTP request
-	 * @return A tuple containing the response code and the XML
+   * @param url Resource to request
+   * @param args Parameters to configure the HTTP request
+   * @return A tuple containing the response code and the XML
    */
   protected def executeRequest(url: String, args: Map[String, String]): Tuple2[Int, Elem] = {
 
