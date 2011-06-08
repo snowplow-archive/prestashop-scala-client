@@ -31,6 +31,12 @@ Create a PrestaShopWebService (changing your PrestaShop credentials):
 Documentation for the PrestaShop Web Service can be found on the PrestaShop wiki:
 [Using the REST webservice](http://wiki.prestashop.com/display/enEN/Using+the+REST+webservice)
 
+# Gotchas
+
+There are a few differences from the PHP library, PSWebServiceLibrary.php:
+* Configuration URL - prestasac takes the API URL, not the shop URL. Passing a trailing slash on the API URL is optional
+* The URL methods for add() and edit() work in prestasac, unlike in PSWebServiceLibrary.php
+
 #Forking 
 
 Forking from GitHub and making changes to the code is easy if you use sbt:

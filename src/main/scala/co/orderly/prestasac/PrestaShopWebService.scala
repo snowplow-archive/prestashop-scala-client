@@ -26,7 +26,7 @@ import scala.xml._
  * Instantiate the PrestaShopWebService to start executing operations against the PrestaShop Web Service
  */
 class PrestaShopWebService(
-  val shopURL:		        String,
+  val apiURL:		          String,
   val authenticationKey: 	String,
   val debug:   		        Boolean = true) {
   
@@ -34,14 +34,14 @@ class PrestaShopWebService(
   val MIN_PRESTASHOP_VERSION = "1.4.0.17"
   val MAX_PRESTASHOP_VERSION = "1.4.2.3"
 
-  // The API URL is simply the shop URL with /api/ appended
-  val apiURL = shopURL + "/api/"
+  // Append a trailing slash to the API URL if there isn't one
+  // TODO
 
   /**
    * Take the status code and throw an exception if the server didn't return 200 or 201 code
    * @param statusCode Status code of an HTTP return
    */
-  /* TODO uncomment out protected */ def checkStatusCode(statusCode: Int): Int = {
+  protected def checkStatusCode(statusCode: Int): Int = {
 
     val error = "This call to PrestaShop Web Services failed and returned an HTTP status of %d. That means: %s.";
 
@@ -78,13 +78,26 @@ class PrestaShopWebService(
   }
 
   /**
+   * Validates that the parameters are all either "filter", "display", "sort" or "limit"
+   * Throws a PrestaShopWebServiceException if not
+   */
+  protected def validate(params: Map[String, String]): Map[String, String] = {
+
+    params.map(
+      (param) => if (!("filter", "display", "sort", "limit") contains param._1 ) {
+        throw new PrestaShopWebServiceException("Parameter %s is not supported".format(param._1))
+      }
+    ) // TODO: check this returns params okay
+  }
+
+  /**
    * Add (POST) a resource, self-assembly version
    * @param resource Type of resource to add
    * @param postXml Full XML string to add resource
    * @return responseXml XML response from Web Service
    */
   def add(resource: String, postXml: Elem): Elem = {
-    // TODO
+    add(apiURL + resource)
   }
 
   /**
@@ -105,20 +118,21 @@ class PrestaShopWebService(
    * @return responseXml XML response from Web Service
    */
   def get(resource: String, id: Int, params: Map[String, String] = immutable.Map.empty): Elem = {
-
-    // First validate that the parameters are legitimate
-    params.map(
-      (param) => if (!("filter", "display", "sort", "limit") contains param._1 ) {
-        throw new PrestaShopWebServiceException("Parameter %s is not supported".format(param._1))
-      }
-    )
-
-    // Now construct the URL and call get() with it
-    get(apiURL + resource + "?" + canonicalize(params))
+    get(apiURL + resource + "?" + canonicalize(validate(params)))
   }
 
   /**
-   * Delete (DELETE) a resource, self-assembly version
+   * Delete (DELETE) a resource, self-assembly version supporting one ID
+   * This version takes a resource type and an array of IDs to delete
+   * @param resource The type of resource to delete (e.g. "orders")
+   * @param id An ID of this resource type, to delete
+   */
+  def delete(resource: String, id: Int) {
+    delete(apiURL + resource + "?" + id)
+  }
+
+  /**
+   * Delete (DELETE) a resource, self-assembly version supporting multiple IDs
    * This version takes a resource type and an array of IDs to delete
    * @param resource The type of resource to delete (e.g. "orders")
    * @param ids An array of IDs of this resource type, to delete
