@@ -26,7 +26,7 @@ import scala.xml._
  * Instantiate the PrestaShopWebService to start executing operations against the PrestaShop Web Service
  */
 class PrestaShopWebService(
-  val apiURL:             String,
+  var apiURL:             String,
   val authenticationKey:  String,
   val debug:              Boolean = true) {
   
@@ -46,7 +46,8 @@ class PrestaShopWebService(
     val error = "This call to PrestaShop Web Services failed and returned an HTTP status of %d. That means: %s.";
 
     statusCode match {
-      case 200 => statusCode; case 201 => statusCode
+      case 200 => statusCode
+      case 201 => statusCode
       case 204 => throw new PrestaShopWebServiceException(error.format(statusCode, "No content"))
       case 400 => throw new PrestaShopWebServiceException(error.format(statusCode, "Bad request"))
       case 401 => throw new PrestaShopWebServiceException(error.format(statusCode, "Unauthorized"))
@@ -66,9 +67,10 @@ class PrestaShopWebService(
   protected def executeRequest(
     url:    String,
     verb:   String,
-    xml:    String = None,
+    xml:    Elem = None,
     noBody: Boolean = false): Tuple3[Int, String, String] = {
 
+    // TODO
   }
 
   /**
@@ -88,9 +90,8 @@ class PrestaShopWebService(
   protected def validate(params: Map[String, String]): Map[String, String] = {
 
     params.map(
-      (param) => if (!("filter", "display", "sort", "limit") contains param._1 ) {
+      (param) => if (!("filter", "display", "sort", "limit") contains param._1 )
         throw new PrestaShopWebServiceException("Parameter %s is not supported".format(param._1))
-      }
     ) // TODO: check this returns params okay
   }
 
@@ -136,6 +137,27 @@ class PrestaShopWebService(
   }
 
   /**
+   * Head (HEAD) an individual resource or all resources of a type, self-assembly version
+   * @param resource Type of resource to head
+   * @param id Resource ID to head (if not provided, head all resources of this type)
+   * @param params Map of parameters (one or more of 'filter', 'display', 'sort', 'limit')
+   * @return header Header from Web Service's response
+   */
+  def head(resource: String, id: Int = None, params: Map[String, String] = immutable.Map.empty): String = {
+    head(apiURL + resource /* + TODO add /id if set */ + "?" + canonicalize(validate(params)))
+  }
+
+  /**
+   * Head (HEAD) an individual resource or all resources of a type, self-assembly version
+   * @param url Full URL for the HEAD request to the Web Service
+   * @param params Map of parameters (one or more of 'filter', 'display', 'sort', 'limit')
+   * @return header Header from Web Service's response
+   */
+  def head(url: String, params: Map[String, String] = immutable.Map.empty): String = {
+    // TODO
+  }
+
+  /**
    * Edit (PUT) a resource, self-assembly version
    * @param resource Type of resource to update
    * @param id Resource ID to update
@@ -143,7 +165,7 @@ class PrestaShopWebService(
    * @return responseXml XML response from Web Service
    */
   def edit(resource: String, id: Int, putXml: Elem): Elem = {
-    // TODO
+    edit(apiURL + resource + "/" + id)
   }
 
   /**
@@ -163,7 +185,7 @@ class PrestaShopWebService(
    * @param id An ID of this resource type, to delete
    */
   def delete(resource: String, id: Int) {
-    delete(apiURL + resource + "?" + id)
+    delete(apiURL + resource + "/" + id)
   }
 
   /**
@@ -173,7 +195,7 @@ class PrestaShopWebService(
    * @param ids An array of IDs of this resource type, to delete
    */
   def delete(resource: String, ids: Array[Int]) {
-    delete(apiURL + resource + "?id=[%s]".format(ids.mkString(",")))
+    delete(apiURL + resource + "/?id=[%s]".format(ids.mkString(",")))
   }
 
   /**

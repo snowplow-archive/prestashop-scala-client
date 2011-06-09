@@ -35,8 +35,9 @@ Documentation for the PrestaShop Web Service can be found on the PrestaShop wiki
 
 There are a few differences from the PHP library, PSWebServiceLibrary.php:
 
-* Configuration URL - prestasac takes the API URL, not the shop URL. Passing a trailing slash on the API URL is optional
-* The URL methods for add() and edit() work in prestasac, unlike in PSWebServiceLibrary.php
+* prestasac needs the API URL for configuration, not the shop URL. Passing a trailing slash on the API URL is optional
+* Rather than internally-overloaded methods taking generic parameters, prestasac has different methods for each possible set of parameters
+* The URL-taking methods for add() and edit() work in prestasac, unlike in PSWebServiceLibrary.php
 
 #Forking 
 
