@@ -17,9 +17,6 @@
  */
 package co.orderly.prestasac
 
-import java.net.{URL, URLConnection, HttpURLConnection}
-import java.io.{InputStream, IOException}
-
 import scala.xml._
 
 /**
@@ -78,13 +75,24 @@ class PrestaShopWebService(
   /**
    * Loads an XML into an Elem from a String
    * Throws an exception if there is no XML or it won't validate
+   * @param xml The XML string to parse
+   * @return The parsed XML in an Elem ready to work with
    */
-  protected def parseXML(xml: String): Elem = {
+  protected def parse(xml: String): Elem = {
 
+    if (xml /* TODO is empty */) {
+      throw new PrestaShopWebServiceException("HTTP XML response is empty")
+    } else {
+      try {
+        XML.load(xml)
+      } catch {
+        case _ => throw new PrestaShopWebServiceException("HTTP XML response is not parsable") /* TODO: how to bubble up the XML parse exception*/
+      }
+    }
   }
 
   /**
-   * Validates that the parameters are all either "filter", "display", "sort" or "limit"
+   * Validates that the parameters are all either 'filter', 'display', 'sort' or 'limit'
    * Throws a PrestaShopWebServiceException if not.
    * @param params Parameters to validate
    * @return The original parameters if everything is okay
@@ -98,8 +106,11 @@ class PrestaShopWebService(
   }
 
   /**
-   * Returns a canonicalized, escaped string of &key=value pairs from an ordered map of parameters
+   * Returns a canonicalized, escaped string of &key=value pairs from a Map of parameters
+   * @param params A map of parameters ('filter', 'display' etc)
+   * @return A canonicalized escaped string of the parameters
    */
+  // TODO: can this be replaced with something from http-client?
   protected def canonicalize(params: Map[String, String]): String = {
 
     params.map(
@@ -110,21 +121,21 @@ class PrestaShopWebService(
   /**
    * Add (POST) a resource, self-assembly version
    * @param resource Type of resource to add
-   * @param postXml Full XML of new resource
+   * @param xml Full XML of new resource
    * @return XML response from Web Service
    */
-  def add(resource: String, postXml: Elem): Elem = {
-    add(apiURL + resource)
+  def add(resource: String, xml: Elem): Elem = {
+    add(apiURL + resource, xml)
   }
 
   /**
    * Add (POST) a resource, URL version
    * @param url Full URL for a POST request to the Web Service
-   * @param postXml Full XML of new resource
+   * @param xml Full XML of new resource
    * @return XML response from Web Service
    */
-  def add(url: String, postXml: Elem): Elem = {
-    // TODO
+  def add(url: String, xml: Elem): Elem = {
+    parse(execute(url, "POST", xml)._2) // Execute the API call, parse the body (2nd item in tuple) and return the parsed XML
   }
 
   /**
@@ -141,17 +152,16 @@ class PrestaShopWebService(
   /**
    * Retrieve (GET) a resource, URL version
    * @param url A URL which explicitly sets the resource type and ID to retrieve
-   * @param params Map of parameters (one or more of 'filter', 'display', 'sort', 'limit')
-   * @return XML response from Web Service
+   * @return XML response from the Web Service
    */
-  def get(url: String, params: Map[String, String] = immutable.Map.empty): Elem = {
-    // TODO
+  def get(url: String): Elem = {
+    parse(execute(url, "GET")._2) // Execute the API call, parse the body (2nd item in tuple) and return the parsed XML
   }
 
   /**
    * Head (HEAD) an individual resource or all resources of a type, self-assembly version
    * @param resource Type of resource to head
-   * @param id Resource ID to head (if not provided, head all resources of this type)
+   * @param id Resource ID to head (if not provided, head all resources of this type) TODO is None right here?
    * @param params Map of parameters (one or more of 'filter', 'display', 'sort', 'limit')
    * @return Header from Web Service's response
    */
@@ -159,13 +169,15 @@ class PrestaShopWebService(
     head(apiURL + resource /* + TODO add /id if set */ + "?" + canonicalize(validate(params)))
   }
 
+  // TODO: ambiguity between head(resource) and head(url). Need to test
+
   /**
    * Head (HEAD) an individual resource or all resources of a type, URL version
    * @param url Full URL for the HEAD request to the Web Service
    * @return Header from Web Service's response
    */
   def head(url: String): String = {
-    val (code, body, header) = execute(url, "HEAD")
+    execute(url, "HEAD", noBody = true)._3 // Return the header (3rd item in execute's return tuple)
   }
 
   /**
@@ -186,12 +198,7 @@ class PrestaShopWebService(
    * @return XML response from Web Service
    */
   def edit(url: String, xml: Elem): Elem = {
-
-    // Execute the API call
-    val (code, body, header) = execute(url, "PUT", xml)
-
-    // Parse and return the XML
-    parseXML(body)
+    parse(execute(url, "PUT", xml)._2) // Execute the API call, parse the body (2nd item in tuple) and return the parsed XML
   }
 
   /**
@@ -219,7 +226,7 @@ class PrestaShopWebService(
    * @param url A URL which explicitly sets resource type and resource ID
    */
   def delete(url: String) {
-    val (code, body, header) = execute(url, "DELETE")
+    execute(url, "DELETE")
   }
 }
 
