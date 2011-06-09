@@ -32,7 +32,7 @@ class PrestaShopWebService(
   val MAX_PRESTASHOP_VERSION = "1.4.2.3"
 
   // Append a trailing slash to the API URL if there isn't one
-  // TODO
+  if (!apiURL.matches(".*/")) apiURL += "/"
 
   /**
    * Take the status code and throw an exception if the server didn't return 200 or 201 code
@@ -80,13 +80,16 @@ class PrestaShopWebService(
    */
   protected def parse(xml: String): Elem = {
 
-    if (xml /* TODO is empty */) {
+    if (xml.isEmpty) {
       throw new PrestaShopWebServiceException("HTTP XML response is empty")
     } else {
       try {
         XML.load(xml)
       } catch {
-        case _ => throw new PrestaShopWebServiceException("HTTP XML response is not parsable") /* TODO: how to bubble up the XML parse exception*/
+        case e => {
+          e.printStackTrace()
+          throw new PrestaShopWebServiceException("HTTP XML response is not parsable")
+        }
       }
     }
   }
@@ -145,8 +148,8 @@ class PrestaShopWebService(
    * @param params Map of parameters (one or more of 'filter', 'display', 'sort', 'limit')
    * @return XML response from Web Service
    */
-  def get(resource: String, id: Int, params: Map[String, String] = immutable.Map.empty): Elem = {
-    get(apiURL + resource + "?" + canonicalize(validate(params)))
+  def get(resource: String, id: Int, params: Option[Map[String, String]] = None): Elem = {
+    get(apiURL + resource + "?" + (if (params.isDefined) canonicalize(validate(params.get)) else ""))
   }
 
   /**
@@ -161,12 +164,12 @@ class PrestaShopWebService(
   /**
    * Head (HEAD) an individual resource or all resources of a type, self-assembly version
    * @param resource Type of resource to head
-   * @param id Resource ID to head (if not provided, head all resources of this type) TODO is None right here?
+   * @param id Resource ID to head (if not provided, head all resources of this type)
    * @param params Map of parameters (one or more of 'filter', 'display', 'sort', 'limit')
    * @return Header from Web Service's response
    */
-  def head(resource: String, id: Int = None, params: Map[String, String] = immutable.Map.empty): String = {
-    head(apiURL + resource /* + TODO add /id if set */ + "?" + canonicalize(validate(params)))
+  def head(resource: String, id: Option[Int] = None, params: Option[Map[String, String]]): String = {
+    head(apiURL + resource + (if (id.isDefined) "/" + id.get else "") + "?" + (if (params.isDefined) canonicalize(validate(params.get)) else ""))
   }
 
   // TODO: ambiguity between head(resource) and head(url). Need to test
