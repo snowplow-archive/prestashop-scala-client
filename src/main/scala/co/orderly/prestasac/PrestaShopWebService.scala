@@ -69,7 +69,7 @@ class PrestaShopWebService(
 
     // TODO
 
-    return (check(code), body, header) // Return in a tuple, checking the status code as we do so
+    return (check(code), body, header) // Return salient data a tuple, checking the status code as we do so
   }
 
   /**
