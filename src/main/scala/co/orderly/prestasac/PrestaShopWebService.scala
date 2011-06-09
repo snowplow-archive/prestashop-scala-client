@@ -61,9 +61,13 @@ class PrestaShopWebService(
    * Handles an HTTP request to PrestaShop Web Service. Uses HttpClient. Can throw a PrestaShopWebServiceException
    * @param url Resource to request
    * @param args Parameters to configure the HTTP request
-   * @return A tuple containing the response code and the XML
+   * @return A tuple containing the response code, body and header
    */
-  protected def executeRequest(url: String, args: Map[String, String]): Tuple2[Int, Elem] = {
+  protected def executeRequest(
+    url:    String,
+    verb:   String,
+    xml:    String = None,
+    noBody: Boolean = false): Tuple3[Int, String, String] = {
 
   }
 
@@ -93,7 +97,7 @@ class PrestaShopWebService(
   /**
    * Add (POST) a resource, self-assembly version
    * @param resource Type of resource to add
-   * @param postXml Full XML string to add resource
+   * @param postXml Full XML of new resource
    * @return responseXml XML response from Web Service
    */
   def add(resource: String, postXml: Elem): Elem = {
@@ -103,7 +107,7 @@ class PrestaShopWebService(
   /**
    * Add (POST) a resource, URL version
    * @param url Full URL for a POST request to the Web Service
-   * @param postXml Full XML string to add resource
+   * @param postXml Full XML of new resource
    * @return responseXml XML response from Web Service
    */
   def add(url: String, postXml: Elem): Elem = {
@@ -119,6 +123,37 @@ class PrestaShopWebService(
    */
   def get(resource: String, id: Int, params: Map[String, String] = immutable.Map.empty): Elem = {
     get(apiURL + resource + "?" + canonicalize(validate(params)))
+  }
+
+  /**
+   * Retrieve (GET) a resource, URL version
+   * @param url A URL which explicitly sets the resource type and ID to retrieve
+   * @param params Map of parameters (one or more of 'filter', 'display', 'sort', 'limit')
+   * @return responseXml XML response from Web Service
+   */
+  def get(url: String, params: Map[String, String] = immutable.Map.empty): Elem = {
+    // TODO
+  }
+
+  /**
+   * Edit (PUT) a resource, self-assembly version
+   * @param resource Type of resource to update
+   * @param id Resource ID to update
+   * @param putXml Modified XML of the resource
+   * @return responseXml XML response from Web Service
+   */
+  def edit(resource: String, id: Int, putXml: Elem): Elem = {
+    // TODO
+  }
+
+  /**
+   * Edit (PUT) a resource, URL version
+   * @param url A URL which explicitly sets the resource type and ID to edit
+   * @param putXml Modified XML of the resource
+   * @return responseXml XML response from Web Service
+   */
+  def edit(url: String, putXml: Elem): Elem = {
+    // TODO
   }
 
   /**
@@ -138,7 +173,7 @@ class PrestaShopWebService(
    * @param ids An array of IDs of this resource type, to delete
    */
   def delete(resource: String, ids: Array[Int]) {
-    // TODO
+    delete(apiURL + resource + "?id=[%s]".format(ids.mkString(",")))
   }
 
   /**
