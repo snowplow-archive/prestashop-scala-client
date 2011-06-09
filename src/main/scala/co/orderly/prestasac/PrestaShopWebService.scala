@@ -76,8 +76,18 @@ class PrestaShopWebService(
   }
 
   /**
+   * Loads an XML into an Elem from a String
+   * Throws an exception if there is no XML or it won't validate
+   */
+  protected def parseXML(xml: String): Elem = {
+
+  }
+
+  /**
    * Validates that the parameters are all either "filter", "display", "sort" or "limit"
-   * Throws a PrestaShopWebServiceException if not
+   * Throws a PrestaShopWebServiceException if not.
+   * @param params Parameters to validate
+   * @return The original parameters if everything is okay
    */
   protected def validate(params: Map[String, String]): Map[String, String] = {
 
@@ -101,7 +111,7 @@ class PrestaShopWebService(
    * Add (POST) a resource, self-assembly version
    * @param resource Type of resource to add
    * @param postXml Full XML of new resource
-   * @return responseXml XML response from Web Service
+   * @return XML response from Web Service
    */
   def add(resource: String, postXml: Elem): Elem = {
     add(apiURL + resource)
@@ -111,7 +121,7 @@ class PrestaShopWebService(
    * Add (POST) a resource, URL version
    * @param url Full URL for a POST request to the Web Service
    * @param postXml Full XML of new resource
-   * @return responseXml XML response from Web Service
+   * @return XML response from Web Service
    */
   def add(url: String, postXml: Elem): Elem = {
     // TODO
@@ -122,7 +132,7 @@ class PrestaShopWebService(
    * @param resource Type of resource to retrieve
    * @param id Resource ID to retrieve
    * @param params Map of parameters (one or more of 'filter', 'display', 'sort', 'limit')
-   * @return responseXml XML response from Web Service
+   * @return XML response from Web Service
    */
   def get(resource: String, id: Int, params: Map[String, String] = immutable.Map.empty): Elem = {
     get(apiURL + resource + "?" + canonicalize(validate(params)))
@@ -132,7 +142,7 @@ class PrestaShopWebService(
    * Retrieve (GET) a resource, URL version
    * @param url A URL which explicitly sets the resource type and ID to retrieve
    * @param params Map of parameters (one or more of 'filter', 'display', 'sort', 'limit')
-   * @return responseXml XML response from Web Service
+   * @return XML response from Web Service
    */
   def get(url: String, params: Map[String, String] = immutable.Map.empty): Elem = {
     // TODO
@@ -143,7 +153,7 @@ class PrestaShopWebService(
    * @param resource Type of resource to head
    * @param id Resource ID to head (if not provided, head all resources of this type)
    * @param params Map of parameters (one or more of 'filter', 'display', 'sort', 'limit')
-   * @return header Header from Web Service's response
+   * @return Header from Web Service's response
    */
   def head(resource: String, id: Int = None, params: Map[String, String] = immutable.Map.empty): String = {
     head(apiURL + resource /* + TODO add /id if set */ + "?" + canonicalize(validate(params)))
@@ -152,11 +162,10 @@ class PrestaShopWebService(
   /**
    * Head (HEAD) an individual resource or all resources of a type, URL version
    * @param url Full URL for the HEAD request to the Web Service
-   * @param params Map of parameters (one or more of 'filter', 'display', 'sort', 'limit')
-   * @return header Header from Web Service's response
+   * @return Header from Web Service's response
    */
-  def head(url: String, params: Map[String, String] = immutable.Map.empty): String = {
-    // TODO
+  def head(url: String): String = {
+    val (code, body, header) = execute(url, "HEAD")
   }
 
   /**
@@ -173,12 +182,16 @@ class PrestaShopWebService(
   /**
    * Edit (PUT) a resource, URL version
    * @param url A URL which explicitly sets the resource type and ID to edit
-   * @param putXml Modified XML of the resource
+   * @param xml Modified XML of the resource
    * @return XML response from Web Service
    */
   def edit(url: String, xml: Elem): Elem = {
-    val (code, body, header) = execute(url, "DELETE", xml)
 
+    // Execute the API call
+    val (code, body, header) = execute(url, "PUT", xml)
+
+    // Parse and return the XML
+    parseXML(body)
   }
 
   /**
