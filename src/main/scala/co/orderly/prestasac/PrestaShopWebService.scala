@@ -43,7 +43,7 @@ class PrestaShopWebService(
    */
   protected def check(statusCode: Int): Int = {
 
-    val error = "This call to PrestaShop Web Services failed and returned an HTTP status of %d. That means: %s.";
+    val error = "This call to the PrestaShop Web Service failed and returned an HTTP status of %d. That means: %s.";
 
     statusCode match {
       case 200 => statusCode
@@ -51,10 +51,10 @@ class PrestaShopWebService(
       case 204 => throw new PrestaShopWebServiceException(error.format(statusCode, "No content"))
       case 400 => throw new PrestaShopWebServiceException(error.format(statusCode, "Bad request"))
       case 401 => throw new PrestaShopWebServiceException(error.format(statusCode, "Unauthorized"))
-      case 404 => throw new PrestaShopWebServiceException(error.format(statusCode, "Not Found"))
-      case 405 => throw new PrestaShopWebServiceException(error.format(statusCode, "Method Not Allowed"))
-      case 500 => throw new PrestaShopWebServiceException(error.format(statusCode, "Internal Server Error"))
-      case _   => throw new PrestaShopWebServiceException("This call to PrestaShop Web Services returned an unexpected HTTP status of: %d.".format(statusCode))
+      case 404 => throw new PrestaShopWebServiceException(error.format(statusCode, "Not found"))
+      case 405 => throw new PrestaShopWebServiceException(error.format(statusCode, "Method not allowed"))
+      case 500 => throw new PrestaShopWebServiceException(error.format(statusCode, "Internal server error"))
+      case _   => throw new PrestaShopWebServiceException("This call to the PrestaShop Web Service returned an unexpected HTTP status of: %d.".format(statusCode))
     }
   }
 
@@ -64,23 +64,15 @@ class PrestaShopWebService(
    * @param args Parameters to configure the HTTP request
    * @return A tuple containing the response code, body and header
    */
-  protected def executeRequest(
+  protected def execute(
     url:    String,
     verb:   String,
     xml:    Elem = None,
     noBody: Boolean = false): Tuple3[Int, String, String] = {
 
     // TODO
-  }
 
-  /**
-   * Returns a canonicalized, escaped string of &key=value pairs from an ordered map of parameters
-   */
-  protected def canonicalize(params: Map[String, String]): String = {
-
-    params.map(
-      (param) => escape( param._1 ) + "=" + escape(param._2)
-    ).mkString("&")
+    return (check(code), body, header) // Return in a tuple, checking the status code as we do so
   }
 
   /**
@@ -93,6 +85,16 @@ class PrestaShopWebService(
       (param) => if (!("filter", "display", "sort", "limit") contains param._1 )
         throw new PrestaShopWebServiceException("Parameter %s is not supported".format(param._1))
     ) // TODO: check this returns params okay
+  }
+
+  /**
+   * Returns a canonicalized, escaped string of &key=value pairs from an ordered map of parameters
+   */
+  protected def canonicalize(params: Map[String, String]): String = {
+
+    params.map(
+      (param) => escape( param._1 ) + "=" + escape(param._2)
+    ).mkString("&")
   }
 
   /**
@@ -148,7 +150,7 @@ class PrestaShopWebService(
   }
 
   /**
-   * Head (HEAD) an individual resource or all resources of a type, self-assembly version
+   * Head (HEAD) an individual resource or all resources of a type, URL version
    * @param url Full URL for the HEAD request to the Web Service
    * @param params Map of parameters (one or more of 'filter', 'display', 'sort', 'limit')
    * @return header Header from Web Service's response
@@ -161,21 +163,22 @@ class PrestaShopWebService(
    * Edit (PUT) a resource, self-assembly version
    * @param resource Type of resource to update
    * @param id Resource ID to update
-   * @param putXml Modified XML of the resource
-   * @return responseXml XML response from Web Service
+   * @param xml Modified XML of the resource
+   * @return XML response from Web Service
    */
-  def edit(resource: String, id: Int, putXml: Elem): Elem = {
-    edit(apiURL + resource + "/" + id)
+  def edit(resource: String, id: Int, xml: Elem): Elem = {
+    edit(apiURL + resource + "/" + id, xml)
   }
 
   /**
    * Edit (PUT) a resource, URL version
    * @param url A URL which explicitly sets the resource type and ID to edit
    * @param putXml Modified XML of the resource
-   * @return responseXml XML response from Web Service
+   * @return XML response from Web Service
    */
-  def edit(url: String, putXml: Elem): Elem = {
-    // TODO
+  def edit(url: String, xml: Elem): Elem = {
+    val (code, body, header) = execute(url, "DELETE", xml)
+
   }
 
   /**
@@ -202,8 +205,8 @@ class PrestaShopWebService(
    * Delete (DELETE) a resource, URL version
    * @param url A URL which explicitly sets resource type and resource ID
    */
-  def delete(url: String) = {
-    // TODO
+  def delete(url: String) {
+    val (code, body, header) = execute(url, "DELETE")
   }
 }
 
