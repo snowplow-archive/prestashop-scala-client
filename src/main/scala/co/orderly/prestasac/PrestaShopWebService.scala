@@ -142,13 +142,34 @@ class PrestaShopWebService(
   }
 
   /**
-   * Retrieve (GET) a resource, self-assembly version
+   * Retrieve (GET) a resource, self-assembly version without parameters
+   * @param resource Type of resource to retrieve
+   * @param id Resource ID to retrieve
+   * @return XML response from Web Service
+   */
+  def get(resource: String, id: Int): Elem = {
+    get(resource, id, None)
+  }
+
+  /**
+   * Retrieve (GET) a resource, self-assembly version with parameters
+   * @param resource Type of resource to retrieve
+   * @param id Resource ID to retrieve
+   * @param params Map of parameters (one or more of 'filter', 'display', 'sort', 'limit')
+   * @return XML response from Web Service
+   */
+  def get(resource: String, id: Int, params: Map[String, String]): Elem = {
+    get(resource, id, Some(params))
+  }
+
+  /**
+   * Retrieve (GET) a resource, protected version using Options
    * @param resource Type of resource to retrieve
    * @param id Resource ID to retrieve
    * @param params Optional Map of parameters (one or more of 'filter', 'display', 'sort', 'limit')
    * @return XML response from Web Service
    */
-  def get(resource: String, id: Int, params: Option[Map[String, String]] = None): Elem = {
+  protected def get(resource: String, id: Int, params: Option[Map[String, String]]): Elem = {
     getURL(
       apiURL + resource + "?" +
       (if (params.isDefined) canonicalize(validate(params.get)) else "")
@@ -167,11 +188,41 @@ class PrestaShopWebService(
   /**
    * Head (HEAD) an individual resource or all resources of a type, self-assembly version
    * @param resource Type of resource to head
+   * @return Header from Web Service's response
+   */
+  def head(resource: String): String = {
+    head(resource, None, None)
+  }
+
+  /**
+   * Head (HEAD) an individual resource or all resources of a type, self-assembly version
+   * @param resource Type of resource to head
+   * @param id Resource ID to head (if not provided, head all resources of this type)
+   * @return Header from Web Service's response
+   */
+  def head(resource: String, id: Int): String = {
+    head(resource, id, None)
+  }
+
+  /**
+   * Head (HEAD) an individual resource or all resources of a type, self-assembly version
+   * @param resource Type of resource to head
+   * @param id Resource ID to head (if not provided, head all resources of this type)
+   * @param params Map of parameters (one or more of 'filter', 'display', 'sort', 'limit')
+   * @return Header from Web Service's response
+   */
+  def head(resource: String, id: Int, params: Map[String, String]): String = {
+    head(resource, id, params)
+  }
+
+  /**
+   * Head (HEAD) an individual resource or all resources of a type, self-assembly version
+   * @param resource Type of resource to head
    * @param id Optional resource ID to head (if not provided, head all resources of this type)
    * @param params Optional Map of parameters (one or more of 'filter', 'display', 'sort', 'limit')
    * @return Header from Web Service's response
    */
-  def head(resource: String, id: Option[Int] = None, params: Option[Map[String, String]]): String = {
+  protected def head(resource: String, id: Option[Int] = None, params: Option[Map[String, String]]): String = {
     headURL(
       apiURL + resource +
       (if (id.isDefined) "/" + id.get else "") + "?" +
@@ -210,23 +261,16 @@ class PrestaShopWebService(
   }
 
   /**
-   * Delete (DELETE) a resource, self-assembly version supporting one ID
+   * Delete (DELETE) a resource, self-assembly version supporting one or more IDs
    * This version takes a resource type and an array of IDs to delete
    * @param resource The type of resource to delete (e.g. "orders")
-   * @param id An ID of this resource type, to delete
+   * @param id An ID or IDs of this resource type to delete
    */
-  def delete(resource: String, id: Int) {
-    deleteURL(apiURL + resource + "/" + id)
-  }
-
-  /**
-   * Delete (DELETE) a resource, self-assembly version supporting multiple IDs
-   * This version takes a resource type and an array of IDs to delete
-   * @param resource The type of resource to delete (e.g. "orders")
-   * @param ids An array of IDs of this resource type, to delete
-   */
-  def delete(resource: String, ids: Array[Int]) {
-    deleteURL(apiURL + resource + "/?id=[%s]".format(ids.mkString(",")))
+  def delete(resource: String, id: Int*) {
+    if (id.length == 1)
+      deleteURL(apiURL + resource + "/" + id)
+    else
+      deleteURL(apiURL + resource + "/?id=[%s]".format(ids.mkString(",")))
   }
 
   /**
