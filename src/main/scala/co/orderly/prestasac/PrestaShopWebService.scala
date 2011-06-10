@@ -128,7 +128,7 @@ class PrestaShopWebService(
    * @return XML response from Web Service
    */
   def add(resource: String, xml: Elem): Elem = {
-    add(apiURL + resource, xml)
+    addURL(apiURL + resource, xml)
   }
 
   /**
@@ -137,7 +137,7 @@ class PrestaShopWebService(
    * @param xml Full XML of new resource
    * @return XML response from Web Service
    */
-  def add(url: String, xml: Elem): Elem = {
+  def addURL(url: String, xml: Elem): Elem = {
     parse(execute(url, "POST", xml)._2) // Execute the API call, parse the body (2nd item in tuple) and return the parsed XML
   }
 
@@ -145,11 +145,14 @@ class PrestaShopWebService(
    * Retrieve (GET) a resource, self-assembly version
    * @param resource Type of resource to retrieve
    * @param id Resource ID to retrieve
-   * @param params Map of parameters (one or more of 'filter', 'display', 'sort', 'limit')
+   * @param params Optional Map of parameters (one or more of 'filter', 'display', 'sort', 'limit')
    * @return XML response from Web Service
    */
   def get(resource: String, id: Int, params: Option[Map[String, String]] = None): Elem = {
-    get(apiURL + resource + "?" + (if (params.isDefined) canonicalize(validate(params.get)) else ""))
+    getURL(
+      apiURL + resource + "?" +
+      (if (params.isDefined) canonicalize(validate(params.get)) else "")
+    )
   }
 
   /**
@@ -157,29 +160,31 @@ class PrestaShopWebService(
    * @param url A URL which explicitly sets the resource type and ID to retrieve
    * @return XML response from the Web Service
    */
-  def get(url: String): Elem = {
+  def getURL(url: String): Elem = {
     parse(execute(url, "GET")._2) // Execute the API call, parse the body (2nd item in tuple) and return the parsed XML
   }
 
   /**
    * Head (HEAD) an individual resource or all resources of a type, self-assembly version
    * @param resource Type of resource to head
-   * @param id Resource ID to head (if not provided, head all resources of this type)
-   * @param params Map of parameters (one or more of 'filter', 'display', 'sort', 'limit')
+   * @param id Optional resource ID to head (if not provided, head all resources of this type)
+   * @param params Optional Map of parameters (one or more of 'filter', 'display', 'sort', 'limit')
    * @return Header from Web Service's response
    */
   def head(resource: String, id: Option[Int] = None, params: Option[Map[String, String]]): String = {
-    head(apiURL + resource + (if (id.isDefined) "/" + id.get else "") + "?" + (if (params.isDefined) canonicalize(validate(params.get)) else ""))
+    headURL(
+      apiURL + resource +
+      (if (id.isDefined) "/" + id.get else "") + "?" +
+      (if (params.isDefined) canonicalize(validate(params.get)) else "")
+    )
   }
-
-  // TODO: ambiguity between head(resource) and head(url). Need to test
 
   /**
    * Head (HEAD) an individual resource or all resources of a type, URL version
    * @param url Full URL for the HEAD request to the Web Service
    * @return Header from Web Service's response
    */
-  def head(url: String): String = {
+  def headURL(url: String): String = {
     execute(url, "HEAD", noBody = true)._3 // Return the header (3rd item in execute's return tuple)
   }
 
@@ -191,7 +196,7 @@ class PrestaShopWebService(
    * @return XML response from Web Service
    */
   def edit(resource: String, id: Int, xml: Elem): Elem = {
-    edit(apiURL + resource + "/" + id, xml)
+    editURL(apiURL + resource + "/" + id, xml)
   }
 
   /**
@@ -200,7 +205,7 @@ class PrestaShopWebService(
    * @param xml Modified XML of the resource
    * @return XML response from Web Service
    */
-  def edit(url: String, xml: Elem): Elem = {
+  def editURL(url: String, xml: Elem): Elem = {
     parse(execute(url, "PUT", xml)._2) // Execute the API call, parse the body (2nd item in tuple) and return the parsed XML
   }
 
@@ -211,7 +216,7 @@ class PrestaShopWebService(
    * @param id An ID of this resource type, to delete
    */
   def delete(resource: String, id: Int) {
-    delete(apiURL + resource + "/" + id)
+    deleteURL(apiURL + resource + "/" + id)
   }
 
   /**
@@ -221,14 +226,14 @@ class PrestaShopWebService(
    * @param ids An array of IDs of this resource type, to delete
    */
   def delete(resource: String, ids: Array[Int]) {
-    delete(apiURL + resource + "/?id=[%s]".format(ids.mkString(",")))
+    deleteURL(apiURL + resource + "/?id=[%s]".format(ids.mkString(",")))
   }
 
   /**
    * Delete (DELETE) a resource, URL version
    * @param url A URL which explicitly sets resource type and resource ID
    */
-  def delete(url: String) {
+  def deleteURL(url: String) {
     execute(url, "DELETE")
   }
 }
