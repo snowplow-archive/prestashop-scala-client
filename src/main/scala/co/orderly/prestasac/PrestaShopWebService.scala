@@ -68,6 +68,7 @@ class PrestaShopWebService(
     noBody: Boolean = false): Tuple3[Int, String, String] = {
 
     // TODO
+    println("url = " + url)
 
     return (check(code), body, header) // Return salient data a tuple, checking the status code as we do so
   }
@@ -105,7 +106,8 @@ class PrestaShopWebService(
     params.map(
       (param) => if (!("filter", "display", "sort", "limit") contains param._1 )
         throw new PrestaShopWebServiceException("Parameter %s is not supported".format(param._1))
-    ) // TODO: check this returns params okay
+    )
+    return parama
   }
 
   /**
@@ -261,16 +263,23 @@ class PrestaShopWebService(
   }
 
   /**
-   * Delete (DELETE) a resource, self-assembly version supporting one or more IDs
+   * Delete (DELETE) a resource, self-assembly version supporting one ID
    * This version takes a resource type and an array of IDs to delete
    * @param resource The type of resource to delete (e.g. "orders")
-   * @param id An ID or IDs of this resource type to delete
+   * @param id An ID of this resource type, to delete
    */
-  def delete(resource: String, id: Int*) {
-    if (id.length == 1)
-      deleteURL(apiURL + resource + "/" + id)
-    else
-      deleteURL(apiURL + resource + "/?id=[%s]".format(ids.mkString(",")))
+  def delete(resource: String, id: Int) {
+    deleteURL(apiURL + resource + "/" + id)
+  }
+
+  /**
+   * Delete (DELETE) a resource, self-assembly version supporting multiple IDs
+   * This version takes a resource type and an array of IDs to delete
+   * @param resource The type of resource to delete (e.g. "orders")
+   * @param ids An array of IDs of this resource type, to delete
+   */
+  def delete(resource: String, ids: Array[Int]) {
+    deleteURL(apiURL + resource + "/?id=[%s]".format(ids.mkString(",")))
   }
 
   /**
