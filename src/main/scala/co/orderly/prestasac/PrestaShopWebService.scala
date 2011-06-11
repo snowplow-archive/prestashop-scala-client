@@ -76,7 +76,7 @@ class PrestaShopWebService(
 
     // Debug
     println("URL is: " + url)
-    val (code, body, header) = (200, "blah", "blah")
+    val (code, body, header) = (200, "BODY", "HEADER")
 
     return (check(code), body, header) // Return salient data a tuple, checking the status code as we do so
   }
@@ -93,7 +93,7 @@ class PrestaShopWebService(
       throw new PrestaShopWebServiceException("HTTP XML response is empty")
     } else {
       try {
-        XML.load(xml)
+        XML.loadString(xml)
       } catch {
         case e => {
           e.printStackTrace()
@@ -171,7 +171,7 @@ class PrestaShopWebService(
    * @return XML response from Web Service
    */
   def get(resource: String, id: Int): Elem = {
-    get(resource, id)
+    get(resource, id, None)
   }
 
   /**
