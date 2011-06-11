@@ -17,6 +17,8 @@
  */
 package co.orderly.prestasac
 
+import _root_.java.net.URLEncoder
+
 import scala.xml._
 
 /**
@@ -30,6 +32,9 @@ class PrestaShopWebService(
   // Compatible versions of the PrestaShop Web Service
   val MIN_PRESTASHOP_VERSION = "1.4.0.17"
   val MAX_PRESTASHOP_VERSION = "1.4.2.3"
+
+  // For URL encoding
+  val UTF8_CHARSET = "UTF-8";
 
   // Append a trailing slash to the API URL if there isn't one
   if (!apiURL.matches(".*/")) apiURL += "/"
@@ -64,7 +69,7 @@ class PrestaShopWebService(
   protected def execute(
     url:    String,
     verb:   String,
-    xml:    Elem = None,
+    xml:    Option[Elem],
     noBody: Boolean = false): Tuple3[Int, String, String] = {
 
     // TODO
@@ -107,10 +112,10 @@ class PrestaShopWebService(
   protected def validate(params: Map[String, String]): Map[String, String] = {
 
     params.map(
-      (param) => if (!("filter", "display", "sort", "limit") contains param._1 )
+      (param) => if (!(Array("filter", "display", "sort", "limit") contains param._1) )
         throw new PrestaShopWebServiceException("Parameter %s is not supported".format(param._1))
     )
-    return parama
+    return params
   }
 
   /**
@@ -124,6 +129,19 @@ class PrestaShopWebService(
     params.map(
       (param) => escape( param._1 ) + "=" + escape(param._2)
     ).mkString("&")
+  }
+
+  /**
+   * Returns an escaped string
+   */
+  // TODO: can this be replaced with something from http-client?
+  protected def escape(s: String): String = {
+
+    try {
+      return URLEncoder.encode(s, UTF8_CHARSET).replace("+", "%20").replace("*", "%2A").replace("%7E", "~")
+    } catch  {
+      case e => throw new PrestaShopWebServiceException(UTF8_CHARSET + " is unsupported")
+    }
   }
 
   /**
@@ -143,7 +161,7 @@ class PrestaShopWebService(
    * @return XML response from Web Service
    */
   def addURL(url: String, xml: Elem): Elem = {
-    parse(execute(url, "POST", xml)._2) // Execute the API call, parse the body (2nd item in tuple) and return the parsed XML
+    parse(execute(url, "POST", Some(xml))._2) // Execute the API call, parse the body (2nd item in tuple) and return the parsed XML
   }
 
   /**
@@ -153,7 +171,7 @@ class PrestaShopWebService(
    * @return XML response from Web Service
    */
   def get(resource: String, id: Int): Elem = {
-    get(resource, id, None)
+    get(resource, id)
   }
 
   /**
@@ -187,7 +205,7 @@ class PrestaShopWebService(
    * @return XML response from the Web Service
    */
   def getURL(url: String): Elem = {
-    parse(execute(url, "GET")._2) // Execute the API call, parse the body (2nd item in tuple) and return the parsed XML
+    parse(execute(url, "GET", None)._2) // Execute the API call, parse the body (2nd item in tuple) and return the parsed XML
   }
 
   /**
@@ -206,7 +224,7 @@ class PrestaShopWebService(
    * @return Header from Web Service's response
    */
   def head(resource: String, id: Int): String = {
-    head(resource, id, None)
+    head(resource, Some(id), None)
   }
 
   /**
@@ -217,7 +235,7 @@ class PrestaShopWebService(
    * @return Header from Web Service's response
    */
   def head(resource: String, id: Int, params: Map[String, String]): String = {
-    head(resource, id, params)
+    head(resource, Some(id), Some(params))
   }
 
   /**
@@ -241,7 +259,7 @@ class PrestaShopWebService(
    * @return Header from Web Service's response
    */
   def headURL(url: String): String = {
-    execute(url, "HEAD", noBody = true)._3 // Return the header (3rd item in execute's return tuple)
+    execute(url, "HEAD", None, noBody = true)._3 // Return the header (3rd item in execute's return tuple)
   }
 
   /**
@@ -262,7 +280,7 @@ class PrestaShopWebService(
    * @return XML response from Web Service
    */
   def editURL(url: String, xml: Elem): Elem = {
-    parse(execute(url, "PUT", xml)._2) // Execute the API call, parse the body (2nd item in tuple) and return the parsed XML
+    parse(execute(url, "PUT", Some(xml))._2) // Execute the API call, parse the body (2nd item in tuple) and return the parsed XML
   }
 
   /**
@@ -290,7 +308,7 @@ class PrestaShopWebService(
    * @param url A URL which explicitly sets resource type and resource ID
    */
   def deleteURL(url: String) {
-    execute(url, "DELETE")
+    execute(url, "DELETE", None)
   }
 }
 

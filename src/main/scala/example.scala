@@ -25,11 +25,16 @@ object ExampleOperations {
   def main(args: Array[String]) {
 
     // Update this with your Amazon credentials before running
-    val psApi = new PrestaShopWebService(shopURL     = "[YOUR AWS ID HERE]",
-                                       authenticationKey       = "[YOUR AWS SECRET HERE]",
-                                       debug = true
-                                       )
+    val api = new PrestaShopWebService(
+      shopURL             = "[YOUR AWS ID HERE]",
+      authenticationKey   = "[YOUR AWS SECRET HERE]",
+      debug               = true
+    )
 
-    val blah = psApi.checkStatusCode(999)
+    println(api.head("products"))
+
+    println(api.head("products", 1))
+
+    println(api.get("products", 1))
   }
 }
