@@ -68,7 +68,10 @@ class PrestaShopWebService(
     noBody: Boolean = false): Tuple3[Int, String, String] = {
 
     // TODO
-    println("url = " + url)
+
+    // Debug
+    println("URL is: " + url)
+    val (code, body, header) = (200, "blah", "blah")
 
     return (check(code), body, header) // Return salient data a tuple, checking the status code as we do so
   }
