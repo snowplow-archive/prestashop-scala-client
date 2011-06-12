@@ -19,8 +19,10 @@ package co.orderly.prestasac
 
 import _root_.java.net.URLEncoder
 
+import org.apache.http.message._
 import org.apache.http.client._
 import org.apache.http.client.methods._
+import org.apache.http.client.utils.URLEncodedUtils
 import org.apache.http.impl.client._
 
 import scala.xml._
@@ -86,8 +88,8 @@ class PrestaShopWebService(
       case "DELETE" => new HttpDelete(url)
     }
 
-    val response = new BasicResponseHandler
-    httpClient.execute(httpVerb, response)
+    // val response = new BasicResponseHandler
+    // httpClient.execute(httpVerb, response)
 
     // Debug
     println("URL is: " + url)
@@ -141,9 +143,12 @@ class PrestaShopWebService(
   // TODO: can this be replaced with something from http-client?
   protected def canonicalize(params: Map[String, String]): String = {
 
+    var qparams = new ArrayList[NameValuePair]
     params.map(
-      (param) => escape( param._1 ) + "=" + escape(param._2)
-    ).mkString("&")
+      (param) => qparams.add(new BasicNameValuePair(param._1, param._2))
+    )
+
+    URLEncodedUtils.format(qparams, UTF8_CHARSET)
   }
 
   /**
