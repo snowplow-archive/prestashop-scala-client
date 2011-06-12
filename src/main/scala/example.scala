@@ -26,8 +26,8 @@ object ExampleOperations {
 
     // Update this with your Amazon credentials before running
     val api = new PrestaShopWebService(
-      apiURL              = "[YOUR AWS ID HERE]",
-      authenticationKey   = "[YOUR AWS SECRET HERE]",
+      apiURL              = "[YOUR PRESTASHOP API URL HERE]",
+      authenticationKey   = "[YOUR PRESTASHOP AUTHENTICATION KEY HERE]",
       debug               = true
     )
 

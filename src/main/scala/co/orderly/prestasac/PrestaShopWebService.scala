@@ -126,7 +126,7 @@ class PrestaShopWebService(
 
   /**
    * Validates that the parameters are all either 'filter', 'display', 'sort' or 'limit'
-   * Throws a PrestaShopWebServiceException if not.
+   * Throws a PrestaShopWebServiceException if not
    * @param params Parameters to validate
    * @return The original parameters if everything is okay
    */
@@ -192,7 +192,7 @@ class PrestaShopWebService(
   }
 
   /**
-   * Retrieve (GET) a resource, protected version using Options
+   * Retrieve (GET) a resource, helper version using Options
    * @param resource Type of resource to retrieve
    * @param id Resource ID to retrieve
    * @param params Optional Map of parameters (one or more of 'filter', 'display', 'sort', 'limit')
@@ -245,7 +245,7 @@ class PrestaShopWebService(
   }
 
   /**
-   * Head (HEAD) an individual resource or all resources of a type, self-assembly version
+   * Head (HEAD) an individual resource or all resources of a type, helper version using Options
    * @param resource Type of resource to head
    * @param id Optional resource ID to head (if not provided, head all resources of this type)
    * @param params Optional Map of parameters (one or more of 'filter', 'display', 'sort', 'limit')
