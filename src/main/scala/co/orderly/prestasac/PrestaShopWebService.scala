@@ -25,6 +25,8 @@ import org.apache.http.client.methods._
 import org.apache.http.client.utils.URLEncodedUtils
 import org.apache.http.impl.client._
 
+import scalaj.collection.Imports._
+
 import scala.xml._
 
 /**
@@ -50,6 +52,8 @@ class PrestaShopWebService(
    * @param statusCode Status code of an HTTP return
    */
   protected def check(statusCode: Int): Int = {
+
+    // TODO: replace all this
 
     val error = "This call to the PrestaShop Web Service failed and returned an HTTP status of %d. That means: %s.";
 
@@ -140,28 +144,10 @@ class PrestaShopWebService(
    * @param params A map of parameters ('filter', 'display' etc)
    * @return A canonicalized escaped string of the parameters
    */
-  // TODO: can this be replaced with something from http-client?
   protected def canonicalize(params: Map[String, String]): String = {
 
-    var qparams = new ArrayList[NameValuePair]
-    params.map(
-      (param) => qparams.add(new BasicNameValuePair(param._1, param._2))
-    )
-
-    URLEncodedUtils.format(qparams, UTF8_CHARSET)
-  }
-
-  /**
-   * Returns an escaped string
-   */
-  // TODO: can this be replaced with something from http-client?
-  protected def escape(s: String): String = {
-
-    try {
-      return URLEncoder.encode(s, UTF8_CHARSET).replace("+", "%20").replace("*", "%2A").replace("%7E", "~")
-    } catch  {
-      case e => throw new PrestaShopWebServiceException(UTF8_CHARSET + " is unsupported")
-    }
+    val nameValues = params.map { param => new BasicNameValuePair(param._1, param._2) }
+    URLEncodedUtils.format(nameValues.toSeq.asJava, UTF8_CHARSET)
   }
 
   /**
