@@ -20,6 +20,7 @@ package co.orderly.prestasac
 import _root_.java.net.URLEncoder
 
 import org.apache.http.message._
+import org.apache.http.auth._
 import org.apache.http.client._
 import org.apache.http.client.methods._
 import org.apache.http.client.utils.URLEncodedUtils
@@ -33,9 +34,9 @@ import scala.xml._
  * Instantiate the PrestaShopWebService to start executing operations against the PrestaShop Web Service
  */
 class PrestaShopWebService(
-  var apiURL:             String,
-  val authenticationKey:  String,
-  val debug:              Boolean = true) {
+  var apiURL:  String,
+  val apiKey:  String,
+  val debug:   Boolean = true) {
   
   // Compatible versions of the PrestaShop Web Service
   val MIN_PRESTASHOP_VERSION = "1.4.0.17"
@@ -77,26 +78,21 @@ class PrestaShopWebService(
    * @return A tuple containing the response code, body and header
    */
   protected def execute(
-    url:    String,
-    verb:   String,
-    xml:    Option[Elem],
-    noBody: Boolean = false): Tuple3[Int, String, String] = {
+    request:    HttpUriRequest,
+    xml:        Option[Elem],
+    noBody:     Boolean = false): Tuple3[Int, String, String] = {
 
+    // Create the Http Client and attach authentication
     val httpClient = new DefaultHttpClient
+    httpClient.getCredentialsProvider().setCredentials(
+                    new AuthScope(request.getURI.getHost, request.getURI.getPort),
+                    new UsernamePasswordCredentials(apiKey, ""));
 
-    val httpVerb = verb match {
-      case "POST" => new HttpPost(url)
-      case "HEAD" => new HttpHead(url)
-      case "GET" => new HttpGet(url)
-      case "PUT" => new HttpPut(url)
-      case "DELETE" => new HttpDelete(url)
-    }
-
-    // val response = new BasicResponseHandler
-    // httpClient.execute(httpVerb, response)
+    // Get the response
+    val response = httpClient.execute(request)
 
     // Debug
-    println("URL is: " + url)
+    println("URL is: " + request.getURI)
     val (code, body, header) = (200, "BODY", "HEADER")
 
     return (check(code), body, header) // Return salient data a tuple, checking the status code as we do so
@@ -167,7 +163,7 @@ class PrestaShopWebService(
    * @return XML response from Web Service
    */
   def addURL(url: String, xml: Elem): Elem = {
-    parse(execute(url, "POST", Some(xml))._2) // Execute the API call, parse the body (2nd item in tuple) and return the parsed XML
+    parse(execute(new HttpPost(url), Some(xml))._2) // Execute the API call, parse the body (2nd item in tuple) and return the parsed XML
   }
 
   /**
@@ -211,7 +207,7 @@ class PrestaShopWebService(
    * @return XML response from the Web Service
    */
   def getURL(url: String): Elem = {
-    parse(execute(url, "GET", None)._2) // Execute the API call, parse the body (2nd item in tuple) and return the parsed XML
+    parse(execute(new HttpGet(url), None)._2) // Execute the API call, parse the body (2nd item in tuple) and return the parsed XML
   }
 
   /**
@@ -265,7 +261,7 @@ class PrestaShopWebService(
    * @return Header from Web Service's response
    */
   def headURL(url: String): String = {
-    execute(url, "HEAD", None, noBody = true)._3 // Return the header (3rd item in execute's return tuple)
+    execute(new HttpHead(url), None, noBody = true)._3 // Return the header (3rd item in execute's return tuple)
   }
 
   /**
@@ -286,7 +282,7 @@ class PrestaShopWebService(
    * @return XML response from Web Service
    */
   def editURL(url: String, xml: Elem): Elem = {
-    parse(execute(url, "PUT", Some(xml))._2) // Execute the API call, parse the body (2nd item in tuple) and return the parsed XML
+    parse(execute(new HttpPut(url), Some(xml))._2) // Execute the API call, parse the body (2nd item in tuple) and return the parsed XML
   }
 
   /**
@@ -314,7 +310,7 @@ class PrestaShopWebService(
    * @param url A URL which explicitly sets resource type and resource ID
    */
   def deleteURL(url: String) {
-    execute(url, "DELETE", None)
+    execute(new HttpDelete(url), None)
   }
 }
 
