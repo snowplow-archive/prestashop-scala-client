@@ -1,19 +1,19 @@
-/* Distributed as part of scalapac, an Amazon Product API client for Scala.
+/* Distributed as part of prestasac, an Amazon Product API client for Scala.
  *
  * Copyright (c) 2011 Alex Dean
  *
- * scalapac is free software: you can redistribute it and/or modify
+ * prestasac is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation, either version 3 of
  * the License, or (at your option) any later version.
  *
- * scalapac is distributed in the hope that it will be useful,
+ * prestasac is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public
- * License along with scalapac. If not, see <http://www.gnu.org/licenses/>.
+ * License along with prestasac. If not, see <http://www.gnu.org/licenses/>.
  */
 import co.orderly.prestasac.PrestaShopWebService
 
@@ -31,9 +31,9 @@ object ExampleOperations {
       debug   = true
     )
 
-    println(api.head("products"))
+    // println(api.head("products"))
 
-    println(api.head("products", 1))
+    // println(api.head("products", 1))
 
     println(api.get("products", 1))
   }

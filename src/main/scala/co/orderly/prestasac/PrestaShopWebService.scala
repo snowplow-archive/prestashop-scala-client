@@ -19,6 +19,7 @@ package co.orderly.prestasac
 
 import _root_.java.net.URLEncoder
 
+import org.apache.http.StatusLine
 import org.apache.http.message._
 import org.apache.http.auth._
 import org.apache.http.client._
@@ -49,25 +50,23 @@ class PrestaShopWebService(
   if (!apiURL.matches(".*/")) apiURL += "/"
 
   /**
-   * Take the status code and throw an exception if the server didn't return 200 or 201 code
-   * @param statusCode Status code of an HTTP return
+   * Check the response status and throw an exception if the server didn't return 200 or 201 code
+   * @param status Status of the response
+   * @return Status code
    */
-  protected def check(statusCode: Int): Int = {
+  protected def check(status: StatusLine): Int = {
 
-    // TODO: replace all this
+    val code = status.getStatusCode
 
-    val error = "This call to the PrestaShop Web Service failed and returned an HTTP status of %d. That means: %s.";
-
-    statusCode match {
-      case 200 => statusCode
-      case 201 => statusCode
-      case 204 => throw new PrestaShopWebServiceException(error.format(statusCode, "No content"))
-      case 400 => throw new PrestaShopWebServiceException(error.format(statusCode, "Bad request"))
-      case 401 => throw new PrestaShopWebServiceException(error.format(statusCode, "Unauthorized"))
-      case 404 => throw new PrestaShopWebServiceException(error.format(statusCode, "Not found"))
-      case 405 => throw new PrestaShopWebServiceException(error.format(statusCode, "Method not allowed"))
-      case 500 => throw new PrestaShopWebServiceException(error.format(statusCode, "Internal server error"))
-      case _   => throw new PrestaShopWebServiceException("This call to the PrestaShop Web Service returned an unexpected HTTP status of: %d.".format(statusCode))
+    // Returns code if 200 or 201, otherwise throws an exception
+    code match {
+      case 200 => code
+      case 201 => code
+      case _   => throw new PrestaShopWebServiceException(
+        "This call to the PrestaShop Web Service failed and returned an HTTP status of %d. That means: %s.".format(
+          code, status.getReasonPhrase
+        )
+      )
     }
   }
 
@@ -88,14 +87,35 @@ class PrestaShopWebService(
                     new AuthScope(request.getURI.getHost, request.getURI.getPort),
                     new UsernamePasswordCredentials(apiKey, ""));
 
+    // Debug prints
+    if (debug) {
+      println("URL requested is: " + request.getURI)
+      if (xml.isDefined) {
+        // val ppr = new scala.xml.PrettyPrinter(80,2)
+        // println("XML sent is: " + ppr.format(xml))
+      }
+    }
+
     // Get the response
     val response = httpClient.execute(request)
 
-    // Debug
-    println("URL is: " + request.getURI)
-    val (code, body, header) = (200, "BODY", "HEADER")
+    // Get and check the status code
+    val code = check(response.getStatusLine())
 
-    return (check(code), body, header) // Return salient data a tuple, checking the status code as we do so
+    // Get the headers
+    val header = response.getAllHeaders().mkString("\n")
+
+    val data = response.getEntity().getContent()
+    val xmlNew = XML.load(data)
+    val ppr = new scala.xml.PrettyPrinter(80,2)
+    println(ppr.format(xmlNew))
+
+    // Get the body
+    // val body = response.
+
+    val body = "BODY"
+
+    return (code, body, header) // Return salient data a tuple, checking the status code as we do so
   }
 
   /**
@@ -129,7 +149,7 @@ class PrestaShopWebService(
   protected def validate(params: Map[String, String]): Map[String, String] = {
 
     params.map(
-      (param) => if (!(Array("filter", "display", "sort", "limit") contains param._1) )
+      (param) => if (!(List("filter", "display", "sort", "limit") contains param._1) )
         throw new PrestaShopWebServiceException("Parameter %s is not supported".format(param._1))
     )
     return params
@@ -172,6 +192,7 @@ class PrestaShopWebService(
    * @param id Resource ID to retrieve
    * @return XML response from Web Service
    */
+  // TODO: add support for optional ID
   def get(resource: String, id: Int): Elem = {
     get(resource, id, None)
   }
@@ -183,6 +204,7 @@ class PrestaShopWebService(
    * @param params Map of parameters (one or more of 'filter', 'display', 'sort', 'limit')
    * @return XML response from Web Service
    */
+  // TODO: add support for optional ID
   def get(resource: String, id: Int, params: Map[String, String]): Elem = {
     get(resource, id, Some(params))
   }
@@ -194,9 +216,10 @@ class PrestaShopWebService(
    * @param params Optional Map of parameters (one or more of 'filter', 'display', 'sort', 'limit')
    * @return XML response from Web Service
    */
+  // TODO: add support for optional ID
   protected def get(resource: String, id: Int, params: Option[Map[String, String]]): Elem = {
     getURL(
-      apiURL + resource + "?" +
+      apiURL + resource + "/" + id + "?" +
       (if (params.isDefined) canonicalize(validate(params.get)) else "")
     )
   }
