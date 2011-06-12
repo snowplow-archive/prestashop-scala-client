@@ -19,6 +19,10 @@ package co.orderly.prestasac
 
 import _root_.java.net.URLEncoder
 
+import org.apache.http.client._
+import org.apache.http.client.methods._
+import org.apache.http.impl.client._
+
 import scala.xml._
 
 /**
@@ -72,7 +76,18 @@ class PrestaShopWebService(
     xml:    Option[Elem],
     noBody: Boolean = false): Tuple3[Int, String, String] = {
 
-    // TODO
+    val httpClient = new DefaultHttpClient
+
+    val httpVerb = verb match {
+      case "POST" => new HttpPost(url)
+      case "HEAD" => new HttpHead(url)
+      case "GET" => new HttpGet(url)
+      case "PUT" => new HttpPut(url)
+      case "DELETE" => new HttpDelete(url)
+    }
+
+    val response = new BasicResponseHandler
+    httpClient.execute(httpVerb, response)
 
     // Debug
     println("URL is: " + url)
