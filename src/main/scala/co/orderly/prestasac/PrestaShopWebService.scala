@@ -71,7 +71,7 @@ class PrestaShopWebService(
   }
 
   /**
-   * Handles an HTTP request to PrestaShop Web Service. Uses HttpClient. Can throw a PrestaShopWebServiceException
+   * Handles an HTTP request to PrestaShop Web Service. Uses Apache HttpClient
    * @param url Resource to request
    * @param args Parameters to configure the HTTP request
    * @return A tuple containing the response code, body and header
@@ -79,43 +79,35 @@ class PrestaShopWebService(
   protected def execute(
     request:    HttpUriRequest,
     xml:        Option[Elem],
-    noBody:     Boolean = false): Tuple3[Int, String, String] = {
+    noBody:     Boolean = false): Tuple3[Int, String, InputStream] = {
+
+    // Debug show the URL we're getting
+    if (debug) Console.println("URL to request: " + request.getURI)
 
     // Create the Http Client and attach authentication
     val httpClient = new DefaultHttpClient
     httpClient.getCredentialsProvider().setCredentials(
-                    new AuthScope(request.getURI.getHost, request.getURI.getPort),
-                    new UsernamePasswordCredentials(apiKey, ""));
+      new AuthScope(request.getURI.getHost, request.getURI.getPort),
+      new UsernamePasswordCredentials(apiKey, "")
+    )
 
-    // Debug prints
-    if (debug) {
-      println("URL requested is: " + request.getURI)
-      if (xml.isDefined) {
-        // val ppr = new scala.xml.PrettyPrinter(80,2)
-        // println("XML sent is: " + ppr.format(xml))
-      }
-    }
 
-    // Get the response
+
+    // TODO
+    // Set no body flag
+
+    // TODO
+    // Pass in XML
+
+
+
+    // Get the response, status code, body and headers
     val response = httpClient.execute(request)
-
-    // Get and check the status code
     val code = check(response.getStatusLine())
-
-    // Get the headers
     val header = response.getAllHeaders().mkString("\n")
-
     val data = response.getEntity().getContent()
-    val xmlNew = XML.load(data)
-    val ppr = new scala.xml.PrettyPrinter(80,2)
-    println(ppr.format(xmlNew))
 
-    // Get the body
-    // val body = response.
-
-    val body = "BODY"
-
-    return (code, body, header) // Return salient data a tuple, checking the status code as we do so
+    return (code, header, body) // Return salient data in a tuple
   }
 
   /**
@@ -130,14 +122,20 @@ class PrestaShopWebService(
       throw new PrestaShopWebServiceException("HTTP XML response is empty")
     } else {
       try {
-        XML.loadString(xml)
+        val xml = XML.loadString(xml)
+        if (debug) {
+          val ppr = new PrettyPrinter(80,2)
+          Console.println("Returned XML: \n" + ppr.format(xml))
+        }
       } catch {
         case e => {
+          if (debug) Console.println("Unparseable XML: \n" + xml)
           e.printStackTrace()
           throw new PrestaShopWebServiceException("HTTP XML response is not parsable")
         }
       }
     }
+    return xml
   }
 
   /**
@@ -230,7 +228,7 @@ class PrestaShopWebService(
    * @return XML response from the Web Service
    */
   def getURL(url: String): Elem = {
-    parse(execute(new HttpGet(url), None)._2) // Execute the API call, parse the body (2nd item in tuple) and return the parsed XML
+    parse(execute(new HttpGet(url), None)._3) // Execute the API call, parse the body (3rd item in tuple) and return the parsed XML
   }
 
   /**
@@ -284,7 +282,7 @@ class PrestaShopWebService(
    * @return Header from Web Service's response
    */
   def headURL(url: String): String = {
-    execute(new HttpHead(url), None, noBody = true)._3 // Return the header (3rd item in execute's return tuple)
+    execute(new HttpHead(url), None, noBody = true)._2 // Return the header (2nd item in execute's return tuple)
   }
 
   /**
@@ -305,7 +303,7 @@ class PrestaShopWebService(
    * @return XML response from Web Service
    */
   def editURL(url: String, xml: Elem): Elem = {
-    parse(execute(new HttpPut(url), Some(xml))._2) // Execute the API call, parse the body (2nd item in tuple) and return the parsed XML
+    parse(execute(new HttpPut(url), Some(xml))._3) // Execute the API call, parse the body (3rd item in tuple) and return the parsed XML
   }
 
   /**
