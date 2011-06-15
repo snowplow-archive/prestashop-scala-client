@@ -44,7 +44,7 @@ class PrestaShopWebservice
 	
 	/** @var array compatible versions of PrestaShop Webservice */
 	const psCompatibleVersionsMin = '1.4.0.17';
-	const psCompatibleVersionsMax = '1.4.2.3';
+	const psCompatibleVersionsMax = '1.4.3.0';
 	
 	/**
 	 * PrestaShopWebservice constructor. Throw an exception when CURL is not installed/activated
@@ -73,6 +73,7 @@ class PrestaShopWebservice
 		$this->key = $key;
 		$this->debug = $debug;
 	}
+	
 	/**
 	 * Take the status code and throw an exception if the server didn't return 200 or 201 code
 	 * @param int $status_code Status code of an HTTP return
@@ -82,7 +83,7 @@ class PrestaShopWebservice
 		$error_label = 'This call to PrestaShop Web Services failed and returned an HTTP status of %d. That means: %s.';
 		switch($status_code)
 		{
-			case 200:case 201:break;
+			case 200:	case 201:	break;
 			case 204: throw new PrestaShopWebserviceException(sprintf($error_label, $status_code, 'No content'));break;
 			case 400: throw new PrestaShopWebserviceException(sprintf($error_label, $status_code, 'Bad Request'));break;
 			case 401: throw new PrestaShopWebserviceException(sprintf($error_label, $status_code, 'Unauthorized'));break;
@@ -199,8 +200,7 @@ class PrestaShopWebservice
 	 * Add (POST) a resource
 	 * <p>Unique parameter must take : <br><br>
 	 * 'resource' => Resource name<br>
-	 * 'postXml' => Full XML string to add resource<br>
-	 * 'id' => Resource ID<br><br>
+	 * 'postXml' => Full XML string to add resource<br><br>
 	 * Examples are given in the tutorial</p>
 	 * @param array $options
 	 * @return SimpleXMLElement status_code, response
@@ -208,17 +208,16 @@ class PrestaShopWebservice
 	public function add($options)
 	{
 		$xml = '';
-		if (isset($options['url']))
-			$url = $options['url'];
-		elseif (isset($options['resource']) && isset($options['postXml']))
+
+		if (isset($options['resource'], $options['postXml']) || isset($options['url'], $options['postXml']))
 		{
-			$url = $this->url.'/api/'.$options['resource'];
+			$url = (isset($options['resource']) ? $this->url.'/api/'.$options['resource'] : $options['url']);
 			$xml = $options['postXml'];
 		}
 		else
 			throw new PrestaShopWebserviceException('Bad parameters given');
-		// die($xml);
 		$request = self::executeRequest($url, array(CURLOPT_CUSTOMREQUEST => 'POST', CURLOPT_POSTFIELDS => 'xml='.$xml));
+
 		self::checkStatusCode($request['status_code']);
 		return self::parseXML($request['response']);
 	}
@@ -324,9 +323,9 @@ class PrestaShopWebservice
 		$xml = '';
 		if (isset($options['url']))
 			$url = $options['url'];
-		elseif (isset($options['resource'], $options['putXml'], $options['id']))
+		elseif ((isset($options['resource'], $options['id']) || isset($options['url'])) && $options['putXml'])
 		{
-			$url = $this->url.'/api/'.$options['resource'].'/'.$options['id'];
+			$url = (isset($options['url']) ? $options['url'] : $this->url.'/api/'.$options['resource'].'/'.$options['id']);
 			$xml = $options['putXml'];
 		}
 		else
