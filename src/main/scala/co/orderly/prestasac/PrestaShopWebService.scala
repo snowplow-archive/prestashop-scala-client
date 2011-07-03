@@ -187,12 +187,30 @@ class PrestaShopWebService(
   /**
    * Retrieve (GET) a resource, self-assembly version without parameters
    * @param resource Type of resource to retrieve
+   * @return XML response from Web Service
+   */
+  def get(resource: String): Elem = {
+    get(resource, None, None)
+  }
+
+  /**
+   * Retrieve (GET) a resource, self-assembly version with parameters
+   * @param resource Type of resource to retrieve
+   * @param params Map of parameters (one or more of 'filter', 'display', 'sort', 'limit')
+   * @return XML response from Web Service
+   */
+  def get(resource: String, params: Map[String, String]): Elem = {
+    get(resource, None, Some(params))
+  }
+
+  /**
+   * Retrieve (GET) a resource, self-assembly version without parameters
+   * @param resource Type of resource to retrieve
    * @param id Resource ID to retrieve
    * @return XML response from Web Service
    */
-  // TODO: add support for optional ID
   def get(resource: String, id: Int): Elem = {
-    get(resource, id, None)
+    get(resource, Some(id), None)
   }
 
   /**
@@ -202,23 +220,22 @@ class PrestaShopWebService(
    * @param params Map of parameters (one or more of 'filter', 'display', 'sort', 'limit')
    * @return XML response from Web Service
    */
-  // TODO: add support for optional ID
   def get(resource: String, id: Int, params: Map[String, String]): Elem = {
-    get(resource, id, Some(params))
+    get(resource, Some(id), Some(params))
   }
 
   /**
    * Retrieve (GET) a resource, helper version using Options
    * @param resource Type of resource to retrieve
-   * @param id Resource ID to retrieve
+   * @param id Optional resource ID to retrieve
    * @param params Optional Map of parameters (one or more of 'filter', 'display', 'sort', 'limit')
    * @return XML response from Web Service
    */
-  // TODO: add support for optional ID
-  protected def get(resource: String, id: Int, params: Option[Map[String, String]]): Elem = {
+  protected def get(resource: String, id: Option[Int], params: Option[Map[String, String]]): Elem = {
     getURL(
-      apiURL + resource + "/" + id + "?" +
-      (if (params.isDefined) canonicalize(validate(params.get)) else "")
+      apiURL + resource +
+      (if (id.isDefined) "/%i".format(id.get) else "") +
+      (if (params.isDefined) "?%s".format(canonicalize(validate(params.get))) else "")
     )
   }
 
@@ -271,8 +288,8 @@ class PrestaShopWebService(
   protected def head(resource: String, id: Option[Int] = None, params: Option[Map[String, String]]): String = {
     headURL(
       apiURL + resource +
-      (if (id.isDefined) "/" + id.get else "") + "?" +
-      (if (params.isDefined) canonicalize(validate(params.get)) else "")
+      (if (id.isDefined) "/%i".format(id.get) else "") +
+      (if (params.isDefined) "?%s".format(canonicalize(validate(params.get))) else "")
     )
   }
 
