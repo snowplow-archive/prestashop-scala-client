@@ -32,7 +32,6 @@ object ExampleOperations {
     )
 
     // println(api.head("products"))
-
     // println(api.head("products", 1))
 
     println(api.get("products", 1))
