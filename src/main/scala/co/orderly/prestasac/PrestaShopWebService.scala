@@ -89,21 +89,20 @@ class PrestaShopWebService(
       new UsernamePasswordCredentials(apiKey, "")
     )
 
-
-
-    // TODO
     // Set no body flag
-
     // TODO
+
     // Pass in XML
-
-
+    // TODO
 
     // Get the response, status code, body and headers
     val response = httpClient.execute(request)
     val code = check(response.getStatusLine())
     val header = response.getAllHeaders().mkString("\n")
     val data = response.getEntity().getContent()
+
+    // Check this client supports this API version
+    // TODO
 
     // Debug show the response code, header and body
     if (debug) Console.println("Response code: %s\nResponse headers:\n%s\nResponse body:%s".format(code, header, data))
