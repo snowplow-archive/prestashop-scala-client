@@ -27,7 +27,7 @@ object ExampleOperations {
   def main(args: Array[String]) {
 
     // Update this with your Amazon credentials before running
-    val api = new PrestaShopWebService(
+val api = new PrestaShopWebService(
       apiURL  = "[YOUR PRESTASHOP API URL HERE]",
       apiKey  = "[YOUR PRESTASHOP AUTHENTICATION KEY HERE]",
       debug   = true
@@ -36,6 +36,6 @@ object ExampleOperations {
     // println(api.head("products"))
     // println(api.head("products", 1))
 
-    val xml = api.get("products", 1)
+    val xml = api.get("products", 11)
   }
 }

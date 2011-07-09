@@ -29,7 +29,7 @@ import org.apache.http.client.utils.URLEncodedUtils
 import org.apache.http.impl.client._
 
 import scalaj.collection.Imports._
-
+import scala.io.Source
 import scala.xml._
 
 /**
@@ -80,7 +80,7 @@ class PrestaShopWebService(
   protected def execute(
     request:    HttpUriRequest,
     xml:        Option[Elem],
-    noBody:     Boolean = false): Tuple3[Int, String, InputStream] = {
+    noBody:     Boolean = false): Tuple3[Int, String, String] = {
 
     // Create the Http Client and attach authentication
     val httpClient = new DefaultHttpClient
@@ -99,13 +99,13 @@ class PrestaShopWebService(
     val response = httpClient.execute(request)
     val code = check(response.getStatusLine())
     val header = response.getAllHeaders().mkString("\n")
-    val data = response.getEntity().getContent()
+    val data = Source.fromInputStream(response.getEntity().getContent()).mkString
 
     // Check this client supports this API version
     // TODO
 
     // Debug show the response code, header and body
-    if (debug) Console.println("Response code: %s\nResponse headers:\n%s\nResponse body:%s".format(code, header, data))
+    if (debug) Console.println("Response code: %s\nResponse headers:\n%s\nResponse body:\n%s".format(code, header, data))
 
     return (code, header, data) // Return salient data in a tuple
   }
@@ -116,24 +116,23 @@ class PrestaShopWebService(
    * @param xml The XML string to parse
    * @return The parsed XML in an Elem ready to work with
    */
-  protected def parse(xml: InputStream): Elem = {
+  protected def parse(xml: String): Elem = {
 
-    if (xml.available() == 0) {
-      throw new PrestaShopWebServiceException("HTTP XML response is empty")
-    } else {
-      try {
-        val parsedXML = XML.load(xml)
+    xml match  {
+      case "" => throw new PrestaShopWebServiceException("HTTP XML response is empty")
+      case _ => try {
+        val parsedXML = XML.loadString(xml)
         if (debug) {
           val ppr = new PrettyPrinter(80,2)
           Console.println("Parsed XML: \n" + ppr.format(parsedXML))
         }
         parsedXML // Return it
-      } catch {
-        case e => {
-          e.printStackTrace()
-          throw new PrestaShopWebServiceException("HTTP XML response is not parsable")
+        } catch {
+          case e => {
+            e.printStackTrace()
+            throw new PrestaShopWebServiceException("HTTP XML response is not parsable")
+          }
         }
-      }
     }
   }
 
