@@ -89,17 +89,20 @@ class PrestaShopWebService(
       new UsernamePasswordCredentials(apiKey, "")
     )
 
-    // Set no body flag
-    // TODO
-
     // Pass in XML
     // TODO
 
-    // Get the response, status code, body and headers
+    // Get the response, status code and headers
     val response = httpClient.execute(request)
     val code = check(response.getStatusLine())
     val header = response.getAllHeaders().mkString("\n")
-    val data = Source.fromInputStream(response.getEntity().getContent()).mkString
+
+    // Now get the response body if we have one (is there a more elegant way of doing this?)
+    val responseEntity = Option(response.getEntity())
+    val data = responseEntity match {
+      case None => ""
+      case _ => Source.fromInputStream(responseEntity.get.getContent()).mkString
+    }
 
     // Check this client supports this API version
     // TODO
@@ -118,7 +121,7 @@ class PrestaShopWebService(
    */
   protected def parse(xml: String): Elem = {
 
-    xml match  {
+    xml match {
       case "" => throw new PrestaShopWebServiceException("HTTP XML response is empty")
       case _ => try {
         val parsedXML = XML.loadString(xml)
@@ -256,7 +259,7 @@ class PrestaShopWebService(
   }
 
   /**
-   * Head (HEAD) an individual resource or all resources of a type, self-assembly version
+   * Head (HEAD) all resources of a type, self-assembly version
    * @param resource Type of resource to head
    * @return Header from Web Service's response
    */
@@ -265,7 +268,7 @@ class PrestaShopWebService(
   }
 
   /**
-   * Head (HEAD) an individual resource or all resources of a type, self-assembly version
+   * Head (HEAD) an individual resource, self-assembly version
    * @param resource Type of resource to head
    * @param id Resource ID to head (if not provided, head all resources of this type)
    * @return Header from Web Service's response
@@ -275,7 +278,7 @@ class PrestaShopWebService(
   }
 
   /**
-   * Head (HEAD) an individual resource or all resources of a type, self-assembly version
+   * Head (HEAD) an individual resource with parameters, self-assembly version
    * @param resource Type of resource to head
    * @param id Resource ID to head (if not provided, head all resources of this type)
    * @param params Map of parameters (one or more of 'filter', 'display', 'sort', 'limit')
@@ -286,7 +289,7 @@ class PrestaShopWebService(
   }
 
   /**
-   * Head (HEAD) an individual resource or all resources of a type, helper version using Options
+   * Head (HEAD) an individual resource or all resources of a type with possible parameters, helper version using Options
    * @param resource Type of resource to head
    * @param id Optional resource ID to head (if not provided, head all resources of this type)
    * @param params Optional Map of parameters (one or more of 'filter', 'display', 'sort', 'limit')
