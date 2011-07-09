@@ -82,9 +82,6 @@ class PrestaShopWebService(
     xml:        Option[Elem],
     noBody:     Boolean = false): Tuple3[Int, String, InputStream] = {
 
-    // Debug show the URL we're getting
-    if (debug) Console.println("Request URL: " + request.getURI)
-
     // Create the Http Client and attach authentication
     val httpClient = new DefaultHttpClient
     httpClient.getCredentialsProvider().setCredentials(
@@ -168,6 +165,15 @@ class PrestaShopWebService(
   }
 
   /**
+   * Debug method to print out the request URL
+   * @param url Url to print out
+   */
+  protected def print(url: String): String = {
+    if (debug) Console.println("Request URL: " + url)
+    url // Return URL so we can include this inline
+  }
+
+  /**
    * Add (POST) a resource, self-assembly version
    * @param resource Type of resource to add
    * @param xml Full XML of new resource
@@ -184,7 +190,7 @@ class PrestaShopWebService(
    * @return XML response from Web Service
    */
   def addURL(url: String, xml: Elem): Elem = {
-    parse(execute(new HttpPost(url), Some(xml))._3) // Execute the API call, parse the body (3rd item in tuple) and return the parsed XML
+    parse(execute(new HttpPost(print(url)), Some(xml))._3) // Execute the API call, parse the body (3rd item in tuple) and return the parsed XML
   }
 
   /**
@@ -237,7 +243,7 @@ class PrestaShopWebService(
   protected def get(resource: String, id: Option[Int], params: Option[Map[String, String]]): Elem = {
     getURL(
       apiURL + resource +
-      (if (id.isDefined) "/%i".format(id.get) else "") +
+      (if (id.isDefined) "/%d".format(id.get) else "") +
       (if (params.isDefined) "?%s".format(canonicalize(validate(params.get))) else "")
     )
   }
@@ -248,7 +254,7 @@ class PrestaShopWebService(
    * @return XML response from the Web Service
    */
   def getURL(url: String): Elem = {
-    parse(execute(new HttpGet(url), None)._3) // Execute the API call, parse the body (3rd item in tuple) and return the parsed XML
+    parse(execute(new HttpGet(print(url)), None)._3) // Execute the API call, parse the body (3rd item in tuple) and return the parsed XML
   }
 
   /**
@@ -291,7 +297,7 @@ class PrestaShopWebService(
   protected def head(resource: String, id: Option[Int] = None, params: Option[Map[String, String]]): String = {
     headURL(
       apiURL + resource +
-      (if (id.isDefined) "/%i".format(id.get) else "") +
+      (if (id.isDefined) "/%d".format(id.get) else "") +
       (if (params.isDefined) "?%s".format(canonicalize(validate(params.get))) else "")
     )
   }
@@ -302,7 +308,7 @@ class PrestaShopWebService(
    * @return Header from Web Service's response
    */
   def headURL(url: String): String = {
-    execute(new HttpHead(url), None, noBody = true)._2 // Return the header (2nd item in execute's return tuple)
+    execute(new HttpHead(print(url)), None, noBody = true)._2 // Return the header (2nd item in execute's return tuple)
   }
 
   /**
@@ -323,7 +329,7 @@ class PrestaShopWebService(
    * @return XML response from Web Service
    */
   def editURL(url: String, xml: Elem): Elem = {
-    parse(execute(new HttpPut(url), Some(xml))._3) // Execute the API call, parse the body (3rd item in tuple) and return the parsed XML
+    parse(execute(new HttpPut(print(url)), Some(xml))._3) // Execute the API call, parse the body (3rd item in tuple) and return the parsed XML
   }
 
   /**
@@ -351,7 +357,7 @@ class PrestaShopWebService(
    * @param url A URL which explicitly sets resource type and resource ID
    */
   def deleteURL(url: String) {
-    execute(new HttpDelete(url), None)
+    execute(new HttpDelete(print(url)), None)
   }
 }
 

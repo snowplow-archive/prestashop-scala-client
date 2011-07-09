@@ -17,6 +17,8 @@
  */
 import co.orderly.prestasac.PrestaShopWebService
 
+import scala.xml._
+
 /**
  * Simple console example of an Amazon Product API call using scalapac
  */
@@ -34,6 +36,6 @@ object ExampleOperations {
     // println(api.head("products"))
     // println(api.head("products", 1))
 
-    println(api.get("products", 1))
+    val xml = api.get("products", 1)
   }
 }
