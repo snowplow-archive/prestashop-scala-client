@@ -18,6 +18,7 @@
 package co.orderly.prestasac
 
 import _root_.java.net.URLEncoder
+import _root_.java.io.InputStream
 
 import org.apache.http.StatusLine
 import org.apache.http.message._
@@ -82,7 +83,7 @@ class PrestaShopWebService(
     noBody:     Boolean = false): Tuple3[Int, String, InputStream] = {
 
     // Debug show the URL we're getting
-    if (debug) Console.println("URL to request: " + request.getURI)
+    if (debug) Console.println("Request URL: " + request.getURI)
 
     // Create the Http Client and attach authentication
     val httpClient = new DefaultHttpClient
@@ -107,7 +108,10 @@ class PrestaShopWebService(
     val header = response.getAllHeaders().mkString("\n")
     val data = response.getEntity().getContent()
 
-    return (code, header, body) // Return salient data in a tuple
+    // Debug show the response code, header and body
+    if (debug) Console.println("Response code: %s\nResponse headers:\n%s\nResponse body:%s".format(code, header, data))
+
+    return (code, header, data) // Return salient data in a tuple
   }
 
   /**
@@ -116,26 +120,25 @@ class PrestaShopWebService(
    * @param xml The XML string to parse
    * @return The parsed XML in an Elem ready to work with
    */
-  protected def parse(xml: String): Elem = {
+  protected def parse(xml: InputStream): Elem = {
 
-    if (xml.isEmpty) {
+    if (xml.available() == 0) {
       throw new PrestaShopWebServiceException("HTTP XML response is empty")
     } else {
       try {
-        val xml = XML.loadString(xml)
+        val parsedXML = XML.load(xml)
         if (debug) {
           val ppr = new PrettyPrinter(80,2)
-          Console.println("Returned XML: \n" + ppr.format(xml))
+          Console.println("Parsed XML: \n" + ppr.format(parsedXML))
         }
+        parsedXML // Return it
       } catch {
         case e => {
-          if (debug) Console.println("Unparseable XML: \n" + xml)
           e.printStackTrace()
           throw new PrestaShopWebServiceException("HTTP XML response is not parsable")
         }
       }
     }
-    return xml
   }
 
   /**
@@ -181,7 +184,7 @@ class PrestaShopWebService(
    * @return XML response from Web Service
    */
   def addURL(url: String, xml: Elem): Elem = {
-    parse(execute(new HttpPost(url), Some(xml))._2) // Execute the API call, parse the body (2nd item in tuple) and return the parsed XML
+    parse(execute(new HttpPost(url), Some(xml))._3) // Execute the API call, parse the body (3rd item in tuple) and return the parsed XML
   }
 
   /**
