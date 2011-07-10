@@ -37,7 +37,6 @@ There are a few differences from the PHP library, PSWebServiceLibrary.php:
 
 * prestasac needs the API URL for configuration, not the shop URL. Passing a trailing slash on the API URL is optional
 * Rather than internally-overloaded methods taking generic parameters, prestasac has different methods for each possible set of parameters
-* When you pass in a URL, you just pass in the path, not the full domain
 
 #Forking 
 

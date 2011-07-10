@@ -18,6 +18,8 @@
 import co.orderly.prestasac.PrestaShopWebService
 
 import scala.xml._
+import scala.xml.parsing._
+import scala.io.Source
 
 /**
  * Simple console example of an Amazon Product API call using scalapac
@@ -34,9 +36,25 @@ object ExampleOperations {
     )
 
     // Run some quick checks
-    val x = api.get("products", 11)
-    val y = api.head("products", 11) // Doesn't seem to work
+    api.get("products", 11)
+    api.head("products", 11) // Doesn't seem to work
 
-    val z = api.get("stock_movements?schema=synopsis")
+    api.getURL("http://test.psychicbazaar.com/api/stock_movements?schema=synopsis")
+
+    api.get("stock_movement_reasons/2")
+    val newStockMovementReason =
+      <prestashop xmlns:xlink="http://www.w3.org/1999/xlink">
+        <stock_mvt_reason>
+          <name>
+            <language id="1">Synchronisation via API</language>
+            <language id="2">Synchronisation via API</language>
+            <language id="3">Synchronisation via API</language>
+            <language id="4">Synchronisation via API</language>
+            <language id="5">Synchronisation via API</language>
+          </name>
+        </stock_mvt_reason>
+      </prestashop>
+
+    api.add("stock_movement_reasons", newStockMovementReason)
   }
 }

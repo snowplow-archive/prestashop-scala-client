@@ -27,7 +27,9 @@ import org.apache.http.params._
 import org.apache.http.client._
 import org.apache.http.client.methods._
 import org.apache.http.client.utils.URLEncodedUtils
+import org.apache.http.client.entity.UrlEncodedFormEntity
 import org.apache.http.impl.client._
+import org.apache.http.protocol.HTTP
 
 import org.apache.maven.artifact.versioning.DefaultArtifactVersion
 
@@ -48,7 +50,7 @@ class PrestaShopWebService(
   val MAX_API_VERSION = new DefaultArtifactVersion("1.4.3.0")
 
   // For URL encoding
-  val UTF8_CHARSET = "UTF-8";
+  val CHARSET = HTTP.UTF_8;
 
   // Append a trailing slash to the API URL if there isn't one
   if (!apiURL.matches(".*/")) apiURL += "/"
@@ -81,8 +83,10 @@ class PrestaShopWebService(
    * @return A tuple containing the response code, body and header
    */
   protected def execute(
-    request:    HttpUriRequest,
+    request:    HttpRequestBase,
     xml:        Option[Elem]): Tuple3[Int, String, Option[String]] = {
+
+    if (debug) Console.println("Request method: " + request.getMethod())
 
     // Create the Http Client and attach authentication
     val httpClient = new DefaultHttpClient
@@ -92,10 +96,9 @@ class PrestaShopWebService(
     )
 
     // Pass in XML - how we pass it in depends on whether it's a POST or PUT
-    val params = new BasicHttpParams
     request match {
-      case r:HttpPut => params.setParameter("", xml.toString())
-      case r:HttpPost => params.setParameter("xml", xml.toString())
+      case r:HttpPut => r.setEntity(encodeXML("", xml.get))
+      case r:HttpPost => r.setEntity(encodeXML("xml", xml.get))
       case _ =>
     }
 
@@ -127,6 +130,20 @@ class PrestaShopWebService(
 
     return (code, header, data) // Return salient data in a tuple
   }
+
+  /**
+   * Constructs the encoded form to either PUT or POST the XML
+   * @param param The name to assign the XML parameter
+   * @param xml The XML to add to the form
+   * @return The encoded form entity for inclusion in the request
+   */
+  protected def encodeXML(param: String, xml: Elem): UrlEncodedFormEntity = {
+
+    val params = Array[BasicNameValuePair] (new BasicNameValuePair(param, xml.toString()))
+    return new UrlEncodedFormEntity(params.toSeq.asJava, CHARSET);
+  }
+
+  //
 
   /**
    * Loads an XML into an Elem from a String
@@ -178,7 +195,7 @@ class PrestaShopWebService(
   protected def canonicalize(params: Map[String, String]): String = {
 
     val nameValues = params.map { param => new BasicNameValuePair(param._1, param._2) }
-    URLEncodedUtils.format(nameValues.toSeq.asJava, UTF8_CHARSET)
+    URLEncodedUtils.format(nameValues.toSeq.asJava, CHARSET)
   }
 
   /**
