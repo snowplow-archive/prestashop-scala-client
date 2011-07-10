@@ -28,6 +28,8 @@ import org.apache.http.client.methods._
 import org.apache.http.client.utils.URLEncodedUtils
 import org.apache.http.impl.client._
 
+import org.apache.maven.artifact.versioning.DefaultArtifactVersion
+
 import scalaj.collection.Imports._
 import scala.io.Source
 import scala.xml._
@@ -40,9 +42,9 @@ class PrestaShopWebService(
   val apiKey:  String,
   val debug:   Boolean = true) {
   
-  // Compatible versions of the PrestaShop Web Service
-  val MIN_PRESTASHOP_VERSION = "1.4.0.17"
-  val MAX_PRESTASHOP_VERSION = "1.4.2.3"
+  // Versions of the PrestaShop Web Service supported by this client library
+  val MIN_API_VERSION = new DefaultArtifactVersion("1.4.0.17")
+  val MAX_API_VERSION = new DefaultArtifactVersion("1.4.3.0")
 
   // For URL encoding
   val UTF8_CHARSET = "UTF-8";
@@ -105,7 +107,15 @@ class PrestaShopWebService(
     }
 
     // Check this client supports this API version
-    // TODO
+    val versionHeaders = response.getHeaders("PSWS-Version")
+    if (versionHeaders.length == 1) {
+      val version = new DefaultArtifactVersion(versionHeaders(0).getValue())
+      if (version.compareTo(MIN_API_VERSION) == -1 || version.compareTo(MAX_API_VERSION) == 1) {
+        throw new PrestaShopWebServiceException(
+          "This library is not compatible with this version of PrestaShop (%s). Please upgrade/downgrade this library.".format(version.toString())
+        )
+      }
+    }
 
     // Debug show the response code, header and body
     if (debug) Console.println("Response code: %s\nResponse headers:\n%s\nResponse body:\n%s".format(code, header, data))
