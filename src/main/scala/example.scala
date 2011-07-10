@@ -34,7 +34,9 @@ object ExampleOperations {
     )
 
     // Run some quick checks
-    val xml = api.get("products", 11)
-    val text = api.head("products", 11)
+    val x = api.get("products", 11)
+    val y = api.head("products", 11) // Doesn't seem to work
+
+    val z = api.get("stock_movements?schema=synopsis")
   }
 }

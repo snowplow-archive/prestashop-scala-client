@@ -23,6 +23,7 @@ import _root_.java.io.InputStream
 import org.apache.http.StatusLine
 import org.apache.http.message._
 import org.apache.http.auth._
+import org.apache.http.params._
 import org.apache.http.client._
 import org.apache.http.client.methods._
 import org.apache.http.client.utils.URLEncodedUtils
@@ -81,8 +82,7 @@ class PrestaShopWebService(
    */
   protected def execute(
     request:    HttpUriRequest,
-    xml:        Option[Elem],
-    noBody:     Boolean = false): Tuple3[Int, String, String] = {
+    xml:        Option[Elem]): Tuple3[Int, String, Option[String]] = {
 
     // Create the Http Client and attach authentication
     val httpClient = new DefaultHttpClient
@@ -91,19 +91,24 @@ class PrestaShopWebService(
       new UsernamePasswordCredentials(apiKey, "")
     )
 
-    // Pass in XML
-    // TODO
+    // Pass in XML - how we pass it in depends on whether it's a POST or PUT
+    val params = new BasicHttpParams
+    request match {
+      case r:HttpPut => params.setParameter("", xml.toString())
+      case r:HttpPost => params.setParameter("xml", xml.toString())
+      case _ =>
+    }
 
     // Get the response, status code and headers
     val response = httpClient.execute(request)
     val code = check(response.getStatusLine())
     val header = response.getAllHeaders().mkString("\n")
 
-    // Now get the response body if we have one (is there a more elegant way of doing this?)
+    // Now get the response body if we have one
     val responseEntity = Option(response.getEntity())
     val data = responseEntity match {
-      case None => ""
-      case _ => Source.fromInputStream(responseEntity.get.getContent()).mkString
+      case None => None
+      case _ => Option(Source.fromInputStream(responseEntity.get.getContent()).mkString)
     }
 
     // Check this client supports this API version
@@ -118,7 +123,7 @@ class PrestaShopWebService(
     }
 
     // Debug show the response code, header and body
-    if (debug) Console.println("Response code: %s\nResponse headers:\n%s\nResponse body:\n%s".format(code, header, data))
+    if (debug) Console.println("Response code: %s\nResponse headers:\n%s\nResponse body:\n%s".format(code, header, data.getOrElse("")))
 
     return (code, header, data) // Return salient data in a tuple
   }
@@ -129,12 +134,13 @@ class PrestaShopWebService(
    * @param xml The XML string to parse
    * @return The parsed XML in an Elem ready to work with
    */
-  protected def parse(xml: String): Elem = {
+  protected def parse(xml: Option[String]): Elem = {
 
     xml match {
-      case "" => throw new PrestaShopWebServiceException("HTTP XML response is empty")
+      case None => throw new PrestaShopWebServiceException("No HTTP XML response was returned")
+      case Some("") => throw new PrestaShopWebServiceException("HTTP XML response was empty")
       case _ => try {
-        val parsedXML = XML.loadString(xml)
+        val parsedXML = XML.loadString(xml.get)
         if (debug) {
           val ppr = new PrettyPrinter(80,2)
           Console.println("Parsed XML: \n" + ppr.format(parsedXML))
@@ -158,7 +164,7 @@ class PrestaShopWebService(
   protected def validate(params: Map[String, String]): Map[String, String] = {
 
     params.map(
-      (param) => if (!(List("filter", "display", "sort", "limit") contains param._1) )
+      (param) => if (!(List("filter", "display", "sort", "limit", "schema") contains param._1) )
         throw new PrestaShopWebServiceException("Parameter %s is not supported".format(param._1))
     )
     return params
@@ -319,7 +325,7 @@ class PrestaShopWebService(
    * @return Header from Web Service's response
    */
   def headURL(url: String): String = {
-    execute(new HttpHead(print(url)), None, noBody = true)._2 // Return the header (2nd item in execute's return tuple)
+    execute(new HttpHead(print(url)), None)._2 // Return the header (2nd item in execute's return tuple)
   }
 
   /**
