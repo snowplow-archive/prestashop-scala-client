@@ -1,4 +1,4 @@
-/* Distributed as part of prestasac, an Amazon Product API client for Scala.
+/* Distributed as part of prestasac, a Scala client for the PrestaShop Web Service
  *
  * Copyright (c) 2011 Alex Dean
  *

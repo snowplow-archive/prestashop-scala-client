@@ -143,8 +143,6 @@ class PrestaShopWebService(
     return new UrlEncodedFormEntity(params.toSeq.asJava, CHARSET);
   }
 
-  //
-
   /**
    * Loads an XML into an Elem from a String
    * Throws an exception if there is no XML or it won't validate
@@ -173,7 +171,8 @@ class PrestaShopWebService(
   }
 
   /**
-   * Validates that the parameters are all either 'filter', 'display', 'sort' or 'limit'
+   * Validates that the parameters are all either 'filter', 'display', 'sort', 'limit' or 'schema'
+   * Strictly schema isn't a permitted param for HEAD (only GET) but let's leave it
    * Throws a PrestaShopWebServiceException if not
    * @param params Parameters to validate
    * @return The original parameters if everything is okay
