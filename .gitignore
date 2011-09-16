@@ -1,7 +1,7 @@
 .idea/
 .manager/
 workspace.xml
-Prestasac.iml
+*.iml
 bin/
 lib/
 docs/
