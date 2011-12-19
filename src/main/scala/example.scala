@@ -31,13 +31,13 @@ object ExampleOperations {
     // Attach the resources we've defined to the client
     PrestaShopApi.attachClient(client)
 
-    // Try to fetch the XLink list of all products stored in PrestaShop
-    val (retVal, response, isErr) = PrestaShopApi.products.get()
+    // Fetch the XLink list of all products stored in PrestaShop
+    val (retVal, response, isErr) = PrestaShopApi.orders.get()
     if (isErr) {
       Console.println("Error: return code: %s, response body follows below:\n\n%s".format(retVal, response))
       System.exit(1)
     }
-    // Loop through and print out all product IDs
-    response.right.get.toList foreach ( product => Console.println("id = %s".format(product.id)))
+    // Loop through and print out all order IDs
+    response.right.get.toList foreach ( order => Console.println("id = %s".format(order.id)))
   }
 }
