@@ -1,5 +1,8 @@
 package co.orderly.prestasac.representations.wrappers
 
+// Scala
+import scala.reflect.BeanProperty
+
 // JAXB
 import javax.xml.bind.annotation._
 

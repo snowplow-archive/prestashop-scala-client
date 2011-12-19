@@ -10,13 +10,21 @@
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the Apache License Version 2.0 for the specific language governing permissions and limitations there under.
  */
-package co.orderly
+package co.orderly.prestasac
+
+// Narcolepsy
+import orderly.narcolepsy._
+import orderly.narcolepsy.representations.DummyRepresentation // Full path to avoid ambiguity with Prestasac's own representations sub-package
+
+// Prestasac
+import co.orderly.prestasac.representations._
+import wrappers._
 
 /**
- * Provides a class for interacting with PrestaShop Web Service from Scala.
- *
- * ==Overview==
- * TODO
+ * Resource definitions for the Orderly MDM API
  */
-package object prestasac {
+object PrestaShopApi extends Api {
+
+  // Define all the Orderly resources and map them to their Representations
+  val products = resource[DummyRepresentation, ProductList]("products")
 }

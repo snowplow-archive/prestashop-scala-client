@@ -19,20 +19,20 @@ class ProductXLink extends PrestaShopXLink
 
 @XmlType(name = "")
 @XmlRootElement(name = "products")
-class ProductList extends RepresentationWrapper[ProductLink] {
+class ProductList extends RepresentationWrapper[ProductXLink] {
 
-  private var products: Buffer[ProductLink] = ArrayBuffer[ProductLink]()
+  private var products: Buffer[ProductXLink] = ArrayBuffer[ProductXLink]()
 
   @XmlElement(name = "product", required = true)
-  def getProducts: JList[ProductLink] = this.products
+  def getProducts: JList[ProductXLink] = this.products
 
-  def setProducts(products: JList[ProductLink]) {
+  def setProducts(products: JList[ProductXLink]) {
     this.products = products
   }
 
-  def toList: List[ProductLink] = this.products.toList
+  def toList: List[ProductXLink] = this.products.toList
 
-  def fromList(merchants: List[ProductLink]) {
-    this.products = arrayBufferFromList[ProductLink](products)
+  def fromList(products: List[ProductXLink]) {
+    this.products = arrayBufferFromList[ProductXLink](products)
   }
 }
