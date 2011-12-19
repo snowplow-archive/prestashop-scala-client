@@ -23,7 +23,7 @@ object ExampleOperations {
 
   def main(args: Array[String]) {
 
-    // Instantiate the PrestaShop web service client
+    // Instantiate the PrestaShop web service client. Update this with your details before running
     val client = new PrestaShopClient(
       rootUri = "[YOUR PRESTASHOP API URL HERE]",
       username = "[YOUR PRESTASHOP AUTHENTICATION KEY HERE]")
@@ -38,30 +38,6 @@ object ExampleOperations {
       System.exit(1)
     }
     // Loop through and print out all product IDs
-    response.right.get.toList foreach ( product => Console.println(product.id))
-
-    // Update this with your Amazon credentials before running
-    /*
-    // Run some quick checks
-    api.get("products", 11)
-    api.head("products", 11) // Doesn't seem to work
-
-    api.getURL("http://test.psychicbazaar.com/api/stock_movements?schema=synopsis")
-
-    api.get("stock_movement_reasons/2")
-    val newStockMovementReason =
-      <prestashop xmlns:xlink="http://www.w3.org/1999/xlink">
-        <stock_mvt_reason>
-          <name>
-            <language id="1">Synchronisation via API</language>
-            <language id="2">Synchronisation via API</language>
-            <language id="3">Synchronisation via API</language>
-            <language id="4">Synchronisation via API</language>
-            <language id="5">Synchronisation via API</language>
-          </name>
-        </stock_mvt_reason>
-      </prestashop>
-
-    api.add("stock_movement_reasons", newStockMovementReason) */
+    response.right.get.toList foreach ( product => Console.println("id = %s".format(product.id)))
   }
 }

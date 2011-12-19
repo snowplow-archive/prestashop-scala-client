@@ -21,6 +21,8 @@ object Dependencies {
     val scalaj    = "1.2"
     val maven     = "3.0.3"
     val http      = "4.1.1"
+    val jackson   = "1.9.1"
+    val jaxbRi	  = "2.2.4-1"
   }
 
   object Runtime {
@@ -33,5 +35,13 @@ object Dependencies {
     // Apache HttpClient is used as the main HttpAdapter
     val httpCore    = "org.apache.httpcomponents" % "httpcore"            % V.http
     val httpClient  = "org.apache.httpcomponents" % "httpclient"          % V.http
+
+    // Jackson required to compile the orderly-representations. Note we use the Apache licensed versions
+    val jackCore    = "org.codehaus.jackson"      % "jackson-core-asl"    % V.jackson
+    val jackMapper  = "org.codehaus.jackson"      % "jackson-mapper-asl"  % V.jackson
+    val jackXc      = "org.codehaus.jackson"      % "jackson-xc"          % V.jackson
+
+    // JAXB Reference Implementation, for custom namespace prefixing
+    val jaxbRi	    = "com.sun.xml.bind"	  % "jaxb-impl"		  % V.jaxbRi 
   }
 }

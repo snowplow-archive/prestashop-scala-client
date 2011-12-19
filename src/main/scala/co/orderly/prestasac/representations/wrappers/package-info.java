@@ -10,38 +10,10 @@
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the Apache License Version 2.0 for the specific language governing permissions and limitations there under.
  */
-package co.orderly.prestasac.representations
-
-// Java
-import java.util.{Date => JDate}
-
-// Scala
-import scala.reflect.BeanProperty
-
-// JAXB
-import javax.xml.bind.annotation._
-
-// Narcolepsy
-import orderly.narcolepsy._
-
-/**
- * Product representation holds the information pertaining to a
- * product in the PrestaShop catalogue.
- *
- * This is a placeholder for now.
- */
-@XmlRootElement(name = "product")
-@XmlAccessorType(XmlAccessType.FIELD)
-class Product extends Representation {
-
-  @BeanProperty
-  var title: String = _
-
-  @XmlElement(nillable = true)
-  @BeanProperty
-  var merchantRef: String = _
-
-  @XmlElement(nillable = true)
-  @BeanProperty
-  var gtin: String = _
-}
+/*
+@javax.xml.bind.annotation.XmlSchema(
+    xmlns = {
+          @javax.xml.bind.annotation.XmlNs(prefix = "xlink", namespaceURI = "http://www.w3.org/1999/xlink")
+            },
+    elementFormDefault = javax.xml.bind.annotation.XmlNsForm.UNSET)
+package co.orderly.prestasac.representations.wrappers;  */

@@ -12,9 +12,6 @@
  */
 package co.orderly.prestasac.representations
 
-// Java
-import java.util.{Date => JDate}
-
 // Scala
 import scala.reflect.BeanProperty
 
@@ -24,24 +21,14 @@ import javax.xml.bind.annotation._
 // Narcolepsy
 import orderly.narcolepsy._
 
-/**
- * Product representation holds the information pertaining to a
- * product in the PrestaShop catalogue.
- *
- * This is a placeholder for now.
- */
-@XmlRootElement(name = "product")
 @XmlAccessorType(XmlAccessType.FIELD)
-class Product extends Representation {
+class PrestaShopXLink extends Representation {
 
+  @XmlAttribute // ID is a custom attribute
   @BeanProperty
-  var title: String = _
+  var id: Long = _
 
-  @XmlElement(nillable = true)
+  @XmlAttribute(namespace = "http://www.w3.org/1999/xlink") // Href is an xlink: attribute
   @BeanProperty
-  var merchantRef: String = _
-
-  @XmlElement(nillable = true)
-  @BeanProperty
-  var gtin: String = _
+  var href: String = _
 }

@@ -10,28 +10,12 @@
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the Apache License Version 2.0 for the specific language governing permissions and limitations there under.
  */
-import sbt._
-import Keys._
+/*
+package co.orderly.prestasac.representations
 
-object ClientBuild extends Build {
+// JAXB
+import javax.xml.bind.annotation._
 
-  import Dependencies._
-  import BuildSettings._
-
-  // Configure prompt to show current project
-  override lazy val settings = super.settings :+ {
-    shellPrompt := { s => Project.extract(s).currentProject.id + " > " }
-  }
-
-  // Define our project, with basic project information and library dependencies
-  lazy val prestasacProject = Project("prestasac", file("."))
-    .settings(prestasacSettings: _*)
-    .settings(
-      libraryDependencies ++= Seq(
-        Runtime.scalaj,
-        Runtime.maven,
-        Runtime.httpCore,
-        Runtime.httpClient
-      )
-    )
-}
+@XmlSchema(xmlns = Array(@XmlNs(prefix = "xlink", namespaceURI = "http://www.w3.org/1999/xlink")))
+package object wrappers {
+} */
