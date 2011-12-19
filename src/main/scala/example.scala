@@ -23,11 +23,22 @@ object ExampleOperations {
 
   def main(args: Array[String]) {
 
+    // Instantiate the PrestaShop web service client
     val client = new PrestaShopClient(
       rootUri = "[YOUR PRESTASHOP API URL HERE]",
       username = "[YOUR PRESTASHOP AUTHENTICATION KEY HERE]")
 
+    // Attach the resources we've defined to the client
     PrestaShopApi.attachClient(client)
+
+    // Try to fetch the XLink list of all products stored in PrestaShop
+    val (retVal, response, isErr) = PrestaShopApi.products.get()
+    if (isErr) {
+      Console.println("Error: return code: %s, response body follows below:\n\n%s".format(retVal, response))
+      System.exit(1)
+    }
+    // Loop through and print out all product IDs
+    response.right.get.toList foreach ( product => Console.println(product.id))
 
     // Update this with your Amazon credentials before running
     /*
