@@ -1,21 +1,16 @@
-/* Distributed as part of prestasac, a Scala client for the PrestaShop Web Service
+/*
+ * Copyright (c) 2011 Orderly Ltd. All rights reserved.
  *
- * Copyright (c) 2011 Alex Dean
+ * This program is licensed to you under the Apache License Version 2.0,
+ * and you may not use this file except in compliance with the Apache License Version 2.0.
+ * You may obtain a copy of the Apache License Version 2.0 at http://www.apache.org/licenses/LICENSE-2.0.
  *
- * prestasac is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of
- * the License, or (at your option) any later version.
- *
- * prestasac is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public
- * License along with prestasac. If not, see <http://www.gnu.org/licenses/>.
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the Apache License Version 2.0 is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the Apache License Version 2.0 for the specific language governing permissions and limitations there under.
  */
-import co.orderly.prestasac.PrestaShopWebService
+import co.orderly.prestasac._
 
 import scala.xml._
 import scala.xml.parsing._
@@ -28,13 +23,14 @@ object ExampleOperations {
 
   def main(args: Array[String]) {
 
-    // Update this with your Amazon credentials before running
-    val api = new PrestaShopWebService(
-      apiURL = "[YOUR PRESTASHOP API URL HERE]",
-      apiKey = "[YOUR PRESTASHOP AUTHENTICATION KEY HERE]",
-      debug  = true // Debug prints out request URLs and response codes/headers/bodies
-    )
+    val client = new PrestaShopClient(
+      rootUri = "[YOUR PRESTASHOP API URL HERE]",
+      username = "[YOUR PRESTASHOP AUTHENTICATION KEY HERE]")
 
+    PrestaShopApi.attachClient(client)
+
+    // Update this with your Amazon credentials before running
+    /*
     // Run some quick checks
     api.get("products", 11)
     api.head("products", 11) // Doesn't seem to work
@@ -55,6 +51,6 @@ object ExampleOperations {
         </stock_mvt_reason>
       </prestashop>
 
-    api.add("stock_movement_reasons", newStockMovementReason)
+    api.add("stock_movement_reasons", newStockMovementReason) */
   }
 }
