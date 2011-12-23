@@ -27,20 +27,20 @@ import javax.xml.bind.annotation._
 import orderly.narcolepsy._
 
 // Prestasac
-import co.orderly.prestasac.representations.PrestaShopXLink
+import co.orderly.prestasac.representations.shared.PrestaShopXLink
 
 @XmlRootElement(name = "prestashop")
 @XmlAccessorType(XmlAccessType.FIELD)
-class ProductList extends RepresentationWrapper[ProductXLink] {
+class ProductList extends RepresentationWrapper[ProductListXLink] {
 
   @BeanProperty
   var products: Products = _
 
-  def toList: List[ProductXLink] = this.products.productLinks.toList
+  def toList: List[ProductListXLink] = this.products.productLinks.toList
 
-  def fromList(productLinks: List[ProductXLink]) {
+  def fromList(productLinks: List[ProductListXLink]) {
     val p = new Products()
-    p.productLinks = arrayBufferFromList[ProductXLink](productLinks)
+    p.productLinks = arrayBufferFromList[ProductListXLink](productLinks)
     p
   }
 }
@@ -49,16 +49,16 @@ class ProductList extends RepresentationWrapper[ProductXLink] {
 @XmlRootElement(name = "products")
 class Products {
 
-  var productLinks: Buffer[ProductXLink] = ArrayBuffer[ProductXLink]()
+  var productLinks: Buffer[ProductListXLink] = ArrayBuffer[ProductListXLink]()
 
   @XmlElement(name = "product", required = true)
-  def getProducts: JList[ProductXLink] = this.productLinks
+  def getProducts: JList[ProductListXLink] = this.productLinks
 
-  def setProducts(products: JList[ProductXLink]) {
+  def setProducts(products: JList[ProductListXLink]) {
     this.productLinks = productLinks
   }
 }
 
 @XmlElement(name = "product", required = true)
 @XmlAccessorType(XmlAccessType.FIELD)
-class ProductXLink extends PrestaShopXLink
+class ProductListXLink extends PrestaShopXLink

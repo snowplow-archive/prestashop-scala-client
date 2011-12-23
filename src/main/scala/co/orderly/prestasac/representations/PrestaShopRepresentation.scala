@@ -12,6 +12,9 @@
  */
 package co.orderly.prestasac.representations
 
+// Java
+import java.util.{Date => JDate}
+
 // Scala
 import scala.reflect.BeanProperty
 
@@ -21,14 +24,18 @@ import javax.xml.bind.annotation._
 // Narcolepsy
 import orderly.narcolepsy._
 
+/**
+ * The only field shared by all (singular) PrestaShop representations is id
+ */
 @XmlAccessorType(XmlAccessType.FIELD)
-class PrestaShopXLink extends Representation {
+class PrestaShopRepresentation extends Representation {
 
-  @XmlAttribute // ID is a custom attribute
   @BeanProperty
   var id: Long = _
 
-  @XmlAttribute(namespace = "http://www.w3.org/1999/xlink") // Href is an xlink: attribute
   @BeanProperty
-  var href: String = _
+  var dateAdd: JDate = _
+
+  @BeanProperty
+  var dateUpd: JDate = _
 }

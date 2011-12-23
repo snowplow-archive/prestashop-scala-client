@@ -26,6 +26,6 @@ import wrappers._
 object PrestaShopApi extends Api {
 
   // Define all the Orderly resources and map them to their Representations
-  val products = resource[DummyRepresentation, ProductList]("products")
-  val orders = resource[DummyRepresentation, OrderList]("orders")
+  val products = resource[Product, ProductList]("products")
+  val orders = resource[Order, OrderList]("orders")
 }
