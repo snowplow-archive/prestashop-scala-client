@@ -30,6 +30,10 @@ import orderly.narcolepsy.Representation
 // Prestasac
 import co.orderly.prestasac.representations.shared._
 
+/**
+ * The Order representation holds the information pertaining to an
+ * order in PrestaShop.
+ */
 @XmlRootElement(name = "prestashop")
 @XmlAccessorType(XmlAccessType.FIELD)
 class Order extends Representation {
@@ -40,8 +44,7 @@ class Order extends Representation {
 }
 
 /**
- * The Order representation holds the information pertaining to an
- * order in PrestaShop.
+ * The OrderElement holds the core fields for the order.
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 class OrderElement extends PrestaShopCommonFields {
@@ -148,7 +151,19 @@ class OrderElement extends PrestaShopCommonFields {
   // Associations
   // -------------------------------------------------------------------------------------------------------------------
 
+  @XmlElement(required = true)
+  @BeanProperty
+  var associations: OrderAssociations = _
+}
 
+/**
+ * Associations is a wrapper around the order's line items (aka order rows).
+ */
+@XmlAccessorType(XmlAccessType.FIELD)
+class OrderAssociations {
 
+  @XmlElement(required = true)
+  @BeanProperty
+  var orderRows: OrderElement = _
 
 }
