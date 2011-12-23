@@ -25,8 +25,8 @@ object ExampleOperations {
 
     // Instantiate the PrestaShop web service client. Update this with your details before running
     val client = new PrestaShopClient(
-      apiUri = "x",
-      apiKey = "y")
+      apiUri = "[YOUR PRESTASHOP API URL HERE]",
+      apiKey = "[YOUR PRESTASHOP AUTHENTICATION KEY HERE]")
 
     // Attach the resources we've defined to the client
     PrestaShopApi.attachClient(client)
@@ -40,6 +40,6 @@ object ExampleOperations {
     // Loop through and print out all order IDs
     response.right.get.toList foreach ( order => Console.println("id = %s".format(order.id)))
 
-    val (_, response2, _) = PrestaShopApi.orders.get("21")
+    val (_, response2, _) = PrestaShopApi.products.get("21")
   }
 }

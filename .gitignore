@@ -1,6 +1,7 @@
 .idea/
 .manager/
 workspace.xml
+*.xml
 *.iml
 bin/
 lib/

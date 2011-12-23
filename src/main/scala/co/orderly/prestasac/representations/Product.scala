@@ -35,14 +35,5 @@ import co.orderly.prestasac.representations.shared._
 @XmlAccessorType(XmlAccessType.FIELD)
 class Product extends PrestaShopRepresentation {
 
-  @BeanProperty
-  var title: String = _
 
-  @XmlElement(nillable = true)
-  @BeanProperty
-  var merchantRef: String = _
-
-  @XmlElement(nillable = true)
-  @BeanProperty
-  var gtin: String = _
 }

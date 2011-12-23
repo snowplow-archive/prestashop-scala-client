@@ -15,6 +15,7 @@ package co.orderly.prestasac.representations
 // Java
 import java.util.{Date => JDate}
 import java.lang.{Float => JFloat}
+import java.lang.{Integer => JInteger}
 
 // Scala
 import scala.reflect.BeanProperty
@@ -78,11 +79,11 @@ class Order extends PrestaShopRepresentation {
   var deliveryDate: JDate = _
 
   @BeanProperty
-  var valid: Integer = _
+  var valid: JInteger = _
 
   // TODO: fix current state (missing the attributes)
   @BeanProperty
-  var currentState: Int = _
+  var currentState: JInteger = _
 
   @BeanProperty
   var secureKey: String = _
@@ -91,18 +92,13 @@ class Order extends PrestaShopRepresentation {
   var payment: String = _
 
   @BeanProperty
-  var recyclable: Int = _
+  var recyclable: JInteger = _
 
   @BeanProperty
-  var gift: Int = _
-
-  @BeanProperty
-  var giftMessage: String = _
+  var gift: JInteger = _
 
   @BeanProperty
   var giftMessage: String = _
-
-
 
   // -------------------------------------------------------------------------------------------------------------------
   // Associations
