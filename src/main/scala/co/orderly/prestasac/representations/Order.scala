@@ -16,6 +16,7 @@ package co.orderly.prestasac.representations
 import java.util.{Date => JDate}
 import java.lang.{Float => JFloat}
 import java.lang.{Integer => JInteger}
+import java.lang.{Long => JLong}
 
 // Scala
 import scala.reflect.BeanProperty
@@ -23,16 +24,27 @@ import scala.reflect.BeanProperty
 // JAXB
 import javax.xml.bind.annotation._
 
+// Narcolepsy
+import orderly.narcolepsy.Representation
+
 // Prestasac
 import co.orderly.prestasac.representations.shared._
+
+@XmlRootElement(name = "prestashop")
+@XmlAccessorType(XmlAccessType.FIELD)
+class Order extends Representation {
+
+  @XmlElement(required = true)
+  @BeanProperty
+  var order: OrderElement = _
+}
 
 /**
  * The Order representation holds the information pertaining to an
  * order in PrestaShop.
  */
-@XmlRootElement(name = "order")
 @XmlAccessorType(XmlAccessType.FIELD)
-class Order extends PrestaShopRepresentation {
+class OrderElement extends PrestaShopCommonFields {
 
   // -------------------------------------------------------------------------------------------------------------------
   // XLinks into other resources
@@ -67,10 +79,10 @@ class Order extends PrestaShopRepresentation {
   var module: String = _
 
   @BeanProperty
-  var invoiceNumber: Long = _
+  var invoiceNumber: JLong = _
 
   @BeanProperty
-  var deliveryNumber: Long = _
+  var deliveryNumber: JLong = _
 
   @BeanProperty
   var invoiceDate: JDate = _
@@ -97,12 +109,46 @@ class Order extends PrestaShopRepresentation {
   @BeanProperty
   var gift: JInteger = _
 
+  @XmlElement(nillable = true)
   @BeanProperty
   var giftMessage: String = _
+
+  @BeanProperty
+  var totalDiscounts: JFloat = _
+
+  @BeanProperty
+  var totalPaid: JFloat = _
+
+  @BeanProperty
+  var totalPaidReal: JFloat = _
+
+  @BeanProperty
+  var totalProducts: JFloat = _
+
+  @BeanProperty
+  var totalProductsWt: JFloat = _
+
+  @BeanProperty
+  var totalShipping: JFloat = _
+
+  @BeanProperty
+  var carrierTaxRate: JFloat = _
+
+  @BeanProperty
+  var totalWrapping: JFloat = _
+
+  @XmlElement(nillable = true)
+  @BeanProperty
+  var shippingNumber: JLong = _
+
+  @BeanProperty
+  var conversionRate: JFloat = _
 
   // -------------------------------------------------------------------------------------------------------------------
   // Associations
   // -------------------------------------------------------------------------------------------------------------------
+
+
 
 
 }

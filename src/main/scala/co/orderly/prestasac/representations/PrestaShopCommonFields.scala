@@ -14,6 +14,7 @@ package co.orderly.prestasac.representations
 
 // Java
 import java.util.{Date => JDate}
+import java.lang.{Long => JLong}
 
 // Scala
 import scala.reflect.BeanProperty
@@ -21,17 +22,14 @@ import scala.reflect.BeanProperty
 // JAXB
 import javax.xml.bind.annotation._
 
-// Narcolepsy
-import orderly.narcolepsy._
-
 /**
  * The only field shared by all (singular) PrestaShop representations is id
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-class PrestaShopRepresentation extends Representation {
+class PrestaShopCommonFields {
 
   @BeanProperty
-  var id: Long = _
+  var id: JLong = _
 
   @BeanProperty
   var dateAdd: JDate = _
