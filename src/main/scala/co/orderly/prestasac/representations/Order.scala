@@ -191,5 +191,8 @@ class OrderRow {
   var productQuantity: JInteger = _
 
   @BeanProperty
-  var productPrice: String = _
+  var productName: String = _
+
+  @BeanProperty
+  var productPrice: JFloat = _
 }
