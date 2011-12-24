@@ -13,6 +13,7 @@
 package co.orderly.prestasac.representations
 
 // Java
+import java.util.{Collection => JCollection}
 import java.util.{Date => JDate}
 import java.lang.{Float => JFloat}
 import java.lang.{Integer => JInteger}
@@ -151,6 +152,7 @@ class OrderElement extends PrestaShopCommonFields {
   // Associations
   // -------------------------------------------------------------------------------------------------------------------
 
+  // TODO: can I just use ElementWrapper?!
   @XmlElement(required = true)
   @BeanProperty
   var associations: OrderAssociations = _
@@ -162,8 +164,32 @@ class OrderElement extends PrestaShopCommonFields {
 @XmlAccessorType(XmlAccessType.FIELD)
 class OrderAssociations {
 
-  @XmlElement(required = true)
+  // TODO: missing attributes on order_rows. Perhaps ElementWrapper is not right here?
+  @XmlElementWrapper(name = "order_rows") // Needed to wrap <order_rows> around each <order_row>
+  @XmlElement(name = "order_row")
   @BeanProperty
-  var orderRows: OrderElement = _
+  var orderRows: JCollection[OrderRow] = Iterable[OrderRow]()
+}
 
+/**
+ * OrderRow contains the information pertaining to an individual line item
+ * within an order.
+ */
+@XmlAccessorType(XmlAccessType.FIELD)
+class OrderRow {
+
+  @BeanProperty
+  var id: JLong = _
+
+  @BeanProperty
+  var productId: JLong = _
+
+  @BeanProperty
+  var productAttributeId: JLong = _
+
+  @BeanProperty
+  var productQuantity: JInteger = _
+
+  @BeanProperty
+  var productPrice: String = _
 }
