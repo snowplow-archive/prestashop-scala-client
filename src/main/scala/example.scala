@@ -32,14 +32,17 @@ object ExampleOperations {
     PrestaShopApi.attachClient(client)
 
     // Fetch the XLink list of all products stored in PrestaShop
-    val (retVal, response, isErr) = PrestaShopApi.orders.get()
+    val (retVal, orders, isErr) = PrestaShopApi.orders.get()
     if (isErr) {
-      Console.println("Error: return code: %s, response body follows below:\n\n%s".format(retVal, response))
+      Console.println("Error: return code: %s, response body follows below:\n\n%s".format(retVal, orders))
       System.exit(1)
     }
     // Loop through and print out all order IDs
-    response.right.get.toList foreach ( order => Console.println("id = %s".format(order.id)))
+    orders.right.get.toList foreach ( o => {
+      val (_, order, _) = PrestaShopApi.orders.get(o.id.toString())
+      Console.println("invoice_number = %s".format(order.left.get.order.invoiceNumber))
+    })
 
-    val (_, response2, _) = PrestaShopApi.products.get("21")
+    val (_, products, _) = PrestaShopApi.products.get("21")
   }
 }
