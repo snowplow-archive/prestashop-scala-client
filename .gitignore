@@ -3,6 +3,7 @@
 workspace.xml
 *.xml
 *.iml
+*.swp
 bin/
 lib/
 docs/
