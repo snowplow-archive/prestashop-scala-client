@@ -13,6 +13,7 @@
 package co.orderly.prestasac.representations
 
 // Java
+import scala.collection.JavaConversions._
 import java.util.{Collection => JCollection}
 import java.util.{Date => JDate}
 import java.lang.{Float => JFloat}

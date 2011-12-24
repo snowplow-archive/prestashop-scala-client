@@ -22,6 +22,9 @@ import scala.reflect.BeanProperty
 // JAXB
 import javax.xml.bind.annotation._
 
+// Narcolepsy
+import orderly.narcolepsy.Representation
+
 // Prestasac
 import co.orderly.prestasac.representations.shared._
 
@@ -33,7 +36,7 @@ import co.orderly.prestasac.representations.shared._
  */
 @XmlRootElement(name = "product")
 @XmlAccessorType(XmlAccessType.FIELD)
-class Product extends PrestaShopRepresentation {
+class Product extends Representation {
 
 
 }
