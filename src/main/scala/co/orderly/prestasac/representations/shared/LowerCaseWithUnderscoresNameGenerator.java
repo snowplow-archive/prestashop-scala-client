@@ -13,6 +13,9 @@ public class LowerCaseWithUnderscoresNameGenerator implements XMLNameTransformer
     }
  
     public String transformElementName(String name) {
+
+        System.out.println("Transforming element name");
+
         StringBuilder strBldr = new StringBuilder();
         for(char character : name.toCharArray()) {
             if(Character.isUpperCase(character)) {
