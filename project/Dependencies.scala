@@ -23,7 +23,7 @@ object Dependencies {
     val maven     = "3.0.3"
     val http      = "4.1.1"
     val jackson   = "1.9.1"
-    val moxy      = "2.1.0"
+    val moxy      = "2.3.0"
   }
 
   object Runtime {
@@ -43,6 +43,6 @@ object Dependencies {
     val jackXc      = "org.codehaus.jackson"      % "jackson-xc"          % V.jackson
 
     // We use Moxy for the naming convention transforms
-    val moxy        = "org.eclipse.persistence"   % "javax.eclipselink"   % V.moxy
+    val moxy        = "org.eclipse.persistence"   % "eclipselink"         % V.moxy
   }
 }
