@@ -154,9 +154,9 @@ class OrderElement extends PrestaShopCommonFields {
   // -------------------------------------------------------------------------------------------------------------------
 
   // TODO: can I just use ElementWrapper?!
-  @XmlElement(required = true)
+  /* @XmlElement(required = true)
   @BeanProperty
-  var associations: OrderAssociations = _
+  var associations: OrderAssociations = _ */
 }
 
 /**
