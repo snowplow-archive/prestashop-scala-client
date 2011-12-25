@@ -34,7 +34,8 @@ object PrestasacBuild extends Build {
         Runtime.httpClient,
         Runtime.jackCore,
         Runtime.jackMapper,
-        Runtime.jackXc
+        Runtime.jackXc,
+        Runtime.moxy
       )
     )
 }
