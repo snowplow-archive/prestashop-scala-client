@@ -25,8 +25,8 @@ object ExampleOperations {
 
     // Instantiate the PrestaShop web service client. Update this with your details before running
     val client = new PrestaShopClient(
-      apiUri = "http://www.psychicbazaar.com/api/",
-      apiKey = "HZO7VK8KW7TZXYOTUUVWNKEHLVRGQDPT")
+      apiUri = "[YOUR PRESTASHOP API URL HERE]",
+      apiKey = "[YOUR PRESTASHOP AUTHENTICATION KEY HERE]")
 
     // Attach the resources we've defined to the client
     PrestaShopApi.attachClient(client)
