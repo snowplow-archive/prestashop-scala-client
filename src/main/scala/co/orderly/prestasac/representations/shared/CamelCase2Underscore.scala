@@ -11,32 +11,18 @@
  * See the Apache License Version 2.0 for the specific language governing permissions and limitations there under.
  */
 package co.orderly.prestasac.representations.shared
+// TODO move into Narcolepsy
+ 
+import org.eclipse.persistence.oxm.XMLNameTransformer
+ 
+class CamelCase2Underscore extends XMLNameTransformer {
+ 
+  def transformRootElementName(name: String): String = name
+ 
+  def transformTypeName(name: String): String = name
 
-// Java
-import java.util.{Date => JDate}
-import java.lang.{Long => JLong}
+  def transformAttributeName(name: String): String = name
 
-// Scala
-import scala.reflect.BeanProperty
-
-// JAXB
-import javax.xml.bind.annotation._
-import adapters.XmlJavaTypeAdapter
-
-/**
- * The only field shared by all (singular) PrestaShop representations is id
- */
-@XmlAccessorType(XmlAccessType.FIELD)
-class PrestaShopCommonFields {
-
-  @BeanProperty
-  var id: JLong = _
-
-  @XmlJavaTypeAdapter(classOf[DateSpaceTimeAdapter])
-  @BeanProperty
-  var dateAdd: JDate = _
-
-  @XmlJavaTypeAdapter(classOf[DateSpaceTimeAdapter])
-  @BeanProperty
-  var dateUpd: JDate = _
+  def transformElementName(name: String): String =
+    name.toList.map(c => if(c.isUpper) "_" + c.toLower else c).mkString
 }

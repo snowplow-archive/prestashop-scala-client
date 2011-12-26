@@ -25,6 +25,7 @@ import scala.reflect.BeanProperty
 
 // JAXB
 import javax.xml.bind.annotation._
+import adapters.XmlJavaTypeAdapter
 
 // MOXy
 import org.eclipse.persistence.oxm.annotations.XmlNameTransformer
@@ -41,7 +42,7 @@ import co.orderly.prestasac.representations.shared._
  */
 @XmlRootElement(name = "prestashop")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlNameTransformer(classOf[co.orderly.prestasac.representations.shared.LowerCaseWithUnderscoresNameGenerator])
+@XmlNameTransformer(classOf[co.orderly.prestasac.representations.shared.CamelCase2Underscore])
 class Order extends Representation {
 
   @XmlElement(required = true)
@@ -93,9 +94,11 @@ class OrderElement extends PrestaShopCommonFields {
   @BeanProperty
   var deliveryNumber: JLong = _
 
+  @XmlJavaTypeAdapter(classOf[DateSpaceTimeAdapter])
   @BeanProperty
   var invoiceDate: JDate = _
 
+  @XmlJavaTypeAdapter(classOf[DateSpaceTimeAdapter])
   @BeanProperty
   var deliveryDate: JDate = _
 

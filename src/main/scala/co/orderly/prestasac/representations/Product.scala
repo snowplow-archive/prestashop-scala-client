@@ -22,6 +22,10 @@ import scala.reflect.BeanProperty
 
 // JAXB
 import javax.xml.bind.annotation._
+import adapters.XmlJavaTypeAdapter
+
+// MOXy
+import org.eclipse.persistence.oxm.annotations.XmlNameTransformer
 
 // Narcolepsy
 import orderly.narcolepsy.Representation
@@ -35,6 +39,7 @@ import co.orderly.prestasac.representations.shared._
  */
 @XmlRootElement(name = "prestashop")
 @XmlAccessorType(XmlAccessType.FIELD)
+@XmlNameTransformer(classOf[co.orderly.prestasac.representations.shared.CamelCase2Underscore])
 class Product extends Representation {
 
   @XmlElement(required = true)

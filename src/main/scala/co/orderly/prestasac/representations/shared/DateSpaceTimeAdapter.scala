@@ -11,32 +11,22 @@
  * See the Apache License Version 2.0 for the specific language governing permissions and limitations there under.
  */
 package co.orderly.prestasac.representations.shared
+// TODO move into Narcolepsy
 
 // Java
+import java.text.SimpleDateFormat
 import java.util.{Date => JDate}
-import java.lang.{Long => JLong}
-
-// Scala
-import scala.reflect.BeanProperty
 
 // JAXB
-import javax.xml.bind.annotation._
-import adapters.XmlJavaTypeAdapter
+import javax.xml.bind.annotation.adapters.XmlAdapter
 
-/**
- * The only field shared by all (singular) PrestaShop representations is id
- */
-@XmlAccessorType(XmlAccessType.FIELD)
-class PrestaShopCommonFields {
+class DateSpaceTimeAdapter extends XmlAdapter[String, JDate] {
 
-  @BeanProperty
-  var id: JLong = _
+    private val dateFormat: SimpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
 
-  @XmlJavaTypeAdapter(classOf[DateSpaceTimeAdapter])
-  @BeanProperty
-  var dateAdd: JDate = _
+    @throws(classOf[Exception])
+    override def marshal(value: JDate): String = dateFormat.format(value)
 
-  @XmlJavaTypeAdapter(classOf[DateSpaceTimeAdapter])
-  @BeanProperty
-  var dateUpd: JDate = _
+    @throws(classOf[Exception])
+    override def unmarshal(value: String): JDate = dateFormat.parse(value)
 }
