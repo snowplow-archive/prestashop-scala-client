@@ -24,5 +24,21 @@ object BuildSettings {
     resolvers     ++= Dependencies.resolutionRepos
   )
 
-  lazy val prestasacSettings = basicSettings
+  lazy val noPublishing = Seq(
+    publish       := (),
+    publishLocal  := ()
+  )
+
+  import ProguardPlugin._
+  lazy val proguard = proguardSettings ++ Seq(
+    proguardOptions := Seq(
+      // keepMain("orderly.mdm.ApplicationBoot"),
+      "-keepattributes *Annotation*,EnclosingMethod",
+      "-dontskipnonpubliclibraryclassmembers",
+      "-dontoptimize",
+      "-dontshrink"
+    )
+  )
+
+  lazy val prestasacSettings = basicSettings ++ noPublishing ++ proguard
 }

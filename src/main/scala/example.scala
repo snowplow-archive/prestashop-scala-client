@@ -12,9 +12,8 @@
  */
 import co.orderly.prestasac._
 
-import scala.xml._
-import scala.xml.parsing._
-import scala.io.Source
+// Scala
+import scala.collection.JavaConversions._
 
 /**
  * Simple console example of an Amazon Product API call using scalapac
@@ -31,18 +30,35 @@ object ExampleOperations {
     // Attach the resources we've defined to the client
     PrestaShopApi.attachClient(client)
 
-    // Fetch the XLink list of all products stored in PrestaShop
+    // Fetch the XLink list of all orders stored in PrestaShop
     val (retVal, orders, isErr) = PrestaShopApi.orders.get()
     if (isErr) {
       Console.println("Error: return code: %s, response body follows below:\n\n%s".format(retVal, orders))
       System.exit(1)
     }
-    // Loop through and print out all order IDs
+    // Loop through and print out all customers, how much they paid and when they bought
     orders.right.get.toList foreach ( o => {
       val (_, order, _) = PrestaShopApi.orders.get(o.id.toString())
-      Console.println("invoice_number = %s".format(order.left.get.order.invoiceNumber))
-    })
+      val oa = order.left.get.order // Alias
+      Console.println("Customer #TODO paid %s on %s".format(oa.totalPaidReal, oa.dateAdd))
+    }) // TODO: fix date problem
 
-    val (_, products, _) = PrestaShopApi.products.get("21")
+    // Display all of the products sold as part of order #5
+    val (_, order, _) = PrestaShopApi.orders.get("5")
+    order.left.get.order.associations.orderRows foreach ( or => Console.println("Line item = %s (x%s)".format(or.productName, or.productQuantity)))
+
+    // Fetch the XLink list of all products stored in PrestaShop
+    val ps = PrestaShopApi.products.get()
+    if (ps._3) {
+      Console.println("Error: return code: %s, response body follows below:\n\n%s".format(ps._1, ps._2))
+      System.exit(1)
+    }
+
+    // Loop through and print out all customers, how much they paid and when they bought
+    ps._2.right.get.toList foreach ( p => {
+      val pr = PrestaShopApi.products.get(p.id.toString())
+      val pa = pr._2.left.get.product // Alias
+      Console.println("Product #%s made by %s selling for %s".format(pa.id, pa.manufacturerName, pa.price))
+    })
   }
 }

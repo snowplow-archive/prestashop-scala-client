@@ -27,7 +27,7 @@ import javax.xml.bind.annotation._
 import orderly.narcolepsy._
 
 // Prestasac
-import co.orderly.prestasac.representations.shared.PrestaShopXLink
+import co.orderly.prestasac.representations.shared.PrestaShopListXLink
 
 @XmlRootElement(name = "prestashop")
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -61,4 +61,4 @@ class Products {
 
 @XmlElement(name = "product", required = true)
 @XmlAccessorType(XmlAccessType.FIELD)
-class ProductListXLink extends PrestaShopXLink
+class ProductListXLink extends PrestaShopListXLink

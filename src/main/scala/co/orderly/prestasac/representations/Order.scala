@@ -13,15 +13,17 @@
 package co.orderly.prestasac.representations
 
 // Java
-import scala.collection.JavaConversions._
 import java.util.{Collection => JCollection}
 import java.util.{Date => JDate}
 import java.lang.{Float => JFloat}
 import java.lang.{Integer => JInteger}
 import java.lang.{Long => JLong}
+import java.util.{List => JList}
 
 // Scala
+import scala.collection.mutable.{Buffer, ArrayBuffer}
 import scala.reflect.BeanProperty
+import scala.collection.JavaConversions._
 
 // JAXB
 import javax.xml.bind.annotation._
@@ -60,24 +62,31 @@ class OrderElement extends PrestaShopCommonFields {
   // XLinks into other resources
   // -------------------------------------------------------------------------------------------------------------------
 
+  // TODO: fix (not currently working)
   @BeanProperty
   var idAddressDelivery: PrestaShopXLink = _
 
+  // TODO: fix (not currently working)
   @BeanProperty
   var idAddressInvoice: PrestaShopXLink = _
 
+  // TODO: fix (not currently working)
   @BeanProperty
   var idCart: PrestaShopXLink = _
 
+  // TODO: fix (not currently working)
   @BeanProperty
   var idCurrency: PrestaShopXLink = _
 
+  // TODO: fix (not currently working)
   @BeanProperty
   var idLang: PrestaShopXLink = _
 
+  // TODO: fix (not currently working)
   @BeanProperty
   var idCustomer: PrestaShopXLink = _
 
+  // TODO: fix (not currently working)
   @BeanProperty
   var idCarrier: PrestaShopXLink = _
 
@@ -160,23 +169,26 @@ class OrderElement extends PrestaShopCommonFields {
   // Associations
   // -------------------------------------------------------------------------------------------------------------------
 
-  // TODO: can I just use ElementWrapper?!
-  /* @XmlElement(required = true)
+  @XmlElement(required = true)
   @BeanProperty
-  var associations: OrderAssociations = _ */
+  var associations: Associations = _
 }
 
 /**
  * Associations is a wrapper around the order's line items (aka order rows).
  */
-@XmlAccessorType(XmlAccessType.FIELD)
-class OrderAssociations {
+@XmlType(name = "")
+class Associations {
 
-  // TODO: missing attributes on order_rows. Perhaps ElementWrapper is not right here?
+  var orderRows: Buffer[OrderRow] = ArrayBuffer[OrderRow]()
+
   @XmlElementWrapper(name = "order_rows") // Needed to wrap <order_rows> around each <order_row>
-  @XmlElement(name = "order_row")
-  @BeanProperty
-  var orderRows: JCollection[OrderRow] = Iterable[OrderRow]()
+  @XmlElement(name = "order_row", required = true)
+  def getOrderRows: JList[OrderRow] = this.orderRows
+
+  def setOrderRows(orderRows: JList[OrderRow]) {
+    this.orderRows = orderRows
+  }
 }
 
 /**

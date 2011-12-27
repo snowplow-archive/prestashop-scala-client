@@ -136,4 +136,78 @@ class ProductElement extends PrestaShopCommonFields {
   @XmlElement(nillable = true)
   @BeanProperty
   var unitPrice: JFloat = _
+
+  @BeanProperty
+  var width: JInteger = _
+
+  @BeanProperty
+  var height: JInteger = _
+
+  @BeanProperty
+  var depth: JInteger = _
+
+  @BeanProperty
+  var weight: JInteger = _
+
+  @BeanProperty
+  var quantityDiscount: JInteger = _
+
+  @BeanProperty
+  var customizable: JInteger = _
+
+  @BeanProperty
+  var uploadableFiles: JInteger = _
+
+  @BeanProperty
+  var textFields: JInteger = _
+
+  @BeanProperty
+  var active: JInteger = _
+
+  @BeanProperty
+  var availableForOrder: JInteger = _
+
+  @BeanProperty
+  var condition: String = _
+
+  @BeanProperty
+  var showPrice: JInteger = _
+
+  @BeanProperty
+  var indexed: JInteger = _
+
+  @BeanProperty
+  var cacheIsPack: JInteger = _
+
+  @BeanProperty
+  var cacheHasAttachment: JInteger = _
+
+  @BeanProperty
+  var quantity: JInteger = _
+
+  // TODO: add in <meta_description>
+
+  // TODO: add in <meta_keywords>
+
+  // TODO: add in <meta_title>
+
+  // TODO: add in <link_rewrite>
+
+  // TODO: add in <name>
+
+  // TODO: add in <available_now>
+
+  // TODO: add in <available_later>
+
+  // TODO: add in <description>
+
+  // TODO: add in <description_short>
+
+  // -------------------------------------------------------------------------------------------------------------------
+  // Associations
+  // -------------------------------------------------------------------------------------------------------------------
+
+  // TODO: add in <categories>
+
+  // TODO: add in the other associations
 }
