@@ -29,13 +29,16 @@ import adapters.XmlJavaTypeAdapter
 @XmlAccessorType(XmlAccessType.FIELD)
 class PrestaShopCommonFields {
 
+  @XmlElement(required = true)
   @BeanProperty
   var id: JLong = _
 
+  @XmlElement(required = true)
   @XmlJavaTypeAdapter(classOf[DateSpaceTimeAdapter])
   @BeanProperty
   var dateAdd: JDate = _
 
+  @XmlElement(required = true)
   @XmlJavaTypeAdapter(classOf[DateSpaceTimeAdapter])
   @BeanProperty
   var dateUpd: JDate = _

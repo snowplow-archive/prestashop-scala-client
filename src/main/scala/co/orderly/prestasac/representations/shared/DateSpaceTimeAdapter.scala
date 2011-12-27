@@ -22,11 +22,18 @@ import javax.xml.bind.annotation.adapters.XmlAdapter
 
 class DateSpaceTimeAdapter extends XmlAdapter[String, JDate] {
 
-    private val dateFormat: SimpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+  private val dateFormat: SimpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
 
-    @throws(classOf[Exception])
-    override def marshal(value: JDate): String = dateFormat.format(value)
+  @throws(classOf[Exception])
+  override def marshal(value: JDate): String = dateFormat.format(value)
 
-    @throws(classOf[Exception])
-    override def unmarshal(value: String): JDate = dateFormat.parse(value)
+  @throws(classOf[Exception])
+  override def unmarshal(value: String): JDate = {
+
+    if (value == "0000-00-00 00:00:00") { // Lazy APIs use this value where they should use null
+      null
+    } else {
+      dateFormat.parse(value)
+    }
+  }
 }

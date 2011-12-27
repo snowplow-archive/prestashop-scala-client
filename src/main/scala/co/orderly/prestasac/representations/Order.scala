@@ -107,6 +107,7 @@ class OrderElement extends PrestaShopCommonFields {
   @BeanProperty
   var invoiceDate: JDate = _
 
+  @XmlElement(nillable = true)
   @XmlJavaTypeAdapter(classOf[DateSpaceTimeAdapter])
   @BeanProperty
   var deliveryDate: JDate = _
