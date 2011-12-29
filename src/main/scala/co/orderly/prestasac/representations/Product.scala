@@ -28,7 +28,7 @@ import adapters.XmlJavaTypeAdapter
 import org.eclipse.persistence.oxm.annotations.XmlNameTransformer
 
 // Narcolepsy
-import orderly.narcolepsy.Representation
+import co.orderly.narcolepsy.Representation
 
 // Prestasac
 import co.orderly.prestasac.representations.shared._

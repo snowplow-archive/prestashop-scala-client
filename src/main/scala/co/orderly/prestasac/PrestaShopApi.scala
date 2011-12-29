@@ -13,8 +13,8 @@
 package co.orderly.prestasac
 
 // Narcolepsy
-import orderly.narcolepsy._
-import orderly.narcolepsy.representations.DummyRepresentation // Full path to avoid ambiguity with Prestasac's own representations sub-package
+import co.orderly.narcolepsy._
+import co.orderly.narcolepsy.representations.DummyRepresentation // Full path to avoid ambiguity with Prestasac's own representations sub-package
 
 // Prestasac
 import co.orderly.prestasac.representations._

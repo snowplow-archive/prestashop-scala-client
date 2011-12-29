@@ -24,7 +24,7 @@ import scala.reflect.BeanProperty
 import javax.xml.bind.annotation._
 
 // Narcolepsy
-import orderly.narcolepsy._
+import co.orderly.narcolepsy._
 
 // Prestasac
 import co.orderly.prestasac.representations.shared.PrestaShopListXLink

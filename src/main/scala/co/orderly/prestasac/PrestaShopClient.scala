@@ -13,7 +13,7 @@
 package co.orderly.prestasac
 
 // Narcolepsy
-import orderly.narcolepsy._
+import co.orderly.narcolepsy._
 import utils._
 import adapters.ApacheHttpClientAdapter
 

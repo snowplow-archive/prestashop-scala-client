@@ -19,7 +19,7 @@ import scala.reflect.BeanProperty
 import javax.xml.bind.annotation._
 
 // Narcolepsy
-import orderly.narcolepsy._
+import co.orderly.narcolepsy.Representation
 
 @XmlAccessorType(XmlAccessType.FIELD)
 class PrestaShopXLink extends Representation {
