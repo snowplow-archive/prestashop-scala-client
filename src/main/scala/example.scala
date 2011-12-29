@@ -27,7 +27,7 @@ object ExampleOperations {
       apiUri = "[YOUR PRESTASHOP API URL HERE]", // [YOUR PRESTASHOP API URL HERE]
       apiKey = "[YOUR PRESTASHOP AUTHENTICATION KEY HERE]")  // [YOUR PRESTASHOP AUTHENTICATION KEY HERE]
 
-    // Attach the resources we've defined to the client
+    // Attach the client to the resources we've defined
     PrestaShopApi.attachClient(client)
 
     // Fetch the XLink list of all orders stored in PrestaShop
@@ -41,7 +41,7 @@ object ExampleOperations {
       val (_, order, _) = PrestaShopApi.orders.get(o.id.toString())
       val oa = order.left.get.order // Alias
       Console.println("Customer #TODO paid %s on %s".format(oa.totalPaidReal, oa.dateAdd))
-    }) // TODO: fix date problem
+    })
 
     // Display all of the products sold as part of order #5
     val (_, order, _) = PrestaShopApi.orders.get("5")
