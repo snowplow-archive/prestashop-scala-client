@@ -16,7 +16,9 @@ import co.orderly.prestasac._
 import scala.collection.JavaConversions._
 
 /**
- * Simple console example of an Amazon Product API call using scalapac
+ * Example calls to the PrestaShop web service using Prestasac. Update the apiUri
+ * and apiKey with your own PrestaShop instance to try this out. All of the calls
+ * are non-destructive
  */
 object ExampleOperations {
 
