@@ -28,7 +28,9 @@ import adapters.XmlJavaTypeAdapter
 import org.eclipse.persistence.oxm.annotations.XmlNameTransformer
 
 // Narcolepsy
-import co.orderly.narcolepsy.Representation
+import co.orderly.narcolepsy._
+import marshallers.xml.moxy.CamelCase2Underscore
+import marshallers.xml.types.DateSpaceTimeAdapter
 
 // Prestasac
 import co.orderly.prestasac.representations.shared._
@@ -39,7 +41,7 @@ import co.orderly.prestasac.representations.shared._
  */
 @XmlRootElement(name = "prestashop")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlNameTransformer(classOf[co.orderly.prestasac.representations.shared.CamelCase2Underscore])
+@XmlNameTransformer(classOf[CamelCase2Underscore])
 class Product extends Representation {
 
   @XmlElement(required = true)

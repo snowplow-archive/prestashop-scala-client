@@ -23,6 +23,9 @@ import scala.reflect.BeanProperty
 import javax.xml.bind.annotation._
 import adapters.XmlJavaTypeAdapter
 
+// Narcolepsy
+import co.orderly.narcolepsy.marshallers.xml.types.DateSpaceTimeAdapter
+
 /**
  * The only field shared by all (singular) PrestaShop representations is id
  */

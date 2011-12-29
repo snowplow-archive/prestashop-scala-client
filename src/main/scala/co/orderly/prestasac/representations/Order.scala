@@ -35,7 +35,7 @@ import org.eclipse.persistence.oxm.annotations.XmlNameTransformer
 // Narcolepsy
 import co.orderly.narcolepsy._
 import marshallers.xml.moxy.CamelCase2Underscore
-
+import marshallers.xml.types.DateSpaceTimeAdapter
 
 // Prestasac
 import co.orderly.prestasac.representations.shared._
