@@ -64,33 +64,33 @@ class OrderElement extends PrestaShopCommonFields {
   // XLinks into other resources
   // -------------------------------------------------------------------------------------------------------------------
 
-  // TODO: fix (not currently working)
+  // TODO: retrieve the xlink:href as well
   @BeanProperty
-  var idAddressDelivery: PrestaShopXLink = _
+  var idAddressDelivery: JInteger = _ // PrestaShopXLink = _
 
-  // TODO: fix (not currently working)
+  // TODO: retrieve the xlink:href as well
   @BeanProperty
-  var idAddressInvoice: PrestaShopXLink = _
+  var idAddressInvoice: JInteger = _ // PrestaShopXLink = _
 
-  // TODO: fix (not currently working)
+  // TODO: retrieve the xlink:href as well
   @BeanProperty
-  var idCart: PrestaShopXLink = _
+  var idCart: JInteger = _ // PrestaShopXLink = _
 
-  // TODO: fix (not currently working)
+  // TODO: retrieve the xlink:href as well
   @BeanProperty
-  var idCurrency: PrestaShopXLink = _
+  var idCurrency: JInteger = _ // PrestaShopXLink = _
 
-  // TODO: fix (not currently working)
+  // TODO: retrieve the xlink:href as well
   @BeanProperty
-  var idLang: PrestaShopXLink = _
+  var idLang: JInteger = _ // PrestaShopXLink = _
 
-  // TODO: fix (not currently working)
+  // TODO: retrieve the xlink:href as well
   @BeanProperty
-  var idCustomer: PrestaShopXLink = _
+  var idCustomer: JInteger = _ // PrestaShopXLink = _
 
-  // TODO: fix (not currently working)
+  // TODO: retrieve the xlink:href as well
   @BeanProperty
-  var idCarrier: PrestaShopXLink = _
+  var idCarrier: JInteger = _ // PrestaShopXLink = _
 
   // -------------------------------------------------------------------------------------------------------------------
   // Resource-specific fields
