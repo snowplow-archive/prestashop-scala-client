@@ -12,7 +12,8 @@
  */
 
 // This is in Java because this has not been fixed yet: https://issues.scala-lang.org/browse/SI-3600
-@XmlNameTransformer(co.orderly.prestasac.representations.shared.CamelCase2Underscore.class)
+@XmlNameTransformer(CamelCase2Underscore.class)
 package co.orderly.prestasac.representations;
 
 import org.eclipse.persistence.oxm.annotations.XmlNameTransformer;
+import co.orderly.narcolepsy.marshallers.xml.moxy.CamelCase2Underscore;
