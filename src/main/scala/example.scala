@@ -34,8 +34,12 @@ object ExampleOperations {
     PrestaShopApi.attachClient(client)
 
     // Test raw mode
-    val raw = PrestaShopApi.get("addresses", 2)
+    val raw = PrestaShopApi.get("customers", 30)
     Console.println("Return code: %s, response body follows below:\n\n%s".format(raw._1, raw._3))
+
+    val raw2 = PrestaShopApi.get("carts", 139)
+    Console.println("Return code: %s, response body follows below:\n\n%s".format(raw2._1, raw2._3))
+
 
     // Fetch the XLink list of all orders stored in PrestaShop
     val (retVal, orders, isErr) = PrestaShopApi.orders.get()

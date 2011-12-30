@@ -25,7 +25,13 @@ import wrappers._
  */
 object PrestaShopApi extends Api {
 
-  // Define all the Orderly resources and map them to their Representations
+  // Fully defined PrestaShop representations
   val products = resource[Product, ProductList]("products")
   val orders = resource[Order, OrderList]("orders")
+
+  // Partially defined PrestaShop representations
+  // It's not that the undefined representations don't exist - it's just
+  // there is very limited business value in defining them in Prestasac
+  // val addresses = resource[Address, DummyRepresentationWrapper]("addresses")
+  // TODO: complete this section
 }
