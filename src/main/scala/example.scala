@@ -17,8 +17,9 @@ import scala.collection.JavaConversions._
 
 /**
  * Example calls to the PrestaShop web service using Prestasac. Update the apiUri
- * and apiKey with your own PrestaShop instance to try this out. All of the calls
- * are non-destructive
+ * and apiKey with your own PrestaShop instance to try this out.
+ *
+ * All of the calls are non-destructive.
  */
 object ExampleOperations {
 
@@ -32,6 +33,10 @@ object ExampleOperations {
     // Attach the client to the resources we've defined
     PrestaShopApi.attachClient(client)
 
+    // Test raw mode
+    val raw = PrestaShopApi.get("addresses", 2)
+    Console.println("Return code: %s, response body follows below:\n\n%s".format(raw._1, raw._3))
+
     // Fetch the XLink list of all orders stored in PrestaShop
     val (retVal, orders, isErr) = PrestaShopApi.orders.get()
     if (isErr) {
@@ -42,7 +47,7 @@ object ExampleOperations {
     orders.right.get.toList foreach ( o => {
       val (_, order, _) = PrestaShopApi.orders.get(o.id.toString())
       val oa = order.left.get.order // Alias
-      Console.println("Customer #TODO paid %s on %s".format(oa.totalPaidReal, oa.dateAdd))
+      Console.println("Customer %s paid %s on %s".format(oa.idCustomer, oa.totalPaidReal, oa.dateAdd))
     })
 
     // Display all of the products sold as part of order #5
