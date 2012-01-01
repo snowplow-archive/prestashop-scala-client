@@ -30,8 +30,12 @@ object PrestaShopApi extends Api {
   val orders = resource[Order, OrderList]("orders")
 
   // Partially defined PrestaShop representations
-  // It's not that the undefined representations don't exist - it's just
-  // there is very limited business value in defining them in Prestasac
-  // val addresses = resource[Address, DummyRepresentationWrapper]("addresses")
-  // TODO: complete this section
+  // It's not that the undefined plural representations don't exist - it's just
+  // that there is limited business value in defining them in Prestasac
+
+  // TODO: let's remove the DummyRepresentation(Wrapper) concept - it's lame
+  val addresses = resource[Address, DummyRepresentationWrapper]("addresses")
+  // val customers = resource[Customer, DummyRepresentationWrapper]("customers")
+  // val countries = resource[Country, DummyRepresentationWrapper]("countries")
+  // val states = resource[State, DummyRepresentationWrapper]("states")
 }

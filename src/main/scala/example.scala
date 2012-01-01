@@ -40,6 +40,11 @@ object ExampleOperations {
     val raw2 = PrestaShopApi.get("carts", 139)
     Console.println("Return code: %s, response body follows below:\n\n%s".format(raw2._1, raw2._3))
 
+    val raw3 = PrestaShopApi.get("stock_movements", 30)
+    Console.println("Return code: %s, response body follows below:\n\n%s".format(raw3._1, raw3._3))
+
+    val raw4 = PrestaShopApi.get("stock_movement_reasons", 5)
+    Console.println("Return code: %s, response body follows below:\n\n%s".format(raw3._1, raw3._3))
 
     // Fetch the XLink list of all orders stored in PrestaShop
     val (retVal, orders, isErr) = PrestaShopApi.orders.get()
