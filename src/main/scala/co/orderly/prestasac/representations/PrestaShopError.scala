@@ -59,7 +59,7 @@ class PrestaShopError extends Representation { // TODO: this shouldn't extend Re
 
   @XmlElementWrapper(name = "errors") // Needed to wrap <order_rows> around each <order_row>
   @XmlElement(name = "error", required = true)
-  def getErrors: JList[ErrorRow] = this.orderRows
+  def getErrors: JList[ErrorRow] = this.errors
 
   def setErrors(errors: JList[ErrorRow]) {
     this.errors = errors
