@@ -13,19 +13,21 @@
 package co.orderly.prestasac.representations
 
 /**
- * The StockMovementReason representation holds the reason (justification) for
- * a given stock movement within PrestaShop.
+ * The State representation holds the information pertaining to a
+ * state (aka region or county) in PrestaShop.
  *
- * A typical representation looks something like this:
+ * A typical representation looks like this:
  *
  * <prestashop xmlns:xlink="http://www.w3.org/1999/xlink">
- *   <stock_movement_reason>
- *     <id><![CDATA[5]]></id>
- *     <name><language id="1" xlink:href="http://www.psychicbazaar.com/api/languages/1"><![CDATA[Restocking]]></language></name>
- *     <date_add><![CDATA[2011-07-06 10:29:12]]></date_add>
- *     <date_upd><![CDATA[2011-07-06 10:29:12]]></date_upd>
- *   </stock_movement_reason>
+ *   <state>
+ *     <id><![CDATA[15]]></id>
+ *     <id_zone xlink:href="http://www.psychicbazaar.com/api/zones/2"><![CDATA[2]]></id_zone>
+ *     <id_country xlink:href="http://www.psychicbazaar.com/api/countries/21"><![CDATA[21]]></id_country>
+ *     <iso_code><![CDATA[IA]]></iso_code>
+ *     <name><![CDATA[Iowa]]></name>
+ *     <active><![CDATA[1]]></active>
+ *   </state>
  * </prestashop>
  */
 
-// TODO - note this is a full representation
+// TODO note not a Representation
