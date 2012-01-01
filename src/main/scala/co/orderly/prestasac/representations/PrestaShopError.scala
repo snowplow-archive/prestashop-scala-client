@@ -12,16 +12,67 @@
  */
 package co.orderly.prestasac.representations
 
-// TODO: add this in
+// Java
+import java.util.{Collection => JCollection}
+import java.util.{List => JList}
 
-/* Format looks like this:
+// Scala
+import scala.collection.mutable.{Buffer, ArrayBuffer}
+import scala.reflect.BeanProperty
+import scala.collection.JavaConversions._
 
-<prestashop xmlns:xlink="http://www.w3.org/1999/xlink">
-<errors>
-<error>
-<message><![CDATA[Internal error. To see this error please display the PHP errors.]]></message>
-</error>
-</errors>
-</prestashop>
+// JAXB
+import javax.xml.bind.annotation._
 
-*/
+// MOXy
+import org.eclipse.persistence.oxm.annotations.XmlNameTransformer
+
+// Narcolepsy
+import co.orderly.narcolepsy._
+import marshallers.xml.moxy.CamelCase2Underscore
+
+// Prestasac
+import co.orderly.prestasac.representations.shared._
+
+/**
+ * The PrestaShopError representation holds the information pertaining to a
+ * web service error which occurred in PrestaShop.
+ *
+ * A typical representation looks like this:
+ *
+ * <?xml version="1.0" encoding="UTF-8"?>
+ * <prestashop xmlns:xlink="http://www.w3.org/1999/xlink">
+ *   <errors>
+ *     <error>
+ *       <message><![CDATA[Internal error. To see this error please display the PHP errors.]]></message>
+ *     </error>
+ *   </errors>
+ * </prestashop>
+ */
+@XmlRootElement(name = "prestashop")
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlNameTransformer(classOf[CamelCase2Underscore])
+@XmlType(name = "") // TODO: delete this line if any issues
+class PrestaShopError extends Representation { // TODO: this shouldn't extend Representation
+
+  var errors: Buffer[ErrorRow] = ArrayBuffer[ErrorRow]()
+
+  @XmlElementWrapper(name = "errors") // Needed to wrap <order_rows> around each <order_row>
+  @XmlElement(name = "error", required = true)
+  def getErrors: JList[ErrorRow] = this.orderRows
+
+  def setErrors(errors: JList[ErrorRow]) {
+    this.errors = errors
+  }
+}
+
+/**
+ * ErrorRow contains the information pertaining to an individual error within
+ * the PrestaShopError representation.
+ */
+@XmlAccessorType(XmlAccessType.FIELD)
+class ErrorRow {
+
+  @BeanProperty
+  var message: String = _
+}

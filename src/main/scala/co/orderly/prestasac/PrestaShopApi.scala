@@ -25,6 +25,8 @@ import wrappers._
  */
 object PrestaShopApi extends Api {
 
+  // TODO can I attach an ErrorRepresentation to this?
+
   // Fully defined PrestaShop representations
   val products = resource[Product, ProductList]("products")
   val orders = resource[Order, OrderList]("orders")
