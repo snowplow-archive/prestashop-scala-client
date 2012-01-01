@@ -35,7 +35,7 @@ import marshallers.xml.moxy.CamelCase2Underscore
 import co.orderly.prestasac.representations.shared._
 
 /**
- * The PrestaShopError representation holds the information pertaining to a
+ * The Error representation holds the information pertaining to a
  * web service error which occurred in PrestaShop.
  *
  * A typical representation looks like this:
@@ -53,7 +53,7 @@ import co.orderly.prestasac.representations.shared._
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlNameTransformer(classOf[CamelCase2Underscore])
 @XmlType(name = "") // TODO: delete this line if any issues
-class PrestaShopError extends Representation { // TODO: this shouldn't extend Representation
+class Error extends Representation { // TODO: this shouldn't extend Representation, but instead a generic ErrorRepresentation type
 
   var errors: Buffer[ErrorRow] = ArrayBuffer[ErrorRow]()
 
