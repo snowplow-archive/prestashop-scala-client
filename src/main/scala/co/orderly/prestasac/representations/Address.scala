@@ -20,7 +20,6 @@ import scala.reflect.BeanProperty
 
 // JAXB
 import javax.xml.bind.annotation._
-import adapters.XmlJavaTypeAdapter
 
 // MOXy
 import org.eclipse.persistence.oxm.annotations.XmlNameTransformer

@@ -34,10 +34,10 @@ object ExampleOperations {
     PrestaShopApi.attachClient(client)
 
     // Test raw mode
-    val raw = PrestaShopApi.get("customers", 30)
+    val raw = PrestaShopApi.get("countries", 30)
     Console.println("Return code: %s, response body follows below:\n\n%s".format(raw._1, raw._3))
 
-    val raw2 = PrestaShopApi.get("carts", 139)
+    val raw2 = PrestaShopApi.get("states", 15)
     Console.println("Return code: %s, response body follows below:\n\n%s".format(raw2._1, raw2._3))
 
     val raw3 = PrestaShopApi.get("stock_movements", 30)
