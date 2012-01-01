@@ -30,19 +30,9 @@ import co.orderly.narcolepsy.marshallers.xml.types.DateSpaceTimeAdapter
  * The only field shared by all (singular) PrestaShop representations is id
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-class PrestaShopCommonFields {
+trait PrestaShopIdentity {
 
   @XmlElement(required = true)
   @BeanProperty
   var id: JLong = _
-
-  @XmlElement(required = true)
-  @XmlJavaTypeAdapter(classOf[DateSpaceTimeAdapter])
-  @BeanProperty
-  var dateAdd: JDate = _
-
-  @XmlElement(required = true)
-  @XmlJavaTypeAdapter(classOf[DateSpaceTimeAdapter])
-  @BeanProperty
-  var dateUpd: JDate = _
 }
