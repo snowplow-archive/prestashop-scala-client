@@ -36,4 +36,4 @@ package co.orderly.prestasac.representations
  * </prestashop>
  */
 
-// TODO note should not extend the PrestaShopCommonFields - or rather, PrestaShopCommonFields should be split into id and the timestamps
+// TODO note should extend PrestaShopIdentity

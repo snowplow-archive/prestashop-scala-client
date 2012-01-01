@@ -58,7 +58,7 @@ class Order extends Representation {
  * The OrderElement holds the core fields for the order.
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-class OrderElement extends PrestaShopCommonFields {
+class OrderElement extends PrestaShopTimestampedIdentity {
 
   // -------------------------------------------------------------------------------------------------------------------
   // XLinks into other resources

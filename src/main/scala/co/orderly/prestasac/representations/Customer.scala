@@ -80,7 +80,7 @@ class Customer extends Representation {
  * The CustomerElement holds the core fields for the address.
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-class CustomerElement extends PrestaShopCommonFields {
+class CustomerElement extends PrestaShopTimestampedIdentity {
 
   // -------------------------------------------------------------------------------------------------------------------
   // XLinks into other resources

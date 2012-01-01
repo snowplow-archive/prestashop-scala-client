@@ -30,4 +30,4 @@ package co.orderly.prestasac.representations
  * </prestashop>
  */
 
-// TODO note not a Representation
+// TODO note not a Representation - should inherit from PrestaShopIdentity only

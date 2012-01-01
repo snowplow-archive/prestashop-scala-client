@@ -79,7 +79,7 @@ class Address extends Representation {
  * The AddressElement holds the core fields for the address.
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-class AddressElement extends PrestaShopCommonFields {
+class AddressElement extends PrestaShopTimestampedIdentity {
 
   // -------------------------------------------------------------------------------------------------------------------
   // XLinks into other resources

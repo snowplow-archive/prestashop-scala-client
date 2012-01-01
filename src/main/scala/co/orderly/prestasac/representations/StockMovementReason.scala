@@ -28,4 +28,4 @@ package co.orderly.prestasac.representations
  * </prestashop>
  */
 
-// TODO - note this is a full representation
+// TODO - note this is a full representation - so should inherit from PrestaShopTimestampedIdentity

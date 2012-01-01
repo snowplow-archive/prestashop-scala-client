@@ -33,4 +33,4 @@ package co.orderly.prestasac.representations
  * </prestashop>
  */
 
-// TODO
+// TODO should inherit from PrestaShopTimestampedIdentity
