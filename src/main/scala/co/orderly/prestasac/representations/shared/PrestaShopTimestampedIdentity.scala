@@ -24,7 +24,7 @@ import javax.xml.bind.annotation._
 import adapters.XmlJavaTypeAdapter
 
 // Narcolepsy
-import co.orderly.narcolepsy.marshallers.xml.types.DateSpaceTimeAdapter
+import co.orderly.narcolepsy.marshallers.jaxb.types.DateSpaceTimeAdapter
 
 /**
  * The only field shared by all (singular) PrestaShop representations is id

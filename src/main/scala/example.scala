@@ -33,6 +33,34 @@ object ExampleOperations {
     // Attach the client to the resources we've defined
     PrestaShopApi.attachClient(client)
 
+    // List all orders. Note gets() - this means we are retrieving all rows. This is unimportant when simply run()ing,
+    // but important when we are unmarshalling (because the gets() representation != the get() representation)
+    PrestaShopApi.orders.gets().print().run()
+
+    // Display order #23
+    PrestaShopApi.orders.get()
+      .print()
+      .id(23)
+      .run() // Returns a RestfulResponse - (code, headers, body) Tuple3
+
+    // Fetch the XLink list of all products stored in PrestaShop
+    /*
+    val products = PrestaShopApi.products.get()
+      .print()
+      .marshall() // Returns an Either[_ <: ErrorRepresentation, ProductList] */
+
+    // Let's wrap up with an exception
+    PrestaShopApi.orders.get()
+      .print()
+      .slug("typo") // Access a resource slug which doesn't exist
+      .id(23)
+      .exception() // TODO: this isn't implemented yet
+      .run()
+
+    // Let's assume
+
+    /*
+
     // Test raw mode
     val raw = PrestaShopApi.get("countries", 30)
     Console.println("Return code: %s, response body follows below:\n\n%s".format(raw._1, raw._3))
@@ -75,6 +103,6 @@ object ExampleOperations {
       val pr = PrestaShopApi.products.get(p.id.toString())
       val pa = pr._2.left.get.product // Alias
       Console.println("Product #%s made by %s selling for %s".format(pa.id, pa.manufacturerName, pa.price))
-    })
+    }) */
   }
 }

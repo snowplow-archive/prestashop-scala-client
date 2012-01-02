@@ -16,4 +16,4 @@
 package co.orderly.prestasac.representations.shared;
 
 import org.eclipse.persistence.oxm.annotations.XmlNameTransformer;
-import co.orderly.narcolepsy.marshallers.xml.moxy.CamelCase2Underscore;
+import co.orderly.narcolepsy.marshallers.jaxb.moxy.CamelCase2Underscore;

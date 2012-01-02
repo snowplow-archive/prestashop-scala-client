@@ -25,15 +25,19 @@ class PrestaShopClient(
   // http://stackoverflow.com/questions/7475291/how-do-i-validate-a-subclassed-field-in-my-scala-abstract-parent-object
 
   // Configuration which relates to this client
-  lazy override val clientName = "PrestaShop Scala Client"
-  lazy override val clientVersion = new RestfulVersion("0.2")
+  lazy override val clientName = "PrestaShop Scala Client" // TODO: can we not pull this from the SBT?
+  lazy override val clientVersion = new RestfulVersion("0.2") // TODO: should be set automatically
+  lazy override val charSet = RestfulHelpers.defaultCharSet // TODO: urg, shouldn't have to be set here like this
+
+  // TODO: move all this into a compatibility lambda
   override val minVersionSupported = Some(new RestfulVersion("1.4.0.17"))
   override val maxVersionSupported = Some(new RestfulVersion("1.4.7.5"))
+  override val versionHeader = Some("PSWS-Version")
 
   // Configuration which relates to the API itself
   lazy override val defaultRootUri = None // Not hosted
-  override val versionHeader = Some("PSWS-Version")
-  lazy override val errorFormat = MixedErrors // Plaintext and some Representation-based errors
+
+  lazy override val errorFormat = MixedErrors // Plaintext and some Representation-based errors. TODO: I think this is wrong for PrestaShop. Should be plaintext
 
   // How the client and API can/should communicate
   lazy override val supportedContentTypes = List(
