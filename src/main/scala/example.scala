@@ -34,7 +34,8 @@ object ExampleOperations {
     PrestaShopApi.attachClient(client)
 
     // List all orders. Note gets() - this means we are retrieving all rows. This is unimportant when simply run()ing,
-    // but important when we are unmarshalling (because the gets() representation != the get() representation)
+    // but important when we are unmarshalling (because gets() unmarshals to a RepresentationWrapper whereas get()
+    // unmarshals to a Representation
     PrestaShopApi.orders.gets().print().run()
 
     // Display order #23
@@ -44,10 +45,19 @@ object ExampleOperations {
       .run() // Returns a RestfulResponse - (code, headers, body) Tuple3
 
     // Fetch the XLink list of all products stored in PrestaShop
-    /*
     val products = PrestaShopApi.products.get()
       .print()
-      .marshall() // Returns an Either[_ <: ErrorRepresentation, ProductList] */
+      .unmarshal()
+
+    // Loop through and print out all customers, how much they paid and when they bought
+    /* products.right.get.toList foreach ( p => {
+      val pr = PrestaShopApi.products.get()
+        .id(p.product.id)
+        .unmarshal()
+      val pa = pr.right.get
+      val blah = pa.product // Alias
+      Console.println("Product #%s made by %s selling for %s".format(blah.id, blah.manufacturerName, blah.price))
+    }) */
 
     // Let's wrap up with an exception
     PrestaShopApi.orders.get()
@@ -91,18 +101,6 @@ object ExampleOperations {
     val (_, order, _) = PrestaShopApi.orders.get("5")
     order.left.get.order.associations.orderRows foreach ( or => Console.println("Line item = %s (x%s)".format(or.productName, or.productQuantity)))
 
-    // Fetch the XLink list of all products stored in PrestaShop
-    val ps = PrestaShopApi.products.get()
-    if (ps._3) {
-      Console.println("Error: return code: %s, response body follows below:\n\n%s".format(ps._1, ps._2))
-      System.exit(1)
-    }
-
-    // Loop through and print out all customers, how much they paid and when they bought
-    ps._2.right.get.toList foreach ( p => {
-      val pr = PrestaShopApi.products.get(p.id.toString())
-      val pa = pr._2.left.get.product // Alias
-      Console.println("Product #%s made by %s selling for %s".format(pa.id, pa.manufacturerName, pa.price))
-    }) */
+ */
   }
 }
