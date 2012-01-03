@@ -14,6 +14,7 @@ package co.orderly.prestasac.representations
 
 // Java
 import java.lang.{Integer => JInteger}
+import java.lang.{Integer => JLong}
 import java.util.{Date => JDate}
 
 // Scala
@@ -32,7 +33,7 @@ import marshallers.jaxb.moxy.CamelCase2Underscore
 import marshallers.jaxb.types.DateSpaceTimeAdapter
 
 // Prestasac
-import co.orderly.prestasac.representations.shared._
+import shared.PrestaShopTimestampedIdentity
 
 /**
  * The Customer representation holds the information pertaining to a
@@ -88,7 +89,7 @@ class CustomerElement extends PrestaShopTimestampedIdentity {
 
   // TODO: retrieve the xlink:href as well
   @BeanProperty
-  var idDefaultGroup: JInteger = _ // PrestaShopXLink = _
+  var idDefaultGroup: JLong = _ // PrestaShopXLink = _
 
   // -------------------------------------------------------------------------------------------------------------------
   // Resource-specific fields

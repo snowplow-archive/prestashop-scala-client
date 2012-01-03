@@ -12,6 +12,9 @@ package co.orderly.prestasac.representations.shared
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the Apache License Version 2.0 for the specific language governing permissions and limitations there under.
  */
+// Java
+import java.lang.{Long => JLong}
+
 // Scala
 import scala.reflect.BeanProperty
 
@@ -26,7 +29,7 @@ class PrestaShopListXLink extends Representation {
 
   @XmlAttribute // ID is a custom attribute
   @BeanProperty
-  var id: Long = _
+  var id: JLong = _
 
   @XmlAttribute(namespace = "http://www.w3.org/1999/xlink") // Href is an xlink: attribute
   @BeanProperty

@@ -14,6 +14,7 @@ package co.orderly.prestasac.representations
 
 // Java
 import java.lang.{Integer => JInteger}
+import java.lang.{Long => JLong}
 
 // Scala
 import scala.reflect.BeanProperty
@@ -88,26 +89,26 @@ class AddressElement extends PrestaShopTimestampedIdentity {
   // TODO: retrieve the xlink:href as well
   @XmlElement(nillable = true)
   @BeanProperty
-  var idCustomer: JInteger = _ // PrestaShopXLink = _
+  var idCustomer: JLong = _ // PrestaShopXLink = _
 
   // TODO: retrieve the xlink:href as well
   @XmlElement(nillable = true)
   @BeanProperty
-  var idManufacturer: JInteger = _ // PrestaShopXLink = _
+  var idManufacturer: JLong = _ // PrestaShopXLink = _
 
   // TODO: retrieve the xlink:href as well
   @XmlElement(nillable = true)
   @BeanProperty
-  var idSupplier: JInteger = _ // PrestaShopXLink = _
+  var idSupplier: JLong = _ // PrestaShopXLink = _
 
   // TODO: retrieve the xlink:href as well
   @BeanProperty
-  var idCountry: JInteger = _ // PrestaShopXLink = _
+  var idCountry: JLong = _ // PrestaShopXLink = _
 
   // TODO: retrieve the xlink:href as well
   @XmlElement(nillable = true)
   @BeanProperty
-  var idState: JInteger = _ // PrestaShopXLink = _
+  var idState: JLong = _ // PrestaShopXLink = _
 
   // -------------------------------------------------------------------------------------------------------------------
   // Resource-specific fields

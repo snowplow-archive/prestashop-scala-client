@@ -12,6 +12,26 @@
  */
 package co.orderly.prestasac.representations
 
+// Java
+import java.lang.{Long => JLong}
+import java.lang.{Integer => JInteger}
+
+// Scala
+import scala.reflect.BeanProperty
+
+// JAXB
+import javax.xml.bind.annotation._
+
+// MOXy
+import org.eclipse.persistence.oxm.annotations.XmlNameTransformer
+
+// Narcolepsy
+import co.orderly.narcolepsy._
+import marshallers.jaxb.moxy.CamelCase2Underscore
+
+// Prestasac
+import shared.PrestaShopIdentity
+
 /**
  * The Country representation holds the information pertaining to a
  * country in PrestaShop.
@@ -35,5 +55,64 @@ package co.orderly.prestasac.representations
  *   </country>
  * </prestashop>
  */
+@XmlRootElement(name = "prestashop")
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlNameTransformer(classOf[CamelCase2Underscore])
+class Country extends Representation {
 
-// TODO note should extend PrestaShopIdentity
+  @XmlElement(required = true)
+  @BeanProperty
+  var country: CountryElement = _
+}
+
+/**
+ * The StateElement holds the core fields for the state.
+ */
+@XmlAccessorType(XmlAccessType.FIELD)
+class CountryElement extends PrestaShopIdentity {
+
+  // -------------------------------------------------------------------------------------------------------------------
+  // XLinks into other resources
+  // -------------------------------------------------------------------------------------------------------------------
+
+  // TODO: retrieve the xlink:href as well
+  @BeanProperty
+  var idZone: JLong = _ // PrestaShopXLink = _
+
+  // TODO: retrieve the xlink:href as well
+  @XmlElement(nillable = true)
+  @BeanProperty
+  var idCurrency: JLong = _ // PrestaShopXLink = _
+
+  // -------------------------------------------------------------------------------------------------------------------
+  // Resource-specific fields
+  // -------------------------------------------------------------------------------------------------------------------
+
+  @BeanProperty
+  var isoCode: String = _
+
+  @BeanProperty
+  var callPrefix: String = _
+
+  @BeanProperty
+  var active: JInteger = _
+
+  @BeanProperty
+  var containsStates: JInteger = _
+
+  @BeanProperty
+  var needIdentificationNumber: JInteger = _
+
+  @BeanProperty
+  var needZipCode: JInteger = _
+
+  @BeanProperty
+  var zipCodeFormat: String = _
+
+  @BeanProperty
+  var displayTaxLabel: JInteger = _
+
+  // TODO: add in name. It's wrapped inside a <language> element
+  // @BeanProperty
+  // var name: String = _
+}

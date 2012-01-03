@@ -1,5 +1,3 @@
-package co.orderly.prestasac.representations.shared
-
 /*
  * Copyright (c) 2011 Orderly Ltd. All rights reserved.
  *
@@ -12,6 +10,11 @@ package co.orderly.prestasac.representations.shared
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the Apache License Version 2.0 for the specific language governing permissions and limitations there under.
  */
+package co.orderly.prestasac.representations.shared
+
+// Java
+import java.lang.{Long => JLong}
+
 // Scala
 import scala.reflect.BeanProperty
 
@@ -29,5 +32,5 @@ class PrestaShopXLink extends Representation {
   var href: String = _
 
   @BeanProperty // ID is an element
-  var id: Long = _
+  var id: JLong = _
 }

@@ -12,6 +12,26 @@
  */
 package co.orderly.prestasac.representations
 
+// Java
+import java.lang.{Long => JLong}
+import java.lang.{Integer => JInteger}
+
+// Scala
+import scala.reflect.BeanProperty
+
+// JAXB
+import javax.xml.bind.annotation._
+
+// MOXy
+import org.eclipse.persistence.oxm.annotations.XmlNameTransformer
+
+// Narcolepsy
+import co.orderly.narcolepsy._
+import marshallers.jaxb.moxy.CamelCase2Underscore
+
+// Prestasac
+import shared.PrestaShopIdentity
+
 /**
  * The State representation holds the information pertaining to a
  * state (aka region or county) in PrestaShop.
@@ -29,5 +49,44 @@ package co.orderly.prestasac.representations
  *   </state>
  * </prestashop>
  */
+@XmlRootElement(name = "prestashop")
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlNameTransformer(classOf[CamelCase2Underscore])
+class State extends Representation {
 
-// TODO note not a Representation - should inherit from PrestaShopIdentity only
+  @XmlElement(required = true)
+  @BeanProperty
+  var state: StateElement = _
+}
+
+/**
+ * The StateElement holds the core fields for the state.
+ */
+@XmlAccessorType(XmlAccessType.FIELD)
+class StateElement extends PrestaShopIdentity {
+
+  // -------------------------------------------------------------------------------------------------------------------
+  // XLinks into other resources
+  // -------------------------------------------------------------------------------------------------------------------
+
+  // TODO: retrieve the xlink:href as well
+  @BeanProperty
+  var idZone: JLong = _ // PrestaShopXLink = _
+
+  // TODO: retrieve the xlink:href as well
+  @BeanProperty
+  var idCountry: JLong = _ // PrestaShopXLink = _
+
+  // -------------------------------------------------------------------------------------------------------------------
+  // Resource-specific fields
+  // -------------------------------------------------------------------------------------------------------------------
+
+  @BeanProperty
+  var isoCode: String = _
+
+  @BeanProperty
+  var name: String = _
+
+  @BeanProperty
+  var active: JInteger = _
+}

@@ -16,6 +16,7 @@ package co.orderly.prestasac.representations
 import java.util.{Date => JDate}
 import java.lang.{Float => JFloat}
 import java.lang.{Integer => JInteger}
+import java.lang.{Long => JLong}
 
 // Scala
 import scala.reflect.BeanProperty
@@ -60,14 +61,14 @@ class ProductElement extends PrestaShopTimestampedIdentity {
   // -------------------------------------------------------------------------------------------------------------------
 
   @BeanProperty
-  var idManufacturer: PrestaShopXLink = _
+  var idManufacturer: JLong = _ // PrestaShopXLink = _
 
   @BeanProperty
-  var idCategoryDefault: PrestaShopXLink = _
+  var idCategoryDefault: JLong = _ // PrestaShopXLink = _
 
   // TODO: add not_filterable attribute
   @BeanProperty
-  var idDefaultCombination: PrestaShopXLink = _
+  var idDefaultCombination: JLong = _ // PrestaShopXLink = _
 
   // -------------------------------------------------------------------------------------------------------------------
   // Resource-specific fields
