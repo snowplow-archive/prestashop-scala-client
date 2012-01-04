@@ -45,19 +45,18 @@ object ExampleOperations {
       .run() // Returns a RestfulResponse - (code, headers, body) Tuple3
 
     // Fetch the XLink list of all products stored in PrestaShop
-    val products = PrestaShopApi.products.get()
+    val products = PrestaShopApi.products.gets()
       .print()
       .unmarshal()
 
     // Loop through and print out all customers, how much they paid and when they bought
-    /* products.right.get.toList foreach ( p => {
+    products.right.get.get.toList.foreach ( p => {
       val pr = PrestaShopApi.products.get()
-        .id(p.product.id)
+        .id(p.id)
         .unmarshal()
-      val pa = pr.right.get
-      val blah = pa.product // Alias
-      Console.println("Product #%s made by %s selling for %s".format(blah.id, blah.manufacturerName, blah.price))
-    }) */
+      val pa = pr.right.get.get.product
+      Console.println("Product #%s made by %s selling for %s".format(pa.id, pa.manufacturerName, pa.price))
+    })
 
     // Let's wrap up with an exception
     PrestaShopApi.orders.get()
