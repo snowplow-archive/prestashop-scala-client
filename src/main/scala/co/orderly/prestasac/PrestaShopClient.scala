@@ -27,6 +27,9 @@ class PrestaShopClient(
   // Set the name of this client
   lazy override val name = "PrestaShop Scala Client"
 
+  // Set the version
+  lazy override val version = "0.1"
+
   // Client only supports XML
   lazy override val contentTypes = List(
     "text/xml"
