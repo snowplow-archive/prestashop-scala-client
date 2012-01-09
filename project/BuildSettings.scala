@@ -18,7 +18,7 @@ object BuildSettings {
   lazy val basicSettings = Seq[Setting[_]](
     organization  := "co.orderly",
     version       := "0.2",
-    description   := "PrestaShop Scala Client (aka Prestasac) is a Scala client library for the PrestaShop web services API",
+    description   := "A Scala client library for the PrestaShop web services API",
     scalaVersion  := "2.9.1",
     scalacOptions := Seq("-deprecation", "-encoding", "utf8"),
     resolvers     ++= Dependencies.resolutionRepos
@@ -28,6 +28,17 @@ object BuildSettings {
     publish       := (),
     publishLocal  := ()
   )
+
+  lazy val scalifySettings = Seq(sourceGenerators in Compile <+= (sourceManaged in Compile, version, name) map { (d, v, n) =>
+    val file = d / "settings.scala"
+    IO.write(file, """package co.orderly.narcolepsy.generated
+      |object Settings {
+      |  val version = "%s"
+      |  val name = "%s"
+      |}
+      |""".stripMargin.format(v, n))
+    Seq(file)
+  })
 
   import ProguardPlugin._
   lazy val proguard = proguardSettings ++ Seq(
@@ -40,5 +51,5 @@ object BuildSettings {
     )
   )
 
-  lazy val prestasacSettings = basicSettings ++ noPublishing ++ proguard
+  lazy val prestasacSettings = basicSettings ++ noPublishing ++ proguard ++ scalifySettings
 }

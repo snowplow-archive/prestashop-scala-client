@@ -44,6 +44,13 @@ object ExampleOperations {
       .id(23)
       .run() // Returns a RestfulResponse - (code, headers, body) Tuple3
 
+    val order = PrestaShopApi.orders.get()
+      .print()
+      .id(23)
+      .unmarshal() // Returns a RestfulResponse - (code, headers, body) Tuple3
+
+    Console.println("order delivery ID = %s".format(order.right.get.get.order.idAddressDelivery))
+
     // Fetch the XLink list of all products stored in PrestaShop
     val products = PrestaShopApi.products.gets()
       .print()

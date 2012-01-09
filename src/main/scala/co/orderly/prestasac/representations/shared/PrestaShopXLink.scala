@@ -31,6 +31,7 @@ class PrestaShopXLink extends Representation {
   @BeanProperty
   var href: String = _
 
-  @BeanProperty // ID is an element
+  @XmlValue
+  @BeanProperty
   var id: JLong = _
 }

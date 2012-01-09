@@ -25,12 +25,12 @@ class PrestaShopClient(
   // http://stackoverflow.com/questions/7475291/how-do-i-validate-a-subclassed-field-in-my-scala-abstract-parent-object
 
   // Set the name of this client
-  lazy override val name = "PrestaShop Scala Client"
+  lazy override val name = generated.Settings.name
 
   // Set the version
-  lazy override val version = "0.1"
+  lazy override val version = generated.Settings.version
 
-  // Client only supports XML
+  // PrestaShop web service only supports XML
   lazy override val contentTypes = List(
     "text/xml"
     )
