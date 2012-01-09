@@ -28,8 +28,6 @@ object PrestasacBuild extends Build {
     .settings(prestasacSettings: _*)
     .settings(
       libraryDependencies ++= Seq(
-        Runtime.scalaj,
-        Runtime.maven,
         Runtime.httpCore,
         Runtime.httpClient,
         Runtime.jackCore,

@@ -24,27 +24,14 @@ class PrestaShopClient(
   // Note: we use lazy vals so we can validate in the Narcolepsy super constructor as per
   // http://stackoverflow.com/questions/7475291/how-do-i-validate-a-subclassed-field-in-my-scala-abstract-parent-object
 
-  // Configuration which relates to this client
-  lazy override val clientName = "PrestaShop Scala Client" // TODO: can we not pull this from the SBT?
-  lazy override val clientVersion = new RestfulVersion("0.2") // TODO: should be set automatically
-  lazy override val charSet = RestfulHelpers.defaultCharSet // TODO: urg, shouldn't have to be set here like this
+  // Set the name of this client
+  lazy override val name = "PrestaShop Scala Client"
 
-  // TODO: move all this into a compatibility lambda
-  override val minVersionSupported = Some(new RestfulVersion("1.4.0.17"))
-  override val maxVersionSupported = Some(new RestfulVersion("1.4.7.5"))
-  override val versionHeader = Some("PSWS-Version")
-
-  // Configuration which relates to the API itself
-  lazy override val defaultRootUri = None // Not hosted
-
-  lazy override val errorFormat = MixedErrors // Plaintext and some Representation-based errors. TODO: I think this is wrong for PrestaShop. Should be plaintext
-
-  // How the client and API can/should communicate
-  lazy override val supportedContentTypes = List(
+  // Client only supports XML
+  lazy override val contentTypes = List(
     "text/xml"
     )
-  lazy override val defaultContentType = Some("text/xml")
 
   // The resources which this API exposes for CRUD
-  override val apiResources = PrestaShopApi
+  lazy override val resources = PrestaShopApi
 }

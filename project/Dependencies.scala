@@ -19,19 +19,12 @@ object Dependencies {
   )
 
   object V {
-    val scalaj    = "1.2"
-    val maven     = "3.0.3"
     val http      = "4.1.1"
     val jackson   = "1.9.1"
     val moxy      = "2.3.0"
   }
 
   object Runtime {
-    // Used for Java<>Scala conversion
-    val scalaj      = "org.scalaj"                %% "scalaj-collection"  % V.scalaj
-
-    // Just to express/manage client/server app version numbers
-    val maven       = "org.apache.maven"          % "maven-artifact"      % V.maven
 
     // Apache HttpClient is used as the main HttpAdapter
     val httpCore    = "org.apache.httpcomponents" % "httpcore"            % V.http

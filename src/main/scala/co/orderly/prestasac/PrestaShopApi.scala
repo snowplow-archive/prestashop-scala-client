@@ -14,7 +14,6 @@ package co.orderly.prestasac
 
 // Narcolepsy
 import co.orderly.narcolepsy._
-import co.orderly.narcolepsy.representations.DummyRepresentationWrapper // Full path to avoid ambiguity with Prestasac's own representations sub-package
 
 // Prestasac
 import co.orderly.prestasac.representations._
@@ -35,8 +34,8 @@ object PrestaShopApi extends Api {
   // It's not that the undefined plural representations don't exist - it's just
   // that there is limited business value in defining them in Prestasac
 
-  // TODO: let's remove the DummyRepresentation(Wrapper) concept - it's lame
-  val addresses = resource[Address, DummyRepresentationWrapper]("addresses")
+  // TODO: add support for a resource without a RepresentationWrapper
+  val addresses = resource[Address, OrderList]("addresses")
   // val customers = resource[Customer, DummyRepresentationWrapper]("customers")
   // val countries = resource[Country, DummyRepresentationWrapper]("countries")
   // val states = resource[State, DummyRepresentationWrapper]("states")
