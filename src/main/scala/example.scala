@@ -51,19 +51,15 @@ object ExampleOperations {
 
     Console.println("order delivery ID = %s".format(order.right.get.get.order.idAddressDelivery))
 
-    // Fetch the XLink list of all products stored in PrestaShop
     val products = PrestaShopApi.products.gets()
-      .print()
-      .unmarshal()
-
-    // Loop through and print out all customers, how much they paid and when they bought
-    products.right.get.get.toList.foreach ( p => {
-      val pr = PrestaShopApi.products.get()
-        .id(p.id)
-        .unmarshal()
-      val pa = pr.right.get.get.product
-      Console.println("Product #%s made by %s selling for %s".format(pa.id, pa.manufacturerName, pa.price))
-    })
+      .toList()
+      .foreach ( p => {
+        val pr = PrestaShopApi.products.get()
+          .id(p.id)
+          .unmarshal()
+        val pa = pr.right.get.get.product
+        Console.println("Product #%s made by %s selling for %s".format(pa.id, pa.manufacturerName, pa.price))
+      })
 
     // Let's wrap up with an exception
     PrestaShopApi.orders.get()
