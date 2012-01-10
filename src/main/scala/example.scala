@@ -36,17 +36,17 @@ object ExampleOperations {
     // List all orders. Note gets() - this means we are retrieving all rows. This is unimportant when simply run()ing,
     // but important when we are unmarshalling (because gets() unmarshals to a RepresentationWrapper whereas get()
     // unmarshals to a Representation
-    PrestaShopApi.orders.gets().print().run()
+    PrestaShopApi.orders.gets().consolePrint().run()
 
     // Display order #23
     PrestaShopApi.orders.get()
-      .print()
-      .id(23)
+      .consolePrint()
+      .setId(23)
       .run() // Returns a RestfulResponse - (code, headers, body) Tuple3
 
     val order = PrestaShopApi.orders.get()
-      .print()
-      .id(23)
+      .consolePrint()
+      .setId(23)
       .unmarshal() // Returns a RestfulResponse - (code, headers, body) Tuple3
 
     Console.println("order delivery ID = %s".format(order.right.get.get.order.idAddressDelivery))
@@ -55,7 +55,7 @@ object ExampleOperations {
       .toList
       .foreach ( p => {
         val pr = PrestaShopApi.products.get()
-          .id(p.id)
+          .setId(p.id)
           .unmarshal()
         val pa = pr.right.get.get.product
         Console.println("Product #%s made by %s selling for %s".format(pa.id, pa.manufacturerName, pa.price))
@@ -63,10 +63,10 @@ object ExampleOperations {
 
     // Let's wrap up with an exception
     PrestaShopApi.orders.get()
-      .print()
-      .slug("typo") // Access a resource slug which doesn't exist
-      .id(23)
-      .exception() // TODO: this isn't implemented yet
+      .consolePrint()
+      .overrideSlug("typo") // Access a resource slug which doesn't exist
+      .setId(23)
+      .throwException() // TODO: this isn't implemented yet
       .run()
 
     // Let's assume
