@@ -27,15 +27,15 @@ object PrestaShopApi extends Api {
   // TODO can I attach an ErrorRepresentation to this?
 
   // Fully defined PrestaShop representations
-  val products = resource[Product, ProductList, ProductListXLink]("products")
-  val orders = resource[Order, OrderList, OrderListXLink]("orders")
+  val products = resource[Product, ProductList]("products")
+  val orders = resource[Order, OrderList]("orders")
 
   // Partially defined PrestaShop representations
   // It's not that the undefined plural representations don't exist - it's just
   // that there is limited business value in defining them in Prestasac
 
   // TODO: add support for a resource without a RepresentationWrapper
-  val addresses = resource[Address, OrderList, OrderListXLink]("addresses")
+  val addresses = resource[Address, OrderList]("addresses")
   // val customers = resource[Customer, DummyRepresentationWrapper]("customers")
   // val countries = resource[Country, DummyRepresentationWrapper]("countries")
   // val states = resource[State, DummyRepresentationWrapper]("states")

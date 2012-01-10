@@ -52,7 +52,7 @@ object ExampleOperations {
     Console.println("order delivery ID = %s".format(order.right.get.get.order.idAddressDelivery))
 
     val products = PrestaShopApi.products.gets()
-      .toList()
+      .toList
       .foreach ( p => {
         val pr = PrestaShopApi.products.get()
           .id(p.id)

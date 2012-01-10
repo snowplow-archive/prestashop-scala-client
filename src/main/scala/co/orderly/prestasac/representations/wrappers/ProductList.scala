@@ -33,6 +33,8 @@ import co.orderly.prestasac.representations.shared.PrestaShopListXLink
 @XmlAccessorType(XmlAccessType.FIELD)
 class ProductList extends RepresentationWrapper[ProductListXLink] {
 
+  type rtype = ProductListXLink
+
   @BeanProperty
   var products: Products = _
 
@@ -40,7 +42,7 @@ class ProductList extends RepresentationWrapper[ProductListXLink] {
 
   def fromList(productLinks: List[ProductListXLink]) {
     val p = new Products()
-    p.productLinks = arrayBufferFromList[ProductListXLink](productLinks)
+    p.productLinks = RepresentationWrapper.arrayBufferFromList[ProductListXLink](productLinks)
     p
   }
 }

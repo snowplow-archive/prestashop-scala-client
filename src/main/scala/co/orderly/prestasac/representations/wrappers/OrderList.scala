@@ -40,7 +40,7 @@ class OrderList extends RepresentationWrapper[OrderListXLink] {
 
   def fromList(orderLinks: List[OrderListXLink]) {
     val p = new Orders()
-    p.orderLinks = arrayBufferFromList[OrderListXLink](orderLinks)
+    p.orderLinks = RepresentationWrapper.arrayBufferFromList[OrderListXLink](orderLinks)
     p
   }
 }
