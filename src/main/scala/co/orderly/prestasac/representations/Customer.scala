@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011 Orderly Ltd. All rights reserved.
+ * Copyright (c) 2012 Orderly Ltd. All rights reserved.
  *
  * This program is licensed to you under the Apache License Version 2.0,
  * and you may not use this file except in compliance with the Apache License Version 2.0.
@@ -48,7 +48,7 @@ import shared.PrestaShopTimestampedIdentity
  *     <id_default_group xlink:href="http://www.psychicbazaar.com/api/groups/1"><![CDATA[1]]></id_default_group>
  *     <newsletter_date_add></newsletter_date_add>
  *     <ip_registration_newsletter></ip_registration_newsletter>
- *     <last_passwd_gen><![CDATA[2011-10-03 11:41:50]]></last_passwd_gen>
+ *     <last_passwd_gen><![CDATA[2012-10-03 11:41:50]]></last_passwd_gen>
  *     <secure_key><![CDATA[267558046eb890312511804d2ca0668e]]></secure_key>
  *     <deleted><![CDATA[0]]></deleted>
  *     <passwd><![CDATA[2d62ca3847bd8c046b4bf6a677dee403]]></passwd>
@@ -62,8 +62,8 @@ import shared.PrestaShopTimestampedIdentity
  *     <optin><![CDATA[0]]></optin>
  *     <active><![CDATA[1]]></active>
  *     <is_guest><![CDATA[0]]></is_guest>
- *     <date_add><![CDATA[2011-10-03 17:41:50]]></date_add>
- *     <date_upd><![CDATA[2011-10-03 17:41:50]]></date_upd>
+ *     <date_add><![CDATA[2012-10-03 17:41:50]]></date_add>
+ *     <date_upd><![CDATA[2012-10-03 17:41:50]]></date_upd>
  *   </customer>
  * </prestashop>
  */

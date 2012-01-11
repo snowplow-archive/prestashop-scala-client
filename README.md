@@ -53,7 +53,7 @@ You should see prestasac compiling main sources, running ExampleOperations and t
 
 #Copyright and License
 
-Copyright 2011 Orderly Ltd
+Copyright 2012 Orderly Ltd
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

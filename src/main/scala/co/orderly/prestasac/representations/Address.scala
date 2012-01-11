@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011 Orderly Ltd. All rights reserved.
+ * Copyright (c) 2012 Orderly Ltd. All rights reserved.
  *
  * This program is licensed to you under the Apache License Version 2.0,
  * and you may not use this file except in compliance with the Apache License Version 2.0.
@@ -61,8 +61,8 @@ import co.orderly.prestasac.representations.shared._
  *     <dni></dni>
  *     <vat_number></vat_number>
  *     <deleted><![CDATA[0]]></deleted>
- *     <date_add><![CDATA[2011-09-07 10:41:26]]></date_add>
- *     <date_upd><![CDATA[2011-09-07 10:41:26]]></date_upd>
+ *     <date_add><![CDATA[2012-09-07 10:41:26]]></date_add>
+ *     <date_upd><![CDATA[2012-09-07 10:41:26]]></date_upd>
  *   </address>
  * </prestashop>
  */

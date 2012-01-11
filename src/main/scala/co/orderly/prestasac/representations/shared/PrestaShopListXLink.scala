@@ -1,7 +1,7 @@
 package co.orderly.prestasac.representations.shared
 
 /*
- * Copyright (c) 2011 Orderly Ltd. All rights reserved.
+ * Copyright (c) 2012 Orderly Ltd. All rights reserved.
  *
  * This program is licensed to you under the Apache License Version 2.0,
  * and you may not use this file except in compliance with the Apache License Version 2.0.

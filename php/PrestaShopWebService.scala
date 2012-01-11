@@ -1,6 +1,6 @@
 /* Distributed as part of prestasac, a Scala client for the PrestaShop Web Service
  *
- * Copyright (c) 2011 Alex Dean
+ * Copyright (c) 2012 Alex Dean
  *
  * prestasac is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011 Orderly Ltd. All rights reserved.
+ * Copyright (c) 2012 Orderly Ltd. All rights reserved.
  *
  * This program is licensed to you under the Apache License Version 2.0,
  * and you may not use this file except in compliance with the Apache License Version 2.0.
@@ -27,8 +27,8 @@ package co.orderly.prestasac.representations
  *     <id_employee xlink:href="http://www.psychicbazaar.com/api/employees/1"><![CDATA[1]]></id_employee>
  *     <id_stock_mvt_reason xlink:href="http://www.psychicbazaar.com/api/stock_movement_reasons/2"><![CDATA[2]]></id_stock_mvt_reason>
  *     <quantity><![CDATA[50]]></quantity>
- *     <date_add><![CDATA[2011-07-06 10:29:17]]></date_add>
- *     <date_upd><![CDATA[2011-07-06 10:29:17]]></date_upd>
+ *     <date_add><![CDATA[2012-07-06 10:29:17]]></date_add>
+ *     <date_upd><![CDATA[2012-07-06 10:29:17]]></date_upd>
  *   </stock_movement>
  * </prestashop>
  */
