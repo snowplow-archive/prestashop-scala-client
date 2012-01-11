@@ -53,7 +53,7 @@ import co.orderly.prestasac.representations.shared._
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlNameTransformer(classOf[CamelCase2Underscore])
 @XmlType(name = "") // TODO: delete this line if any issues
-class Error extends Representation { // TODO: this shouldn't extend Representation, but instead a generic ErrorRepresentation type
+class Error extends ErrorRepresentation {
 
   var errors: Buffer[ErrorRow] = ArrayBuffer[ErrorRow]()
 

@@ -24,7 +24,7 @@ import wrappers._
  */
 object PrestaShopApi extends Api {
 
-  // TODO can I attach an ErrorRepresentation to this?
+  // TODO can I define a standard ErrorRepresentation in here?
 
   // -------------------------------------------------------------------------------------------------------------------
   // Fully defined PrestaShop representations

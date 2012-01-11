@@ -13,10 +13,8 @@
 package co.orderly
 
 /**
- * Provides a class for interacting with PrestaShop Web Service from Scala.
- *
- * ==Overview==
- * TODO
+ * Provides a Scala client for interacting with the PrestaShop Web Service, built on Narcolepsy:
+ * http;//github.com/orderly/narcolepsy-scala
  */
 package object prestasac {
 }

@@ -33,9 +33,9 @@ object ExampleOperations {
     // Attach the client to the resources we've defined
     PrestaShopApi.attachClient(client)
 
-    // List all orders. Note gets() - this means we are retrieving all rows. This is unimportant when simply run()ing,
+    // List all orders. Note getS() - this means we are retrieving all rows. This is unimportant when simply run()ing,
     // but important when we are unmarshalling (because gets() unmarshals to a RepresentationWrapper whereas get()
-    // unmarshals to a Representation
+    // unmarshals to a Representation)
     PrestaShopApi.orders.gets().consolePrint().run()
 
     // Display order #23
@@ -45,10 +45,8 @@ object ExampleOperations {
       .run() // Returns a RestfulResponse - (code, headers, body) Tuple3
 
     val order = PrestaShopApi.orders.get()
-      .consolePrint()
       .setId(23)
-      .unmarshal() // Returns a RestfulResponse - (code, headers, body) Tuple3
-
+      .unmarshal() // Returns an UnmarshalledResponse containing and ErrorRepresentation or an Order object
     Console.println("order delivery ID = %s".format(order.right.get.get.order.idAddressDelivery))
 
     val products = PrestaShopApi.products.gets()
@@ -68,41 +66,5 @@ object ExampleOperations {
       .setId(23)
       .throwException() // TODO: this isn't implemented yet
       .run()
-
-    // Let's assume
-
-    /*
-
-    // Test raw mode
-    val raw = PrestaShopApi.get("countries", 30)
-    Console.println("Return code: %s, response body follows below:\n\n%s".format(raw._1, raw._3))
-
-    val raw2 = PrestaShopApi.get("states", 15)
-    Console.println("Return code: %s, response body follows below:\n\n%s".format(raw2._1, raw2._3))
-
-    val raw3 = PrestaShopApi.get("stock_movements", 30)
-    Console.println("Return code: %s, response body follows below:\n\n%s".format(raw3._1, raw3._3))
-
-    val raw4 = PrestaShopApi.get("stock_movement_reasons", 5)
-    Console.println("Return code: %s, response body follows below:\n\n%s".format(raw4._1, raw4._3))
-
-    // Fetch the XLink list of all orders stored in PrestaShop
-    val (retVal, orders, isErr) = PrestaShopApi.orders.get()
-    if (isErr) {
-      Console.println("Error: return code: %s, response body follows below:\n\n%s".format(retVal, orders))
-      System.exit(1)
-    }
-    // Loop through and print out all customers, how much they paid and when they bought
-    orders.right.get.toList foreach ( o => {
-      val (_, order, _) = PrestaShopApi.orders.get(o.id.toString())
-      val oa = order.left.get.order // Alias
-      Console.println("Customer %s paid %s on %s".format(oa.idCustomer, oa.totalPaidReal, oa.dateAdd))
-    })
-
-    // Display all of the products sold as part of order #5
-    val (_, order, _) = PrestaShopApi.orders.get("5")
-    order.left.get.order.associations.orderRows foreach ( or => Console.println("Line item = %s (x%s)".format(or.productName, or.productQuantity)))
-
- */
   }
 }
