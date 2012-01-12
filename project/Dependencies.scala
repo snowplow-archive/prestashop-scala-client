@@ -19,9 +19,14 @@ object Dependencies {
   )
 
   object V {
-    val http      = "4.1.1"
-    val jackson   = "1.9.1"
-    val moxy      = "2.3.0"
+    val http       = "4.1.1"
+    val jackson    = "1.9.1"
+    val moxy       = "2.3.0"
+    val narcolepsy = "master"
+  }
+
+  object Projects {
+    lazy val narcolepsy = RootProject(uri("git://github.com/orderly/narcolepsy-scala.git#%s".format(V.narcolepsy)))
   }
 
   object Runtime {

@@ -26,10 +26,11 @@ object PrestasacBuild extends Build {
   // Define our project, with basic project information and library dependencies
   lazy val prestasacProject = Project("prestasac", file("."))
     .settings(prestasacSettings: _*)
+    .dependsOn(Projects.narcolepsy)
     .settings(
       libraryDependencies ++= Seq(
-        Runtime.httpCore,
-        Runtime.httpClient,
+        // Runtime.httpCore,
+        // Runtime.httpClient,
         Runtime.jackCore,
         Runtime.jackMapper,
         Runtime.jackXc,
