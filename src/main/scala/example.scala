@@ -49,6 +49,12 @@ object ExampleOperations {
       .unmarshal() // Returns an UnmarshalledResponse containing and ErrorRepresentation or an Order object
     Console.println("order delivery ID = %s".format(order.right.get.get.order.idAddressDelivery))
 
+    val product = PrestaShopApi.products.get()
+      .setId(23)
+      .unmarshal()
+    val m = product.right.get.get.product.idManufacturer
+    Console.println("product.idManufacturer: id = %s, href = %s".format(m.id, m.href))
+
     val products = PrestaShopApi.products.gets()
       .toList
       .foreach ( p => {

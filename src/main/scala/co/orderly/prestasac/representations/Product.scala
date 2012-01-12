@@ -61,14 +61,14 @@ class ProductElement extends PrestaShopTimestampedIdentity {
   // -------------------------------------------------------------------------------------------------------------------
 
   @BeanProperty
-  var idManufacturer: JLong = _ // PrestaShopXLink = _
+  var idManufacturer: PrestaShopXLink = _
 
   @BeanProperty
-  var idCategoryDefault: JLong = _ // PrestaShopXLink = _
+  var idCategoryDefault: PrestaShopXLink = _
 
   // TODO: add not_filterable attribute
   @BeanProperty
-  var idDefaultCombination: JLong = _ // PrestaShopXLink = _
+  var idDefaultCombination: PrestaShopXLink = _
 
   // -------------------------------------------------------------------------------------------------------------------
   // Resource-specific fields
