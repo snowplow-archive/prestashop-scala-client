@@ -66,31 +66,31 @@ class OrderElement extends PrestaShopTimestampedIdentity {
 
   // TODO: retrieve the xlink:href as well
   @BeanProperty
-  var idAddressDelivery: JLong = _ // PrestaShopXLink = _
+  var idAddressDelivery: PrestaShopXLink = _ // JLong = _
 
   // TODO: retrieve the xlink:href as well
   @BeanProperty
-  var idAddressInvoice: JLong = _ // PrestaShopXLink = _
+  var idAddressInvoice: PrestaShopXLink = _ // JLong = _
 
   // TODO: retrieve the xlink:href as well
   @BeanProperty
-  var idCart: JLong = _ // PrestaShopXLink = _
+  var idCart: PrestaShopXLink = _ // JLong = _
 
   // TODO: retrieve the xlink:href as well
   @BeanProperty
-  var idCurrency: JLong = _ // PrestaShopXLink = _
+  var idCurrency: PrestaShopXLink = _ // JLong = _
 
   // TODO: retrieve the xlink:href as well
   @BeanProperty
-  var idLang: JLong = _ // PrestaShopXLink = _
+  var idLang: PrestaShopXLink = _ // JLong = _
 
   // TODO: retrieve the xlink:href as well
   @BeanProperty
-  var idCustomer: JLong = _ // PrestaShopXLink = _
+  var idCustomer: PrestaShopXLink = _ // JLong = _
 
   // TODO: retrieve the xlink:href as well
   @BeanProperty
-  var idCarrier: JLong = _ // PrestaShopXLink = _
+  var idCarrier: PrestaShopXLink = _ // JLong = _
 
   // -------------------------------------------------------------------------------------------------------------------
   // Resource-specific fields

@@ -77,12 +77,12 @@ class CountryElement extends PrestaShopIdentity {
 
   // TODO: retrieve the xlink:href as well
   @BeanProperty
-  var idZone: JLong = _ // PrestaShopXLink = _
+  var idZone: PrestaShopXLink = _ // JLong = _
 
   // TODO: retrieve the xlink:href as well
   @XmlElement(nillable = true)
   @BeanProperty
-  var idCurrency: JLong = _ // PrestaShopXLink = _
+  var idCurrency: PrestaShopXLink = _ // JLong = _
 
   // -------------------------------------------------------------------------------------------------------------------
   // Resource-specific fields

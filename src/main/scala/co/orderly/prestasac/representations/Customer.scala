@@ -89,7 +89,7 @@ class CustomerElement extends PrestaShopTimestampedIdentity {
 
   // TODO: retrieve the xlink:href as well
   @BeanProperty
-  var idDefaultGroup: JLong = _ // PrestaShopXLink = _
+  var idDefaultGroup: PrestaShopXLink = _ // JLong = _
 
   // -------------------------------------------------------------------------------------------------------------------
   // Resource-specific fields

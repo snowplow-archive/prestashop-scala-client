@@ -89,26 +89,26 @@ class AddressElement extends PrestaShopTimestampedIdentity {
   // TODO: retrieve the xlink:href as well
   @XmlElement(nillable = true)
   @BeanProperty
-  var idCustomer: JLong = _ // PrestaShopXLink = _
+  var idCustomer: PrestaShopXLink = _ // JLong = _
 
   // TODO: retrieve the xlink:href as well
   @XmlElement(nillable = true)
   @BeanProperty
-  var idManufacturer: JLong = _ // PrestaShopXLink = _
+  var idManufacturer: PrestaShopXLink = _ // JLong = _
 
   // TODO: retrieve the xlink:href as well
   @XmlElement(nillable = true)
   @BeanProperty
-  var idSupplier: JLong = _ // PrestaShopXLink = _
+  var idSupplier: PrestaShopXLink = _ // JLong = _
 
   // TODO: retrieve the xlink:href as well
   @BeanProperty
-  var idCountry: JLong = _ // PrestaShopXLink = _
+  var idCountry: PrestaShopXLink = _ // JLong = _
 
   // TODO: retrieve the xlink:href as well
   @XmlElement(nillable = true)
   @BeanProperty
-  var idState: JLong = _ // PrestaShopXLink = _
+  var idState: PrestaShopXLink = _ // JLong = _
 
   // -------------------------------------------------------------------------------------------------------------------
   // Resource-specific fields
