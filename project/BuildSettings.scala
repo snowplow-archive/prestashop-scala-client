@@ -31,7 +31,7 @@ object BuildSettings {
 
   lazy val scalifySettings = Seq(sourceGenerators in Compile <+= (sourceManaged in Compile, version, name) map { (d, v, n) =>
     val file = d / "settings.scala"
-    IO.write(file, """package co.orderly.narcolepsy.generated
+    IO.write(file, """package co.orderly.prestasac.generated
       |object Settings {
       |  val version = "%s"
       |  val name = "%s"
