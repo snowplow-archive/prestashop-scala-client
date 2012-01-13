@@ -30,7 +30,7 @@ import co.orderly.narcolepsy._
 import marshallers.jaxb.moxy.CamelCase2Underscore
 
 // Prestasac
-import co.orderly.prestasac.representations.shared._
+import shared._
 
 /**
  * The Address representation holds the information pertaining to an

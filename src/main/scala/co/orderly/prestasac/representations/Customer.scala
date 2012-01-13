@@ -33,7 +33,7 @@ import marshallers.jaxb.moxy.CamelCase2Underscore
 import marshallers.jaxb.types.DateSpaceTimeAdapter
 
 // Prestasac
-import shared.PrestaShopTimestampedIdentity
+import shared._
 
 /**
  * The Customer representation holds the information pertaining to a

@@ -30,7 +30,7 @@ import co.orderly.narcolepsy._
 import marshallers.jaxb.moxy.CamelCase2Underscore
 
 // Prestasac
-import shared.PrestaShopIdentity
+import shared._
 
 /**
  * The Country representation holds the information pertaining to a

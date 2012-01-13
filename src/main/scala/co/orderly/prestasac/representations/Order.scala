@@ -38,7 +38,7 @@ import marshallers.jaxb.moxy.CamelCase2Underscore
 import marshallers.jaxb.types.DateSpaceTimeAdapter
 
 // Prestasac
-import co.orderly.prestasac.representations.shared._
+import shared._
 
 /**
  * The Order representation holds the information pertaining to an

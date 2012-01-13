@@ -32,7 +32,7 @@ import co.orderly.narcolepsy._
 import marshallers.jaxb.moxy.CamelCase2Underscore
 
 // Prestasac
-import co.orderly.prestasac.representations.shared._
+import shared._
 
 /**
  * The Error representation holds the information pertaining to a
