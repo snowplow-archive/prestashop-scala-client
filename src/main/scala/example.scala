@@ -45,9 +45,9 @@ object ExampleOperations {
       .run() // Returns a RestfulResponse - (code, headers, body) Tuple3
 
     val order = PrestaShopApi.orders.get()
-      .setId(23)
+      .setId(34)
       .unmarshal() // Returns an UnmarshalledResponse containing and ErrorRepresentation or an Order object
-    Console.println("order delivery ID = %s".format(order.right.get.get.order.idAddressDelivery))
+    Console.println("order delivery ID = %s".format(order.right.get.get.order.idAddressDelivery.id))
 
     val product = PrestaShopApi.products.get()
       .setId(23)
@@ -55,13 +55,13 @@ object ExampleOperations {
     val m = product.right.get.get.product.idManufacturer
     Console.println("product.idManufacturer: id = %s, href = %s".format(m.id, m.href))
 
-    val products = PrestaShopApi.products.gets()
+    PrestaShopApi.products.gets()
       .toList
       .foreach ( p => {
         val pr = PrestaShopApi.products.get()
           .setId(p.id)
           .unmarshal()
-        val pa = pr.right.get.get.product
+        val pa = pr.right.get.get.product // Assume we didn't get an error
         Console.println("Product #%s made by %s selling for %s".format(pa.id, pa.manufacturerName, pa.price))
       })
 

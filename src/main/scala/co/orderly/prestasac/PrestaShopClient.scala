@@ -19,7 +19,7 @@ import adapters.ApacheHttpClientAdapter
 
 class PrestaShopClient(
   apiUri: String,
-  apiKey: String) extends Client(Some(apiUri), Some("text/xml"), apiKey, "") with ApacheHttpClientAdapter {
+  apiKey: String) extends Client(Some(apiUri), None, apiKey, "") with ApacheHttpClientAdapter {
 
   // Note: we use lazy vals so we can validate in the Narcolepsy super constructor as per
   // http://stackoverflow.com/questions/7475291/how-do-i-validate-a-subclassed-field-in-my-scala-abstract-parent-object
