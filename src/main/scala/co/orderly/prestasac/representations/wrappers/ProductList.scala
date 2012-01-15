@@ -42,7 +42,7 @@ class ProductList extends RepresentationWrapper[ProductListXLink] {
 
   def fromList(productLinks: List[ProductListXLink]) {
     val p = new Products()
-    p.productLinks = RepresentationWrapper.arrayBufferFromList[ProductListXLink](productLinks)
+    p.productLinks = productLinks.toBuffer
     p
   }
 }
