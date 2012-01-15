@@ -56,7 +56,7 @@ object ExampleOperations {
     Console.println("product.idManufacturer: id = %s, href = %s".format(m.id, m.href))
 
     PrestaShopApi.products.gets()
-      .toList
+      .toList()
       .foreach ( p => {
         val pr = PrestaShopApi.products.get()
           .setId(p.id)
