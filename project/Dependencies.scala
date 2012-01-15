@@ -22,7 +22,7 @@ object Dependencies {
     val http       = "4.1.1"
     val jackson    = "1.9.1"
     val moxy       = "2.3.0"
-    val narcolepsy = "14jan"
+    val narcolepsy = "master"
   }
 
   object Projects {
