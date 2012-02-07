@@ -117,11 +117,13 @@ class CustomerElement extends PrestaShopTimestampedIdentity {
   @BeanProperty
   var passwd: String = _
 
+  @XmlElement(name = "lastname")
   @BeanProperty
-  var lastname: String = _
+  var lastName: String = _
 
+  @XmlElement(name = "firstname")
   @BeanProperty
-  var firstname: String = _
+  var firstName: String = _
 
   @BeanProperty
   var email: String = _
