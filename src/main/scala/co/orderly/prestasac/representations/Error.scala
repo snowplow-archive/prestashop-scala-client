@@ -53,15 +53,15 @@ import shared._
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlNameTransformer(classOf[CamelCase2Underscore])
 @XmlType(name = "") // TODO: delete this line if any issues
-class Error extends ErrorRepresentation {
+class PrestaShopError extends ErrorRepresentation {
 
-  var errors: Buffer[ErrorRow] = ArrayBuffer[ErrorRow]()
+  var errors: Buffer[PrestaShopErrorRow] = ArrayBuffer[PrestaShopErrorRow]()
 
   @XmlElementWrapper(name = "errors") // Needed to wrap <order_rows> around each <order_row>
   @XmlElement(name = "error", required = true)
-  def getErrors: JList[ErrorRow] = this.errors
+  def getErrors: JList[PrestaShopErrorRow] = this.errors
 
-  def setErrors(errors: JList[ErrorRow]) {
+  def setErrors(errors: JList[PrestaShopErrorRow]) {
     this.errors = errors
   }
 }
@@ -71,7 +71,7 @@ class Error extends ErrorRepresentation {
  * the PrestaShopError representation.
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-class ErrorRow {
+sealed class PrestaShopErrorRow {
 
   @BeanProperty
   var message: String = _

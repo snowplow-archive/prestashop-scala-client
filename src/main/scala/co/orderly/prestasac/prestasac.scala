@@ -12,9 +12,21 @@
  */
 package co.orderly
 
+// Narcolepsy
+import co.orderly.narcolepsy.RestfulError
+
+// Prestasac
+import prestasac.representations.PrestaShopError
+
 /**
  * Provides a Scala client for interacting with the PrestaShop Web Service, built on Narcolepsy:
  * http;//github.com/orderly/narcolepsy-scala
  */
 package object prestasac {
+
+  implicit def restfulError2Throwable(error: RestfulError[PrestaShopError]): Throwable = new Throwable(
+    "HTTP status code: %s\nError messages:\n%s".format(
+      error.statusCode,
+      error.marshalledError.errors.map(r => r.message).mkString("\n"))
+  )
 }

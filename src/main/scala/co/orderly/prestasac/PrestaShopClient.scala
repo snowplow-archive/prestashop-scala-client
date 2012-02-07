@@ -17,6 +17,9 @@ import co.orderly.narcolepsy._
 import utils._
 import adapters.ApacheHttpClientAdapter
 
+// Prestasac
+import representations.PrestaShopError
+
 class PrestaShopClient(
   apiUri: String,
   apiKey: String) extends Client(Some(apiUri), None, apiKey, "") with ApacheHttpClientAdapter {
@@ -38,3 +41,14 @@ class PrestaShopClient(
   // The resources which this API exposes for CRUD
   lazy override val resources = PrestaShopApi
 }
+
+// -------------------------------------------------------------------------------------------------------------------
+// Exceptions
+// -------------------------------------------------------------------------------------------------------------------
+
+/**
+ * General-purpose PrestaShopApiException
+ *
+ * RestfulError[PrestaShopError] -> Throwable is an implicit conversion, defined in the prestasac package object
+ */
+class PrestaShopApiException(message: String = "", error: RestfulError[PrestaShopError] = null) extends RuntimeException(message, error)
