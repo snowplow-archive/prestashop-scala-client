@@ -65,6 +65,18 @@ object ExampleOperations {
         Console.println("Product #%s made by %s selling for %s".format(pa.id, pa.manufacturerName, pa.price))
       })
 
+    // Let's see a currency
+    PrestaShopApi.currencies.get()
+      .consolePrint()
+      .setId(13)
+      .run()
+
+    // Let's see a carrier
+    PrestaShopApi.carriers.get()
+      .consolePrint()
+      .setId(3)
+      .run()
+
     // Let's wrap up with an exception
     PrestaShopApi.orders.get()
       .consolePrint()
