@@ -71,7 +71,7 @@ class PrestaShopError extends ErrorRepresentation {
  * the PrestaShopError representation.
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-sealed class PrestaShopErrorRow {
+class PrestaShopErrorRow {
 
   @BeanProperty
   var message: String = _

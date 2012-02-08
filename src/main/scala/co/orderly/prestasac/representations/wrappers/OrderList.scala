@@ -33,6 +33,8 @@ import co.orderly.prestasac.representations.shared.PrestaShopListXLink
 @XmlAccessorType(XmlAccessType.FIELD)
 class OrderList extends RepresentationWrapper[OrderListXLink] {
 
+  type rtype = OrderListXLink
+
   @BeanProperty
   var orders: Orders = _
 
