@@ -17,16 +17,11 @@ object BuildSettings {
 
   lazy val basicSettings = Seq[Setting[_]](
     organization  := "co.orderly",
-    version       := "0.2",
+    version       := "0.2.0",
     description   := "A Scala client library for the PrestaShop web services API",
     scalaVersion  := "2.9.1",
     scalacOptions := Seq("-deprecation", "-encoding", "utf8"),
     resolvers     ++= Dependencies.resolutionRepos
-  )
-
-  lazy val noPublishing = Seq(
-    publish       := (),
-    publishLocal  := ()
   )
 
   lazy val scalifySettings = Seq(sourceGenerators in Compile <+= (sourceManaged in Compile, version, name) map { (d, v, n) =>
@@ -51,5 +46,17 @@ object BuildSettings {
     )
   )
 
-  lazy val prestasacSettings = basicSettings ++ noPublishing ++ proguard ++ scalifySettings
+  lazy val prestasacSettings = basicSettings ++ proguard ++ scalifySettings ++ seq(
+  
+    // Publishing
+    // TODO: update with ivy credentials etc when we start using Nexus
+    crossPaths := false,
+    publishTo <<= version { version =>
+      val keyFile = (Path.userHome / ".ssh" / "admin_keplar.osk")
+      val basePath = "/var/www/repo.orderly.co/prod/public/%s".format {
+        if (version.trim.endsWith("SNAPSHOT")) "snapshots/" else "releases/"
+      }
+      Some(Resolver.sftp("Orderly Maven repository", "prodbox", 8686, basePath) as ("admin", keyFile))
+    }
+  )
 }

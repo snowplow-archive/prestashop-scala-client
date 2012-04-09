@@ -15,25 +15,25 @@ import sbt._
 object Dependencies {
   val resolutionRepos = Seq(
     ScalaToolsSnapshots,
-    "EclipseLink Repo" at "http://download.eclipse.org/rt/eclipselink/maven.repo" 
+    "EclipseLink Repo" at "http://download.eclipse.org/rt/eclipselink/maven.repo",
+    "Orderly Repo" at "http://repo.orderly.co/releases/"
   )
 
   object V {
-    val http       = "4.1.1"
+    // val http       = "4.1.1"
     val jackson    = "1.9.1"
     val moxy       = "2.3.0"
-    val narcolepsy = "master"
-  }
-
-  object Projects {
-    lazy val narcolepsy = RootProject(uri("git://github.com/orderly/narcolepsy-scala.git#%s".format(V.narcolepsy)))
+    val narcolepsy = "0.1.0"
   }
 
   object Runtime {
 
+    // Narcolepsy TODO would be nice to make this "co.orderly", not just "orderly"
+    val narcolepsy     = "orderly"                   % "narcolepsy-scala"    % V.narcolepsy
+
     // Apache HttpClient is used as the main HttpAdapter
-    val httpCore    = "org.apache.httpcomponents" % "httpcore"            % V.http
-    val httpClient  = "org.apache.httpcomponents" % "httpclient"          % V.http
+    // val httpCore    = "org.apache.httpcomponents" % "httpcore"            % V.http
+    // val httpClient  = "org.apache.httpcomponents" % "httpclient"          % V.http
 
     // Jackson required to compile the orderly-representations. Note we use the Apache licensed versions
     val jackCore    = "org.codehaus.jackson"      % "jackson-core-asl"    % V.jackson
