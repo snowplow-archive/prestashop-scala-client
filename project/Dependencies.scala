@@ -20,7 +20,6 @@ object Dependencies {
   )
 
   object V {
-    // val http       = "4.1.1"
     val jackson    = "1.9.1"
     val moxy       = "2.3.0"
     val narcolepsy = "0.1.0"
@@ -30,10 +29,6 @@ object Dependencies {
 
     // Narcolepsy TODO would be nice to make this "co.orderly", not just "orderly"
     val narcolepsy     = "orderly"                   % "narcolepsy-scala"    % V.narcolepsy
-
-    // Apache HttpClient is used as the main HttpAdapter
-    // val httpCore    = "org.apache.httpcomponents" % "httpcore"            % V.http
-    // val httpClient  = "org.apache.httpcomponents" % "httpclient"          % V.http
 
     // Jackson required to compile the orderly-representations. Note we use the Apache licensed versions
     val jackCore    = "org.codehaus.jackson"      % "jackson-core-asl"    % V.jackson
