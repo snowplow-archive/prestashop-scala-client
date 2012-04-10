@@ -22,13 +22,13 @@ object Dependencies {
   object V {
     val jackson    = "1.9.1"
     val moxy       = "2.3.0"
-    val narcolepsy = "0.1.0"
+    val narcolepsy = "0.1.1"
   }
 
   object Runtime {
 
-    // Narcolepsy TODO would be nice to make this "co.orderly", not just "orderly"
-    val narcolepsy     = "orderly"                   % "narcolepsy-scala"    % V.narcolepsy
+    // Narcolepsy
+    val narcolepsy  = "co.orderly"                % "narcolepsy-scala"    % V.narcolepsy
 
     // Jackson required to compile the orderly-representations. Note we use the Apache licensed versions
     val jackCore    = "org.codehaus.jackson"      % "jackson-core-asl"    % V.jackson
