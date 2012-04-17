@@ -15,6 +15,7 @@ package co.orderly.prestasac
 // Narcolepsy
 import co.orderly.narcolepsy._
 import utils._
+import marshallers.jaxb.__
 import adapters.ApacheHttpClientAdapter
 
 // Prestasac
@@ -37,6 +38,17 @@ class PrestaShopClient(
   lazy override val contentTypes = List(
     "text/xml"
     )
+
+  // Configure the JAXB (un)marshallers. We keep the XML namespacing
+  private val jaxbConfig = JaxbConfiguration(
+    namespaced = true
+  )
+
+  // Now set the marshaller
+  lazy override val marshaller = JaxbMarshaller(jaxbConfig)
+
+  // Set the unmarshaller
+  lazy override val unmarshaller = JaxbUnmarshaller(jaxbConfig)
 
   // The resources which this API exposes for CRUD
   lazy override val resources = PrestaShopApi
