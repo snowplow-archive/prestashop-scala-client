@@ -14,8 +14,7 @@ package co.orderly.prestasac
 
 // Narcolepsy
 import co.orderly.narcolepsy._
-import utils._
-import marshallers.jaxb.__
+import marshallers.jaxb._
 import adapters.ApacheHttpClientAdapter
 
 // Prestasac
