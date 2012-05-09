@@ -17,7 +17,7 @@ object BuildSettings {
 
   lazy val basicSettings = Seq[Setting[_]](
     organization  := "co.orderly",
-    version       := "0.2.3",
+    version       := "0.2.4",
     description   := "A Scala client library for the PrestaShop web services API",
     scalaVersion  := "2.9.1",
     scalacOptions := Seq("-deprecation", "-encoding", "utf8"),
