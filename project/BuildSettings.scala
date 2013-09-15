@@ -19,7 +19,7 @@ object BuildSettings {
     organization  := "co.orderly",
     version       := "0.2.4",
     description   := "A Scala client library for the PrestaShop web services API",
-    scalaVersion  := "2.9.1",
+    scalaVersion  := "2.10.2",
     scalacOptions := Seq("-deprecation", "-encoding", "utf8"),
     resolvers     ++= Dependencies.resolutionRepos
   )
@@ -35,18 +35,7 @@ object BuildSettings {
     Seq(file)
   })
 
-  import ProguardPlugin._
-  lazy val proguard = proguardSettings ++ Seq(
-    proguardOptions := Seq(
-      // keepMain("orderly.mdm.ApplicationBoot"),
-      "-keepattributes *Annotation*,EnclosingMethod",
-      "-dontskipnonpubliclibraryclassmembers",
-      "-dontoptimize",
-      "-dontshrink"
-    )
-  )
-
-  lazy val prestasacSettings = basicSettings ++ proguard ++ scalifySettings ++ seq(
+  lazy val prestasacSettings = basicSettings ++ scalifySettings ++ seq(
   
     // Publishing
     // TODO: update with ivy credentials etc when we start using Nexus
